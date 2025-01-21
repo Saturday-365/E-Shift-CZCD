@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "can.h"
 #include "dma.h"
 #include "tim.h"
 #include "usart.h"
@@ -104,6 +105,7 @@ int main(void)
   MX_TIM8_Init();
   MX_TIM2_Init();
   MX_USART2_UART_Init();
+  MX_CAN_Init();
   /* USER CODE BEGIN 2 */
     HAL_SETPWM_init();   //初始化pwm通道
     FOCType_Init(&FOCM1,7,1,1);
