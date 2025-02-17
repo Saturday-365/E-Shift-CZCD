@@ -1920,16 +1920,6 @@
               <FilePath>..\Sourse_Library\4_XMCyberGear_Libary\cybergear.h</FilePath>
             </File>
             <File>
-              <FileName>cybermotor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Sourse_Library\4_XMCyberGear_Libary\cybermotor.c</FilePath>
-            </File>
-            <File>
-              <FileName>cybermotor.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Sourse_Library\4_XMCyberGear_Libary\cybermotor.h</FilePath>
-            </File>
-            <File>
               <FileName>pc_communication.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Sourse_Library\4_XMCyberGear_Libary\pc_communication.h</FilePath>

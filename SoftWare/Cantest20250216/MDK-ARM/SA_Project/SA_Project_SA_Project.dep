@@ -1,7 +1,7 @@
 Dependencies for Project 'SA_Project', Target 'SA_Project': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
 F (startup_stm32f103xe.s)(0x67B1D538)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_SA_Project-IC:\KEIL_V5\ARM\PACK\ARM\CMSIS\6.1.0\CMSIS\Core\Include-IC:\KEIL_V5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include--pd "__UVISION_VERSION SETA 540" --pd "STM32F10X_HD SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xe.lst --xref -o sa_project\startup_stm32f103xe.o --depend sa_project\startup_stm32f103xe.d)
-F (../Core/Src/main.c)(0x67B1E951)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Sourse_Library/1_SA_Library -I ../Sourse_Library/2_SA_peripheral -I ../Sourse_Library/3_SA_Starup -I ../Sourse_Library/4_XMCyberGear_Libary-I.\RTE\_SA_Project-IC:\KEIL_V5\ARM\PACK\ARM\CMSIS\6.1.0\CMSIS\Core\Include-IC:\KEIL_V5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="540" -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o sa_project\main.o --omf_browse sa_project\main.crf --depend sa_project\main.d)
+F (../Core/Src/main.c)(0x67B2FE4F)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Sourse_Library/1_SA_Library -I ../Sourse_Library/2_SA_peripheral -I ../Sourse_Library/3_SA_Starup -I ../Sourse_Library/4_XMCyberGear_Libary-I.\RTE\_SA_Project-IC:\KEIL_V5\ARM\PACK\ARM\CMSIS\6.1.0\CMSIS\Core\Include-IC:\KEIL_V5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="540" -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o sa_project\main.o --omf_browse sa_project\main.crf --depend sa_project\main.d)
 I (../Core/Inc/main.h)(0x67B1A99F)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x66D5A652)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x67B15A23)
@@ -51,8 +51,8 @@ I (../Sourse_Library/1_SA_Library/SA_pid.h)(0x67B17B10)
 I (../Sourse_Library/1_SA_Library/SA_Delay.h)(0x67B1778E)
 I (../Sourse_Library/1_SA_Library/SA_Usart.h)(0x672DAB0D)
 I (../Sourse_Library/1_SA_Library/SA_Key.h)(0x67B17861)
-I (../Sourse_Library/4_XMCyberGear_Libary/cybermotor.h)(0x678F61D7)
-I (../Sourse_Library/4_XMCyberGear_Libary/cybergear.h)(0x67B1B4C5)
+I (../Sourse_Library/4_XMCyberGear_Libary/cybermotor.h)(0x67B2F206)
+I (../Sourse_Library/4_XMCyberGear_Libary/cybergear.h)(0x67B2F206)
 I (../Sourse_Library/4_XMCyberGear_Libary/xiaomi_driver.h)(0x678F6159)
 I (../Sourse_Library/4_XMCyberGear_Libary/pc_communication.h)(0x678F6180)
 I (C:\KEIL_V5\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
@@ -982,8 +982,8 @@ I (../Sourse_Library/1_SA_Library/SA_motor.h)(0x67B178DD)
 I (../Sourse_Library/1_SA_Library/SA_pid.h)(0x67B17B10)
 I (../Sourse_Library/1_SA_Library/SA_Delay.h)(0x67B1778E)
 I (../Sourse_Library/1_SA_Library/SA_Key.h)(0x67B17861)
-I (../Sourse_Library/4_XMCyberGear_Libary/cybermotor.h)(0x678F61D7)
-I (../Sourse_Library/4_XMCyberGear_Libary/cybergear.h)(0x67B1B4C5)
+I (../Sourse_Library/4_XMCyberGear_Libary/cybermotor.h)(0x67B2F206)
+I (../Sourse_Library/4_XMCyberGear_Libary/cybergear.h)(0x67B2F206)
 I (../Core/Inc/can.h)(0x678F5805)
 I (../Sourse_Library/4_XMCyberGear_Libary/xiaomi_driver.h)(0x678F6159)
 I (../Sourse_Library/4_XMCyberGear_Libary/pc_communication.h)(0x678F6180)
@@ -1104,7 +1104,7 @@ I (C:\KEIL_V5\ARM\ARMCC\include\string.h)(0x5E8E3CC2)
 I (C:\KEIL_V5\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 F (..\Sourse_Library\3_SA_Starup\common.h)(0x66DC6272)()
 F (..\Sourse_Library\4_XMCyberGear_Libary\xiaomi_driver.h)(0x678F6159)()
-F (..\Sourse_Library\4_XMCyberGear_Libary\cybergear.c)(0x67B1D466)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Sourse_Library/1_SA_Library -I ../Sourse_Library/2_SA_peripheral -I ../Sourse_Library/3_SA_Starup -I ../Sourse_Library/4_XMCyberGear_Libary-I.\RTE\_SA_Project-IC:\KEIL_V5\ARM\PACK\ARM\CMSIS\6.1.0\CMSIS\Core\Include-IC:\KEIL_V5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="540" -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o sa_project\cybergear.o --omf_browse sa_project\cybergear.crf --depend sa_project\cybergear.d)
+F (..\Sourse_Library\4_XMCyberGear_Libary\cybergear.c)(0x67B2FE0C)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Sourse_Library/1_SA_Library -I ../Sourse_Library/2_SA_peripheral -I ../Sourse_Library/3_SA_Starup -I ../Sourse_Library/4_XMCyberGear_Libary-I.\RTE\_SA_Project-IC:\KEIL_V5\ARM\PACK\ARM\CMSIS\6.1.0\CMSIS\Core\Include-IC:\KEIL_V5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="540" -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o sa_project\cybergear.o --omf_browse sa_project\cybergear.crf --depend sa_project\cybergear.d)
 I (../Core/Inc/main.h)(0x67B1A99F)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x66D5A652)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x67B15A23)
@@ -1137,7 +1137,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x66D5A652)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x66D5A652)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x66D5A652)
 I (../Core/Inc/can.h)(0x678F5805)
-I (..\Sourse_Library\4_XMCyberGear_Libary\cybergear.h)(0x67B1B4C5)
+I (..\Sourse_Library\4_XMCyberGear_Libary\cybergear.h)(0x67B2F206)
 I (..\Sourse_Library\4_XMCyberGear_Libary\xiaomi_driver.h)(0x678F6159)
 I (..\Sourse_Library\4_XMCyberGear_Libary\pc_communication.h)(0x678F6180)
 I (../Core/Inc/dma.h)(0x67B15A22)
@@ -1146,51 +1146,7 @@ I (C:\KEIL_V5\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
 I (C:\KEIL_V5\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 I (../Core/Inc/usart.h)(0x67B1574C)
 I (C:\KEIL_V5\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
-F (..\Sourse_Library\4_XMCyberGear_Libary\cybergear.h)(0x67B1B4C5)()
-F (..\Sourse_Library\4_XMCyberGear_Libary\cybermotor.c)(0x678F6486)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Sourse_Library/1_SA_Library -I ../Sourse_Library/2_SA_peripheral -I ../Sourse_Library/3_SA_Starup -I ../Sourse_Library/4_XMCyberGear_Libary-I.\RTE\_SA_Project-IC:\KEIL_V5\ARM\PACK\ARM\CMSIS\6.1.0\CMSIS\Core\Include-IC:\KEIL_V5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="540" -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o sa_project\cybermotor.o --omf_browse sa_project\cybermotor.crf --depend sa_project\cybermotor.d)
-I (..\Sourse_Library\4_XMCyberGear_Libary\cybermotor.h)(0x678F61D7)
-I (..\Sourse_Library\4_XMCyberGear_Libary\cybergear.h)(0x67B1B4C5)
-I (../Core/Inc/main.h)(0x67B1A99F)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x66D5A652)
-I (../Core/Inc/stm32f1xx_hal_conf.h)(0x67B15A23)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x66D5A652)
-I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x66D5A652)
-I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xe.h)(0x66D5A652)
-I (../Drivers/CMSIS/Include/core_cm3.h)(0x66D5A63C)
-I (C:\KEIL_V5\ARM\ARMCC\include\stdint.h)(0x5E8E3CC2)
-I (../Drivers/CMSIS/Include/cmsis_version.h)(0x66D5A63C)
-I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x66D5A63C)
-I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x66D5A63C)
-I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x66D5A652)
-I (C:\KEIL_V5\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_can.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x66D5A652)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x66D5A652)
-I (../Core/Inc/can.h)(0x678F5805)
-I (..\Sourse_Library\4_XMCyberGear_Libary\xiaomi_driver.h)(0x678F6159)
-I (..\Sourse_Library\4_XMCyberGear_Libary\pc_communication.h)(0x678F6180)
-I (../Core/Inc/dma.h)(0x67B15A22)
-I (C:\KEIL_V5\ARM\ARMCC\include\string.h)(0x5E8E3CC2)
-I (C:\KEIL_V5\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
-I (C:\KEIL_V5\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
-I (../Core/Inc/usart.h)(0x67B1574C)
-I (C:\KEIL_V5\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
-F (..\Sourse_Library\4_XMCyberGear_Libary\cybermotor.h)(0x678F61D7)()
+F (..\Sourse_Library\4_XMCyberGear_Libary\cybergear.h)(0x67B2F206)()
 F (..\Sourse_Library\4_XMCyberGear_Libary\pc_communication.h)(0x678F6180)()
 F (..\Sourse_Library\4_XMCyberGear_Libary\pc_communication.c)(0x678F7994)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Sourse_Library/1_SA_Library -I ../Sourse_Library/2_SA_peripheral -I ../Sourse_Library/3_SA_Starup -I ../Sourse_Library/4_XMCyberGear_Libary-I.\RTE\_SA_Project-IC:\KEIL_V5\ARM\PACK\ARM\CMSIS\6.1.0\CMSIS\Core\Include-IC:\KEIL_V5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="540" -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o sa_project\pc_communication.o --omf_browse sa_project\pc_communication.crf --depend sa_project\pc_communication.d)
 I (..\Sourse_Library\4_XMCyberGear_Libary\pc_communication.h)(0x678F6180)

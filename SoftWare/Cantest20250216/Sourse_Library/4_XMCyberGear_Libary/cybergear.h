@@ -5,7 +5,8 @@
 #include "can.h"
 #include "xiaomi_driver.h"
 #include "pc_communication.h"
- 
+ #include <math.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -119,9 +120,21 @@ int float_to_uint(float x, float x_min, float x_max, int bits);
 void Set_Cyber_Parameter(Cyber_Motor *Motor,uint16_t Index,float Value,char Value_type);
 void Set_Cyber_Parameter(Cyber_Motor *Motor,uint16_t Index,float Value,char Value_type);
 void Read_Cyber_Parameter(Cyber_Motor *Motor,uint16_t Index);
+ //该文件应该包括 绝对零点设置；正弦运动设置；
+
+
+
+/*****************************获取期望零位*****************************/
+void Init_CyberZero(Cyber_Motor *Motor);
+void Init_Sin(Cyber_Motor *Motor);
  
+void Setting_AbsoluteZero(Cyber_Motor *Motor);
+void Motion_CyberSin(Cyber_Motor *Motor);
+  
 #ifdef __cplusplus
   }
 #endif
   
 #endif
+
+  

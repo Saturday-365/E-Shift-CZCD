@@ -67,7 +67,7 @@ void SystemClock_Config(void);
 //float a;
 //float b;
 uint16_t a,b,c,d;
-float set111;
+float set111,angle=0;
 /* USER CODE END 0 */
 
 /**
@@ -111,7 +111,11 @@ int main(void)
   
 //    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_4);
     Init_Cyber(&Cyber, 0x04);
-    Start_Cyber(&Cyber);
+//    Start_Cyber(&Cyber);
+      Stop_Cyber(&Cyber, 1);
+      Set_Cyber_Mode(&Cyber,Motion_mode);
+      Cyber_ControlMode(&Cyber,4,3,0,0.3,0.1);
+      Start_Cyber(&Cyber);
 
 //    Init_Cyber(&Cyber, 4);
 //    Set_Cyber_limitSp(&Cyber, 3);
@@ -123,23 +127,39 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {  
+  {       
+        Cyber_ControlMode(&Cyber,4,3,angle,0.3,0.1);
+
 //        Read_Cyber_Parameter(&Cyber,0X3004);
 //    Cyber_ControlMode(&Cyber,3,3,1,0.1,0.1);
-      Cyber_ControlMode(&Cyber,3,3,1,0.1,0.06);
-      HAL_Delay(3000);
-      Cyber_ControlMode(&Cyber,3,3,3,0.1,0.06);
-      HAL_Delay(3000);
-      Cyber_ControlMode(&Cyber,3,3,5,0.1,0.06);
-      HAL_Delay(3000);
-      Cyber_ControlMode(&Cyber,3,3,2,0.1,0.06);
-      HAL_Delay(3000);
-      Cyber_ControlMode(&Cyber,3,3,0,0.1,0.06);
-      CANtest(&Cyber);
+//      Cyber_ControlMode(&Cyber,3,1,0,0.2,0.06);
+//      Start_Cyber(&Cyber);
+//      HAL_Delay(3000);
+//      CANtest(&Cyber);
+//      Stop_Cyber(&Cyber, 1);
+//      Cyber_ControlMode(&Cyber,3,1,100,0.2,0.06);
+//      Start_Cyber(&Cyber);
+//      HAL_Delay(3000);
+//      CANtest(&Cyber);
+//      Stop_Cyber(&Cyber, 1);
+//      Cyber_ControlMode(&Cyber,3,1,200,0.2,0.06);
+//      Start_Cyber(&Cyber);
+//      HAL_Delay(3000);
+//      CANtest(&Cyber);
+//      Stop_Cyber(&Cyber, 1);
+//      Cyber_ControlMode(&Cyber,3,1,300,0.2,0.06);
+//      Start_Cyber(&Cyber);
+//      HAL_Delay(3000);
+//      CANtest(&Cyber);
+//      Stop_Cyber(&Cyber, 1);
+//      CANtest(&Cyber);
 //      __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_4, 1000); //设置CH4->PWM脉冲宽度    
 
       a=get_key_num();
       if (a==1) {Stop_Cyber(&Cyber, 1);}
+      if (a==2) {Start_Cyber(&Cyber);}
+      if (a==3) {angle+=1;}
+      if (a==4) {angle-=1;}
 
 //      if (a==1) {HAL_GPIO_WritePin(MOTOR_PH_GPIO_Port, MOTOR_PH_Pin, GPIO_PIN_SET);}
 //      else {HAL_GPIO_WritePin(MOTOR_PH_GPIO_Port, MOTOR_PH_Pin, GPIO_PIN_RESET);}
@@ -163,7 +183,7 @@ int main(void)
 
 
 //      //      HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)1);
-//    printf("samples: %d \n",a);
+    printf("samples: %f \n",angle);
 
 
       

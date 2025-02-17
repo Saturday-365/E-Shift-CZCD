@@ -38,7 +38,6 @@
 "sa_project\sa_motor.o"
 "sa_project\common.o"
 "sa_project\cybergear.o"
-"sa_project\cybermotor.o"
 "sa_project\pc_communication.o"
 --library_type=microlib --strict --scatter "SA_Project\SA_Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
