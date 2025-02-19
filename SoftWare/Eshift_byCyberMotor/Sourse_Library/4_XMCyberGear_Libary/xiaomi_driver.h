@@ -67,16 +67,16 @@ typedef enum {
 #define Communication_Type_SetPosZero 0x06	    //设置电机机械零位
 #define Communication_Type_CanID 0x07	        //更改当前电机CAN_ID
 #define Communication_Type_Control_Mode 0x12
-#define Communication_Type_GetSingleParameter 0x17	//读取单个参数 原来是11
-#define Communication_Type_SetSingleParameter 0x18	//设定单个参数
+#define Communication_Type_GetSingleParameter 0x11	//读取单个参数 原来是11  十六进制11对应十进制17
+#define Communication_Type_SetSingleParameter 0x12	//设定单个参数  十六进制12对应 十进制18
 #define Communication_Type_ErrorFeedback 0x15
  
 enum CONTROL_MODE   //控制模式定义
 {
     Motion_mode = 0,//运控模式
-    Position_mode = 1,  //位置模式
-    Velcity_mode = 2,     //位置模式
-    Current_mode = 3    //电流模式
+    Position_mode ,  //位置模式
+    Velcity_mode ,     //位置模式
+    Current_mode     //电流模式
 };
 enum ERROR_TAG      //错误回传对照
 {

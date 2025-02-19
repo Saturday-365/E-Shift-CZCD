@@ -14,9 +14,19 @@ uint8_t byte[4];          //转换临时数据
 uint32_t send_mail_box = {0};//NONE
  
 #define can_txd() HAL_CAN_AddTxMessage(&hcan, &txMsg, tx_data, &send_mail_box)//CAN发送宏定义
- 
 const float pi = 3.14159265358979323846f;
- 
+
+
+CAN_FilterTypeDef can_Filter = {0};
+    
+
+//————————————————
+
+//                            版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。
+//                        
+//原文链接：https://blog.csdn.net/m0_61973119/article/details/141369404
+
+
 //@brief          小米电机初始化参数
 void Init_Cyber(Cyber_Motor *Motor,uint8_t Can_Id)
 {
@@ -27,6 +37,23 @@ void Init_Cyber(Cyber_Motor *Motor,uint8_t Can_Id)
     txMsg.DLC = 0x08;           //配置CAN发送：数据长度
     
     Motor->CAN_ID=Can_Id;       //ID设置 
+    
+    /* 配置CAN过滤器 */
+	CAN_FilterTypeDef sFilterConfig;
+    sFilterConfig.FilterBank = 0;                             /* 过滤器0 */
+    sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
+    sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
+    sFilterConfig.FilterIdHigh = 0x0000;                      /* 32位ID */
+    sFilterConfig.FilterIdLow = 0x0000;
+    sFilterConfig.FilterMaskIdHigh = 0x0000;                  /* 32位MASK */
+    sFilterConfig.FilterMaskIdLow = 0x0000;
+    sFilterConfig.FilterActivation = CAN_FILTER_ENABLE;       /* 激活滤波器0 */
+    sFilterConfig.SlaveStartFilterBank = 14;				//设置CAN2的起始过滤器组（对于单CAN的CPU或从CAN此参数无效；对于双CAN的CPU此参数为从CAN的起始过滤器组编号）
+    HAL_CAN_ConfigFilter(&hcan, &sFilterConfig);/* 过滤器配置 */
+                        
+    HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
+
+    
     HAL_CAN_Start(&hcan);//此语句不打开，则不能发送也不能接收数据
 }
 
@@ -154,7 +181,7 @@ void Read_Cyber_Parameter(Cyber_Motor *Motor,uint16_t Index)
 }
 
 /**
-  * @brief          写入电机参数 通信类型18
+  * @brief          通信类型18 写入电机参数 应答帧为通信类型2 
   * @param[in]      Motor:对应控制电机结构体
   * @param[in]      Index:写入参数对应地址
   * @param[in]      Value:写入参数值
@@ -260,7 +287,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 
 void CANtest(Cyber_Motor *Motor)
 {
-printf("%f,%f\n",Motor->pre_pos,Motor->pre_tor);
+printf("%f,%f,%f,%f,%d\n",Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,Motor->error_code);
 }
  
 /***************************************暂时不用***************************************/
