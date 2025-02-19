@@ -4,10 +4,20 @@
 #include "ATK_UART.h"
 #include "stdio.h"
 #include "main.h"
-
-
+#include "SA_pid.h"
+#include "SA_Flash.h"
+#include "common.h"
 uint8_t	RxBuffer_1[LENGTH];   //接受缓冲区 
 uint8_t RxFlag_1 = 0;       //接收完成标志；0表示接受未完成，1表示接收完成
+
+//VOFA 用
+uint8 RxBuffer[1];//串口接收缓冲
+uint16 RxLine = 0;//指令长度
+uint8_t DataBuff[200];//指令内容
+
+extern SpeedPID_Typedef PIDM1;
+float ALLspeed;
+
 
 /*======================printf重定义=====================*/
 /*-----------------注意要Include"stdio.h"--------------*/
@@ -22,7 +32,17 @@ int fputc(int ch, FILE *f)
 
 void ATK_Uart_Init(void)
 {
-//    HAL_UART_Receive_DMA(&huart2, (uint8_t *)RxBuffer_1,LENGTH);
+    HAL_UART_Receive_DMA(&huart2, (uint8_t *)RxBuffer_1,LENGTH);
+}
+
+
+void VOFA_Uart_Init(void)
+{
+    HAL_UART_Receive_DMA(&huart1, (uint8_t *)DataBuff,LENGTH);
+    PID_P_VOFA(&PIDM1,uint6_cov_float(Store_Data[1]));
+    PID_I_VOFA(&PIDM1,uint6_cov_float(Store_Data[2]));
+    PID_D_VOFA(&PIDM1,uint6_cov_float(Store_Data[3]));
+    ALLspeed=uint6_cov_float(Store_Data[4]);
 }
 
 
@@ -54,25 +74,128 @@ void ATK_Uart_Init(void)
 //  }
 
 // HAL_UART_Transmit_DMA(&huart1, (uint8_t *)"hello windows!\n", 15 );
+
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)  //串口接收中断回调函数
 {
 	if(huart->Instance == USART2)   //判断发生接收中断的串口
 	{
 		   //置为接收完成标志
-//        if (IMU_uart_callback_BYTE(RxBuffer_1)) RxFlag_1=1;        
-//       else RxFlag_1=0;
+        if (IMU_uart_callback_BYTE(RxBuffer_1)) RxFlag_1=1;        
+       else RxFlag_1=0;
 //test code
 //        if (IMU_uart_callback_BYTE(RxBuffer_1)) printf("ok \n");        
 //       else printf("no ");
 //        printf("%s \n",RxBuffer_1);
 //test code
-//        HAL_UART_Receive_DMA(&huart2, (uint8_t *)RxBuffer_1,LENGTH);//DMA使能接收中断  这个必须添加，否则不能再使用DMA进行发送接受
+        HAL_UART_Receive_DMA(&huart2, (uint8_t *)RxBuffer_1,LENGTH);//DMA使能接收中断  这个必须添加，否则不能再使用DMA进行发送接受
 	}
 //    else RxFlag_1=0;
+    
+    if(huart->Instance == USART1)   //判断发生接收中断的串口
+	{
+		   //置为接收完成标志
+        RxFlag_1=1;        
+        Vofa_PID_Adjust();
+//        HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)0); 
+
+//test code
+//        if (IMU_uart_callback_BYTE(RxBuffer_1)) printf("ok \n");        
+//       else printf("no ");
+//        printf("%s \n",RxBuffer_1);
+//test code
+        HAL_UART_Receive_DMA(&huart1, (uint8_t *)DataBuff,LENGTH);//DMA使能接收中断  这个必须添加，否则不能再使用DMA进行发送接受
+	}
+    else RxFlag_1=0;
+    
 }
 
 uint8_t Report_stage(void)
 {
     return RxFlag_1;
 
+}
+
+
+
+
+
+float Get_Data(void)
+{
+    uint8 i;
+	uint8 data_Start_Num = 0; // 记录数据位开始的地方
+    uint8 data_End_Num = 0; // 记录数据位结束的地方
+    uint8 data_Num = 0; // 记录数据位数
+    uint8 minus_Flag = 0; // 判断是不是负数
+    float data_return = 0; // 解析得到的数据
+    
+	for(i=0;i<15;i++) // 查找等号和感叹号的位置
+    {
+        if(DataBuff[i] == '=') data_Start_Num = i + 1; // +1是直接定位到数据起始位
+        if(DataBuff[i] == '!')
+        {
+            data_End_Num = i - 1;
+            break;
+        }
+    }
+    if(DataBuff[data_Start_Num] == '-') // 如果是负数
+    {
+        data_Start_Num += 1; // 后移一位到数据位
+        minus_Flag = 1; // 负数flag
+    }
+    data_Num = data_End_Num - data_Start_Num + 1;
+    if(data_Num == 4) // 数据共4位   		0.00 小数点算一位
+    {
+        data_return = (DataBuff[data_Start_Num]-48)  + (DataBuff[data_Start_Num+2]-48)*0.1f +
+                (DataBuff[data_Start_Num+3]-48)*0.01f;
+    }
+    else if(data_Num == 5) // 数据共5位  10.00
+    {
+        data_return = (DataBuff[data_Start_Num]-48)*10 + (DataBuff[data_Start_Num+1]-48) + (DataBuff[data_Start_Num+3]-48)*0.1f +
+                (DataBuff[data_Start_Num+4]-48)*0.01f;
+    }
+    else if(data_Num == 6) // 数据共6位 100.00
+    {
+        data_return = (DataBuff[data_Start_Num]-48)*100 + (DataBuff[data_Start_Num+1]-48)*10 + (DataBuff[data_Start_Num+2]-48) +
+                (DataBuff[data_Start_Num+4]-48)*0.1f + (DataBuff[data_Start_Num+5]-48)*0.01f;
+    }
+    if(minus_Flag == 1)  data_return = -data_return;
+    return data_return;
+}
+
+uint16_t dataship;
+uint8_t flage=0;
+void Vofa_PID_Adjust()
+{
+    float data_Get = Get_Data(); // 存放接收到的数据
+	dataship=float_cov_uint16(data_Get);
+	if(DataBuff[0]=='A')
+    {
+        if (flage==1){STOP_Motor();flage =0;}
+        else {EN_Motor();flage =1;} 
+    } 
+    if(DataBuff[0]=='P') 
+	{
+		Store_Data[1]=dataship;
+        PID_P_VOFA(&PIDM1,data_Get);
+//		vofa_test_1=func_limit_ab(vofa_test_1,-100,100);
+        }
+	else if(DataBuff[0]=='I' ) 
+	{
+		Store_Data[2]=dataship;
+        PID_I_VOFA(&PIDM1,data_Get);
+//		vofa_test_2=func_limit_ab(vofa_test_2,-100,100);
+        }       
+    else if(DataBuff[0]=='D' ) 
+	{
+		Store_Data[3]=dataship;
+        PID_D_VOFA(&PIDM1,data_Get);
+//		vofa_test_3=func_limit_ab(vofa_test_3,-100,100);
+        }
+	else if(DataBuff[0]=='S' ) 
+	{
+		Store_Data[4]=dataship;
+        //func_limit_ab(data_Get,-600,600);
+        ALLspeed=data_Get;
+    }	
+    Store_Save();
 }
