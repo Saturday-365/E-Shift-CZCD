@@ -2,7 +2,7 @@
 #include "can.h"
 #include "Cybergear_Control.h"
 #include "math.h"
- 
+#include "SA_Usart.h"
 Cyber_Motor Cyber;//小米电机定义
 
 CAN_RxHeaderTypeDef rxMsg;//发送接收结构体
@@ -21,7 +21,6 @@ CAN_FilterTypeDef can_Filter = {0};
     
 
 //————————————————
-
 //                            版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。
 //                        
 //原文链接：https://blog.csdn.net/m0_61973119/article/details/141369404
@@ -287,7 +286,9 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 
 void CANtest(Cyber_Motor *Motor)
 {
-printf("%f,%f,%f,%f,%d\n",Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,Motor->error_code);
+//printf("%f,%f,%f,%f,%d\n",Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,Motor->error_code);
+JustFloat_8(Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,1.2,1.3,1.4,1.5);
+
 }
  
 /***************************************暂时不用***************************************/

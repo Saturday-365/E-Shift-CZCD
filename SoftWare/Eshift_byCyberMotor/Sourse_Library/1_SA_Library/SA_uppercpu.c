@@ -1,72 +1,73 @@
 #include "math.h"
 
-//unsigned char c0h[4],c1h[4],c2h[4],c3h[4],c4h[4],c5h[4],c6h[4],c7h[4],c8h[4],c9h[4],c10h[4],
-//                        c11h[4],c12h[4],c13h[4],c14h[4],c15h[4],c16h[4];
-//	unsigned char tail[4]={0x00, 0x00, 0x80, 0x7f};	//vofa输出帧尾
+unsigned char c0h[4],c1h[4],c2h[4],c3h[4],c4h[4],c5h[4],c6h[4],c7h[4],c8h[4],c9h[4],c10h[4],
+                        c11h[4],c12h[4],c13h[4],c14h[4],c15h[4],c16h[4];
+unsigned char tail[4]={0x00, 0x00, 0x80, 0x7f};	//vofa输出帧尾
 
 //////////////////////////////vofa调试参数定义//////////////////////////////
-//	typedef union
-//{
-//    float fdata;
-//    unsigned long ldata;
-//}FloatLongType;
+	typedef union
+{
+    float fdata;
+    unsigned long ldata;
+}FloatLongType;
 
-//typedef union {
-//	float numeric;
-//	unsigned char ascii[4];
-//}CharFloat;
+typedef union {
+	float numeric;
+	unsigned char ascii[4];
+}CharFloat;
 
-//float charTofloat(unsigned char *str) {
-//	CharFloat value;
-//	value.ascii[0] = str[0];
-//	value.ascii[1] = str[1];
-//	value.ascii[2] = str[2];
-//	value.ascii[3] = str[3];
-//	return value.numeric;
-//}
+float charTofloat(unsigned char *str) {
+	CharFloat value;
+	value.ascii[0] = str[0];
+	value.ascii[1] = str[1];
+	value.ascii[2] = str[2];
+	value.ascii[3] = str[3];
+	return value.numeric;
+}
 
-//void Float_to_Byte(float f,unsigned char byte[]) /*将浮点数f转化为4个字节数据存放在byte[4]中*/
-//{
-//    FloatLongType fl;
-//    fl.fdata=f;
-//    byte[0]=(unsigned char)fl.ldata;
-//    byte[1]=(unsigned char)(fl.ldata>>8);
-//    byte[2]=(unsigned char)(fl.ldata>>16);
-//    byte[3]=(unsigned char)(fl.ldata>>24);
-//}
-//float vofa_test_1=0,vofa_test_2=0,vofa_test_3=0,vofa_test_4=0,vofa_test_5=0;
+void Float_to_Byte(float f,unsigned char byte[]) /*将浮点数f转化为4个字节数据存放在byte[4]中*/
+{
+    FloatLongType fl;
+    fl.fdata=f;
+    byte[0]=(unsigned char)fl.ldata;
+    byte[1]=(unsigned char)(fl.ldata>>8);
+    byte[2]=(unsigned char)(fl.ldata>>16);
+    byte[3]=(unsigned char)(fl.ldata>>24);
+}
+float vofa_test_1=0,vofa_test_2=0,vofa_test_3=0,vofa_test_4=0,vofa_test_5=0;
 
-//void Vofa_PID_Adjust()
-//{
-//    float data_Get = Get_Data(); // 存放接收到的数据
-//	
-//	if(DataBuff[0]=='P') 
-//	{
-//		vofa_test_1= data_Get;
-////		vofa_test_1=func_limit_ab(vofa_test_1,-100,100);
-//        }
+
+void Vofa_PID_Adjust()
+{
+    float data_Get = Get_Data(); // 存放接收到的数据
+	
+	if(DataBuff[0]=='P') 
+	{
+		vofa_test_1= data_Get;
+//		vofa_test_1=func_limit_ab(vofa_test_1,-100,100);
+        }
+	else if(DataBuff[0]=='I' ) 
+	{
+		vofa_test_2 = data_Get;
+//		vofa_test_2=func_limit_ab(vofa_test_2,-100,100);
+        }       
+    else if(DataBuff[0]=='D' ) 
+	{
+		vofa_test_3 = data_Get;
+//		vofa_test_3=func_limit_ab(vofa_test_3,-100,100);
+        }
+	else if(DataBuff[0]=='S' ) 
+	{
+		vofa_test_4 = data_Get;
+//		vofa_test_4=func_limit_ab(vofa_test_4,-600,600);
+    }
+
 //	else if(DataBuff[0]=='I' ) 
-//	{
-//		vofa_test_2 = data_Get;
-////		vofa_test_2=func_limit_ab(vofa_test_2,-100,100);
-//        }       
-//    else if(DataBuff[0]=='D' ) 
-//	{
-//		vofa_test_3 = data_Get;
-////		vofa_test_3=func_limit_ab(vofa_test_3,-100,100);
-//        }
-//	else if(DataBuff[0]=='S' ) 
-//	{
 //		vofa_test_4 = data_Get;
-////		vofa_test_4=func_limit_ab(vofa_test_4,-600,600);
-//    }
-
-////	else if(DataBuff[0]=='I' ) 
-////		vofa_test_4 = data_Get;
-////	else if(DataBuff[0]=='I' ) 
-////		vofa_test_5 = data_Get;
-//	
-//}
+//	else if(DataBuff[0]=='I' ) 
+//		vofa_test_5 = data_Get;
+	
+}
 
 
 //	void vofatest()
@@ -334,88 +335,6 @@
 //{
 //		//printf("samples:%d, %f, %f, %d, %d, %f, %f\r\n",test3,SpeedR_out,SpeedL_out,dutyR,dutyL,SpeedR*1.57,SpeedL*1.57);
 //}
-
-////直立环
-////		Float_to_Byte(voltK,c0h);	
-////		Float_to_Byte(pullup_value,c1h);	
-////		Float_to_Byte(test1,c2h);		
-////		Float_to_Byte(test4,c3h);	
-////		Float_to_Byte(std_speed,c4h);	
-////		Float_to_Byte(std_speed,c5h);	
-//////		Float_to_Byte(RightM_Adc,c6h);	
-//////		Float_to_Byte(Right_Adc,c7h);	
-//////		Float_to_Byte(SpeedR_out,c8h);//dutyDifferential
-//////		Float_to_Byte(SpeedL_out,c9h);		
-////		wireless_uart_send_buff(c0h,4);
-////		wireless_uart_send_buff(c1h,4);
-////		wireless_uart_send_buff(c2h,4);
-////		wireless_uart_send_buff(c3h,4);
-////		wireless_uart_send_buff(c4h,4);
-////		wireless_uart_send_buff(c5h,4);
-//////		wireless_uart_send_buff(c6h,4);
-//////		wireless_uart_send_buff(c7h,4);
-//////		wireless_uart_send_buff(c8h,4);
-//////		wireless_uart_send_buff(c9h,4);
-
-////		wireless_uart_send_buff(tail,4);
-
-
-
-
-
-////0516 02 newr
-
-////		
-//////		Float_to_Byte(Left_Adc,c3h);	
-//////		Float_to_Byte(LeftM_Adc,c4h);
-//////		Float_to_Byte(Left_M_Adc,c5h);	
-//////		Float_to_Byte(Middle_Adc,c2h);		
-//////		Float_to_Byte(Right_M_Adc,c6h);	
-//////		Float_to_Byte(RightM_Adc,c7h);
-//////		Float_to_Byte(Right_Adc,c8h);	
-//////		wireless_uart_send_buff(c3h,4);
-//////		wireless_uart_send_buff(c4h,4);
-//////		wireless_uart_send_buff(c5h,4);
-//////		wireless_uart_send_buff(c2h,4);
-//////		wireless_uart_send_buff(c6h,4);
-//////		wireless_uart_send_buff(c7h,4);
-//////		wireless_uart_send_buff(c8h,4);
-
-////		
-////		Float_to_Byte(Left_Adc,c1h);	
-////		Float_to_Byte(left_value,c2h);		
-////		Float_to_Byte(Left_M_Adc,c3h);	
-////		Float_to_Byte(Middle_Adc,c4h);	
-////		Float_to_Byte(Right_M_Adc,c5h);	
-////		Float_to_Byte(right_value,c6h);	
-////		Float_to_Byte(Right_Adc,c7h);
-////		
-//////		Float_to_Byte(Left_Adc_1,c8h);	
-//////		Float_to_Byte(LeftM_Adc_1,c9h);
-//////		Float_to_Byte(Left_M_Adc_1,c10h);		
-//////		Float_to_Byte(Right_M_Adc_1,c11h);	
-//////		Float_to_Byte(RightM_Adc_1,c12h);	
-//////		Float_to_Byte(Right_Adc_1,c13h);
-
-
-////		wireless_uart_send_buff(c1h,4);
-////		wireless_uart_send_buff(c2h,4);
-////		wireless_uart_send_buff(c3h,4);
-////		wireless_uart_send_buff(c4h,4);
-////		wireless_uart_send_buff(c5h,4);
-////		wireless_uart_send_buff(c6h,4);
-//////		wireless_uart_send_buff(c7h,4);
-//////		wireless_uart_send_buff(c8h,4);
-//////		wireless_uart_send_buff(c9h,4);
-//////		
-//////		wireless_uart_send_buff(c10h,4);
-//////		wireless_uart_send_buff(c11h,4);
-//////		wireless_uart_send_buff(c12h,4);
-////		wireless_uart_send_buff(c13h,4);
-//////		PIDtest(&SpeedR_PID);
-//////		PIDtest(&SpeedL_PID);
-////		
-////		wireless_uart_send_buff(tail,4);
 
 
 ////逐飞库文件修改内容 防丢

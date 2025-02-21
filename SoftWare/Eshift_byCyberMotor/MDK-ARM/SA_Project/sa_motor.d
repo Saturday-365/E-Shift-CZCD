@@ -2,7 +2,7 @@ sa_project\sa_motor.o: ..\Sourse_Library\1_SA_Library\SA_motor.c
 sa_project\sa_motor.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\math.h
 sa_project\sa_motor.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\stdio.h
 sa_project\sa_motor.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\string.h
-sa_project\sa_motor.o: ../Sourse_Library/2_SA_peripheral/MT6701.h
+sa_project\sa_motor.o: ..\Sourse_Library\1_SA_Library\SA_Delay.h
 sa_project\sa_motor.o: ../Core/Inc/main.h
 sa_project\sa_motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 sa_project\sa_motor.o: ../Core/Inc/stm32f1xx_hal_conf.h
@@ -35,6 +35,5 @@ sa_project\sa_motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 sa_project\sa_motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 sa_project\sa_motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 sa_project\sa_motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-sa_project\sa_motor.o: ../Sourse_Library/1_SA_Library/SA_Delay.h
 sa_project\sa_motor.o: ../Core/Inc/tim.h
 sa_project\sa_motor.o: ..\Sourse_Library\1_SA_Library\SA_motor.h

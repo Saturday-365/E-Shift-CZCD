@@ -1,7 +1,8 @@
-#ifndef _SA_MOTOR_H
-#define _SA_MOTOR_H
+#ifndef _SA_E_SHIFT_H
+#define _SA_E_SHIFT_H
 #include "main.h" 
 #define func_limit_ab(amt, low, high) ((amt) < (low) ? (low) : ((amt) > (high) ? (high) : (amt)))
+
 void Motor_init(void);
 void Motor_run(uint16_t speed,uint8_t dir);
 

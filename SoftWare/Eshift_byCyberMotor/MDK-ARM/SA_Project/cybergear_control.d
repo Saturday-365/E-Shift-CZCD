@@ -41,3 +41,4 @@ sa_project\cybergear_control.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\stdarg.h
 sa_project\cybergear_control.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\stdio.h
 sa_project\cybergear_control.o: ../Core/Inc/usart.h
 sa_project\cybergear_control.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\math.h
+sa_project\cybergear_control.o: ../Sourse_Library/1_SA_Library/SA_Usart.h

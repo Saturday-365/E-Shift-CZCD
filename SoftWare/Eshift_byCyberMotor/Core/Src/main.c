@@ -118,7 +118,7 @@ int main(void)
       Set_Cyber_Mode(&Cyber,1);
 //     Cyber_ControlMode(&Cyber,4,3,0,0.3,0.1);
 //    Set_Cyber_Pos(&Cyber,0) ;
-    Set_Cyber_limitSp(&Cyber,10) ;
+    Set_Cyber_limitSp(&Cyber,12) ;
     Start_Cyber(&Cyber);
 
 //    Init_Cyber(&Cyber, 4);
@@ -136,12 +136,11 @@ int main(void)
       Set_Cyber_Pos(&Cyber,angle) ;
 //      Read_Cyber_Pos(&Cyber);
       CANtest(&Cyber);
-//      __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_4, 1000); //设置CH4->PWM脉冲宽度    
       a=get_key_num();
       if (a==1) {Stop_Cyber(&Cyber, 1);}
       if (a==2) {Start_Cyber(&Cyber);}
-      if (a==3) {angle+=1;}
-      if (a==4) {angle-=1;}
+      if (a==3) {angle+=10;}
+      if (a==4) {angle-=10;}
 
     HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)1);
 

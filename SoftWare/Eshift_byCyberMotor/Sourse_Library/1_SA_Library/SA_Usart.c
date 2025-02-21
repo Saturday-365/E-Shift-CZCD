@@ -9,13 +9,15 @@
 #include "common.h"
 uint8_t	RxBuffer_1[LENGTH];   //接受缓冲区 
 uint8_t RxFlag_1 = 0;       //接收完成标志；0表示接受未完成，1表示接收完成
+uint8_t	RxBuffer_3[LENGTH];   //接受缓冲区 
+uint8_t RxFlag_3 = 0;       //接收完成标志；0表示接受未完成，1表示接收完成
 
 //VOFA 用
 uint8 RxBuffer[1];//串口接收缓冲
 uint16 RxLine = 0;//指令长度
 uint8_t DataBuff[200];//指令内容
 
-extern SpeedPID_Typedef PIDM1;
+//extern SpeedPID_Typedef PIDM1;
 float ALLspeed;
 
 
@@ -29,84 +31,43 @@ int fputc(int ch, FILE *f)
 }
 /*-----------------注意打开USE MicroLIB-----------------*/
 
-
-void ATK_Uart_Init(void)
+////使能DMA接收中断
+void RS232_Uart_Init(void)
 {
-    HAL_UART_Receive_DMA(&huart2, (uint8_t *)RxBuffer_1,LENGTH);
+    HAL_UART_Receive_DMA(&huart1, (uint8_t *)RxBuffer_1,LENGTH);
+    HAL_UART_Receive_DMA(&huart3, (uint8_t *)RxBuffer_3,LENGTH);
 }
 
 
 void VOFA_Uart_Init(void)
 {
-    HAL_UART_Receive_DMA(&huart1, (uint8_t *)DataBuff,LENGTH);
-    PID_P_VOFA(&PIDM1,uint6_cov_float(Store_Data[1]));
-    PID_I_VOFA(&PIDM1,uint6_cov_float(Store_Data[2]));
-    PID_D_VOFA(&PIDM1,uint6_cov_float(Store_Data[3]));
-    ALLspeed=uint6_cov_float(Store_Data[4]);
+//    HAL_UART_Receive_DMA(&huart1, (uint8_t *)DataBuff,LENGTH);
+//    PID_P_VOFA(&PIDM1,uint6_cov_float(Store_Data[1]));
+//    PID_I_VOFA(&PIDM1,uint6_cov_float(Store_Data[2]));
+//    PID_D_VOFA(&PIDM1,uint6_cov_float(Store_Data[3]));
+//    ALLspeed=uint6_cov_float(Store_Data[4]);
 }
 
 
-//https://blog.csdn.net/qq_45945548/article/details/121160290
-//在main函数内部，while循环外部添加以下代码
-
-////发送提示信息
-//uint8_t message1[]="****UART commucition using IDLE IT DMA****\n";
-//uint8_t message2[]="Please enter 8 characters: \n";
-//HAL_UART_Transmit(&huart1,(uint8_t *)message1,sizeof(message1),HAL_MAX_DELAY);
-//HAL_UART_Transmit(&huart1,(uint8_t *)message2,sizeof(message2),HAL_MAX_DELAY);
-////使能DMA接收中断
-//HAL_UART_Receive_DMA(&huart1, (uint8_t *)RxBuffer,LENGTH);
-
-//在while循环内部添加一下代码
-//while (1)
-//  {
-//    /* USER CODE END WHILE */
-//   
-//    /* USER CODE BEGIN 3 */
-//     //添加下面代码
-//   HAL_UART_Transmit_DMA(&huart1, (uint8_t *)"hello windows!\n", 15 );
-//	HAL_Delay(1000);  //延时1s
-//	if(RxFlag == 1)  //如果接受完成，不在发送数据
-//	{
-//			HAL_UART_Transmit_DMA(&huart1,(uint8_t *)"Recevie Success!\n",17);  //提示接受成功
-//			break;  //退出循环，不在发送数据
-//	}
-//  }
-
-// HAL_UART_Transmit_DMA(&huart1, (uint8_t *)"hello windows!\n", 15 );
-
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)  //串口接收中断回调函数
 {
-	if(huart->Instance == USART2)   //判断发生接收中断的串口
+	if(huart->Instance == USART1)   //判断发生接收中断的串口
 	{
-		   //置为接收完成标志
-        if (IMU_uart_callback_BYTE(RxBuffer_1)) RxFlag_1=1;        
-       else RxFlag_1=0;
-//test code
-//        if (IMU_uart_callback_BYTE(RxBuffer_1)) printf("ok \n");        
-//       else printf("no ");
-//        printf("%s \n",RxBuffer_1);
-//test code
-        HAL_UART_Receive_DMA(&huart2, (uint8_t *)RxBuffer_1,LENGTH);//DMA使能接收中断  这个必须添加，否则不能再使用DMA进行发送接受
-	}
-//    else RxFlag_1=0;
-    
-    if(huart->Instance == USART1)   //判断发生接收中断的串口
-	{
-		   //置为接收完成标志
-        RxFlag_1=1;        
-        Vofa_PID_Adjust();
-//        HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)0); 
+		RxFlag_1=1;   //置为接收完成标志
 
-//test code
-//        if (IMU_uart_callback_BYTE(RxBuffer_1)) printf("ok \n");        
-//       else printf("no ");
-//        printf("%s \n",RxBuffer_1);
-//test code
-        HAL_UART_Receive_DMA(&huart1, (uint8_t *)DataBuff,LENGTH);//DMA使能接收中断  这个必须添加，否则不能再使用DMA进行发送接受
+        HAL_UART_Receive_DMA(&huart1, (uint8_t *)RxBuffer_1,LENGTH);//DMA使能接收中断  这个必须添加，否则不能再使用DMA进行发送接受
 	}
     else RxFlag_1=0;
     
+    if(huart->Instance == USART3)   //判断发生接收中断的串口
+	{
+		   
+        RxFlag_3=1;    //置为接收完成标志    
+//        Vofa_PID_Adjust();
+
+        HAL_UART_Receive_DMA(&huart3, (uint8_t *)RxBuffer_3,LENGTH);//DMA使能接收中断  这个必须添加，否则不能再使用DMA进行发送接受
+	}
+    else RxFlag_3=0;
 }
 
 uint8_t Report_stage(void)
@@ -114,8 +75,6 @@ uint8_t Report_stage(void)
     return RxFlag_1;
 
 }
-
-
 
 
 
@@ -167,28 +126,28 @@ uint8_t flage=0;
 void Vofa_PID_Adjust()
 {
     float data_Get = Get_Data(); // 存放接收到的数据
-	dataship=float_cov_uint16(data_Get);
+//	dataship=float_cov_uint16(data_Get);
 	if(DataBuff[0]=='A')
     {
-        if (flage==1){STOP_Motor();flage =0;}
-        else {EN_Motor();flage =1;} 
+//        if (flage==1){STOP_Motor();flage =0;}
+//        else {EN_Motor();flage =1;} 
     } 
     if(DataBuff[0]=='P') 
 	{
 		Store_Data[1]=dataship;
-        PID_P_VOFA(&PIDM1,data_Get);
+//        PID_P_VOFA(&PIDM1,data_Get);
 //		vofa_test_1=func_limit_ab(vofa_test_1,-100,100);
         }
 	else if(DataBuff[0]=='I' ) 
 	{
 		Store_Data[2]=dataship;
-        PID_I_VOFA(&PIDM1,data_Get);
+//        PID_I_VOFA(&PIDM1,data_Get);
 //		vofa_test_2=func_limit_ab(vofa_test_2,-100,100);
         }       
     else if(DataBuff[0]=='D' ) 
 	{
 		Store_Data[3]=dataship;
-        PID_D_VOFA(&PIDM1,data_Get);
+//        PID_D_VOFA(&PIDM1,data_Get);
 //		vofa_test_3=func_limit_ab(vofa_test_3,-100,100);
         }
 	else if(DataBuff[0]=='S' ) 
@@ -199,3 +158,100 @@ void Vofa_PID_Adjust()
     }	
     Store_Save();
 }
+
+unsigned char c0h[4],c1h[4],c2h[4],c3h[4],c4h[4],c5h[4],c6h[4],c7h[4],c8h[4],c9h[4],c10h[4],
+                        c11h[4],c12h[4],c13h[4],c14h[4],c15h[4],c16h[4];
+unsigned char tail[4]={0x00, 0x00, 0x80, 0x7f};	//vofa输出帧尾
+
+	typedef union
+{
+    float fdata;
+    unsigned long ldata;
+}FloatLongType;
+
+typedef union {
+	float numeric;
+	unsigned char ascii[4];
+}CharFloat;
+
+float charTofloat(unsigned char *str) {
+	CharFloat value;
+	value.ascii[0] = str[0];
+	value.ascii[1] = str[1];
+	value.ascii[2] = str[2];
+	value.ascii[3] = str[3];
+	return value.numeric;
+}
+
+void Float_to_Byte_usart(float f,unsigned char byte[]) /*将浮点数f转化为4个字节数据存放在byte[4]中*/
+{
+    FloatLongType fl;
+    fl.fdata=f;
+    byte[0]=(unsigned char)fl.ldata;
+    byte[1]=(unsigned char)(fl.ldata>>8);
+    byte[2]=(unsigned char)(fl.ldata>>16);
+    byte[3]=(unsigned char)(fl.ldata>>24);
+}
+
+void JustFloat_4(float data1,float data2,float data3,float data4)
+{
+    Float_to_Byte_usart(data1,c0h);
+    Float_to_Byte_usart(data2,c1h);
+    Float_to_Byte_usart(data3,c2h);
+    Float_to_Byte_usart(data4,c3h);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c0h,sizeof(c0h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c1h,sizeof(c1h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c2h,sizeof(c2h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c3h,sizeof(c3h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)tail,sizeof(tail),HAL_MAX_DELAY);
+}
+
+void JustFloat_8(float data1,float data2,float data3,float data4,float data5,float data6,float data7,float data8)
+{
+    Float_to_Byte_usart(data1,c0h);
+    Float_to_Byte_usart(data2,c1h);
+    Float_to_Byte_usart(data3,c2h);
+    Float_to_Byte_usart(data4,c3h);
+    Float_to_Byte_usart(data5,c4h);
+    Float_to_Byte_usart(data6,c5h);
+    Float_to_Byte_usart(data7,c6h);
+    Float_to_Byte_usart(data8,c7h);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c0h,sizeof(c0h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c1h,sizeof(c1h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c2h,sizeof(c2h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c3h,sizeof(c3h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c4h,sizeof(c4h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c5h,sizeof(c5h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c6h,sizeof(c6h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c7h,sizeof(c7h),HAL_MAX_DELAY);
+   HAL_UART_Transmit(&huart1,(uint8_t *)tail,sizeof(tail),HAL_MAX_DELAY);
+}
+
+//https://blog.csdn.net/qq_45945548/article/details/121160290
+//在main函数内部，while循环外部添加以下代码
+
+////发送提示信息
+//uint8_t message1[]="****UART commucition using IDLE IT DMA****\n";
+//uint8_t message2[]="Please enter 8 characters: \n";
+//HAL_UART_Transmit(&huart1,(uint8_t *)message1,sizeof(message1),HAL_MAX_DELAY);
+//HAL_UART_Transmit(&huart1,(uint8_t *)message2,sizeof(message2),HAL_MAX_DELAY);
+////使能DMA接收中断
+//HAL_UART_Receive_DMA(&huart1, (uint8_t *)RxBuffer,LENGTH);
+
+//在while循环内部添加一下代码
+//while (1)
+//  {
+//    /* USER CODE END WHILE */
+//   
+//    /* USER CODE BEGIN 3 */
+//     //添加下面代码
+//   HAL_UART_Transmit_DMA(&huart1, (uint8_t *)"hello windows!\n", 15 );
+//	HAL_Delay(1000);  //延时1s
+//	if(RxFlag == 1)  //如果接受完成，不在发送数据
+//	{
+//			HAL_UART_Transmit_DMA(&huart1,(uint8_t *)"Recevie Success!\n",17);  //提示接受成功
+//			break;  //退出循环，不在发送数据
+//	}
+//  }
+
+// HAL_UART_Transmit_DMA(&huart1, (uint8_t *)"hello windows!\n", 15 );

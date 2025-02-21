@@ -1827,16 +1827,6 @@
               <FilePath>..\Sourse_Library\1_SA_Library\SA_pid.h</FilePath>
             </File>
             <File>
-              <FileName>SA_uppercpu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Sourse_Library\1_SA_Library\SA_uppercpu.c</FilePath>
-            </File>
-            <File>
-              <FileName>SA_uppercpu.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Sourse_Library\1_SA_Library\SA_uppercpu.h</FilePath>
-            </File>
-            <File>
               <FileName>SA_Usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Sourse_Library\1_SA_Library\SA_Usart.c</FilePath>
@@ -1867,19 +1857,41 @@
               <FilePath>..\Sourse_Library\1_SA_Library\SA_Key.h</FilePath>
             </File>
             <File>
-              <FileName>SA_motor.c</FileName>
+              <FileName>SA_Flash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Sourse_Library\1_SA_Library\SA_motor.c</FilePath>
+              <FilePath>..\Sourse_Library\1_SA_Library\SA_Flash.c</FilePath>
             </File>
             <File>
-              <FileName>SA_motor.h</FileName>
+              <FileName>SA_Flash.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Sourse_Library\1_SA_Library\SA_motor.h</FilePath>
+              <FilePath>..\Sourse_Library\1_SA_Library\SA_Flash.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>SA_Peripheral</GroupName>
+          <GroupName>SA_CZCD</GroupName>
+          <Files>
+            <File>
+              <FileName>SA_CANDataprocess.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Sourse_Library\1_SA_Library\SA_CANDataprocess.c</FilePath>
+            </File>
+            <File>
+              <FileName>SA_CANDataprocess.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Sourse_Library\1_SA_Library\SA_CANDataprocess.h</FilePath>
+            </File>
+            <File>
+              <FileName>SA_E_Shift.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Sourse_Library\1_SA_Library\SA_E_Shift.c</FilePath>
+            </File>
+            <File>
+              <FileName>SA_E_Shift.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Sourse_Library\1_SA_Library\SA_E_Shift.h</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>SA_starup</GroupName>

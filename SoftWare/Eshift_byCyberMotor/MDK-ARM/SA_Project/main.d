@@ -43,12 +43,13 @@ sa_project\main.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\string.h
 sa_project\main.o: ../Sourse_Library/3_SA_Starup/common.h
 sa_project\main.o: ../Sourse_Library/1_SA_Library/SA_eulerangles.h
 sa_project\main.o: ../Sourse_Library/1_SA_Library/SA_karman.h
-sa_project\main.o: ../Sourse_Library/1_SA_Library/SA_uppercpu.h
-sa_project\main.o: ../Sourse_Library/1_SA_Library/SA_motor.h
+sa_project\main.o: ../Sourse_Library/1_SA_Library/SA_E_Shift.h
 sa_project\main.o: ../Sourse_Library/1_SA_Library/SA_pid.h
+sa_project\main.o: ../Sourse_Library/1_SA_Library/SA_motor.h
 sa_project\main.o: ../Sourse_Library/1_SA_Library/SA_Delay.h
 sa_project\main.o: ../Sourse_Library/1_SA_Library/SA_Usart.h
 sa_project\main.o: ../Sourse_Library/1_SA_Library/SA_Key.h
+sa_project\main.o: ../Sourse_Library/1_SA_Library/SA_Flash.h
 sa_project\main.o: ../Sourse_Library/4_XMCyberGear_Libary/Cybergear_Control.h
 sa_project\main.o: ../Sourse_Library/4_XMCyberGear_Libary/xiaomi_driver.h
 sa_project\main.o: ../Sourse_Library/4_XMCyberGear_Libary/pc_communication.h

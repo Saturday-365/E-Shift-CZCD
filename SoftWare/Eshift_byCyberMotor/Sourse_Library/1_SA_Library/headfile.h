@@ -12,12 +12,12 @@
 
 #include "SA_eulerangles.h"
 #include "SA_karman.h"
-#include "SA_uppercpu.h"
-#include "SA_motor.h"
+#include "SA_E_Shift.h"
 #include "SA_pid.h"
 #include "SA_Delay.h"
 #include "SA_Usart.h"
 #include "SA_Key.h"
+#include "SA_Flash.h"
 
 //#include "ATK_UART.h"
 //#include "MT6701.h"

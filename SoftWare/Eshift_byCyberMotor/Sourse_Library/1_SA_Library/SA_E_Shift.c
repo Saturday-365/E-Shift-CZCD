@@ -29,6 +29,26 @@ void Motor_run(uint16_t speed,uint8_t dir)
     __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_4, speed); //设置CH4->PWM脉冲宽度    
 }
 
+/**
+  * @brief          升档信号设置
+  * @param[in]      高电平触发 
+  * @retval         none
+  */
+void UPSHIFT_flag(uint8_t flag1){
+    if(flag1==1) HAL_GPIO_WritePin((GPIO_TypeDef *)UPSHIFTSIG_OUT_GPIO_Port, (uint16_t)UPSHIFTSIG_OUT_Pin, (GPIO_PinState)1);
+    else HAL_GPIO_WritePin((GPIO_TypeDef *)UPSHIFTSIG_OUT_GPIO_Port, (uint16_t)UPSHIFTSIG_OUT_Pin, (GPIO_PinState)0);
+}
+
+/**
+  * @brief          降档信号设置
+  * @param[in]      高电平触发 
+  * @retval         none
+  */
+void DOWNSHIFT_flag(uint8_t flag2){
+    if(flag2==1) HAL_GPIO_WritePin((GPIO_TypeDef *)DOWNSHIFTSIG_OUT_GPIO_Port, (uint16_t)DOWNSHIFTSIG_OUT_Pin, (GPIO_PinState)1);
+    else HAL_GPIO_WritePin((GPIO_TypeDef *)DOWNSHIFTSIG_OUT_GPIO_Port, (uint16_t)DOWNSHIFTSIG_OUT_Pin, (GPIO_PinState)0);
+}
+
 
 
 
