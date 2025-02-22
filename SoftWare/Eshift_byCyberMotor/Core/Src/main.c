@@ -108,11 +108,12 @@ int main(void)
   MX_USART3_UART_Init();
   MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
-  
+  Motor_init();
 //    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_4);
     Init_Cyber(&Cyber, 0x01);
 //    Start_Cyber(&Cyber);
         angle=0;
+        b=0;c=0;
       Stop_Cyber(&Cyber, 1);
 //      Set_Cyber_Mode(&Cyber,Motion_mode);
       Set_Cyber_Mode(&Cyber,1);
@@ -136,11 +137,12 @@ int main(void)
       Set_Cyber_Pos(&Cyber,angle) ;
 //      Read_Cyber_Pos(&Cyber);
       CANtest(&Cyber);
+      Motor_run(b,c);
       a=get_key_num();
-      if (a==1) {Stop_Cyber(&Cyber, 1);}
+      if (a==4) {Stop_Cyber(&Cyber, 1);}
       if (a==2) {Start_Cyber(&Cyber);}
-      if (a==3) {angle+=10;}
-      if (a==4) {angle-=10;}
+      if (a==3) {angle+=10;b=1000;c=1;}
+      if (a==1) {angle-=10;b=2000;c=0;}
 
     HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)1);
 

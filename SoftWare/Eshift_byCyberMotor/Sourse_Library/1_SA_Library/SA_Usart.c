@@ -7,6 +7,7 @@
 #include "SA_pid.h"
 #include "SA_Flash.h"
 #include "common.h"
+
 uint8_t	RxBuffer_1[LENGTH];   //接受缓冲区 
 uint8_t RxFlag_1 = 0;       //接收完成标志；0表示接受未完成，1表示接收完成
 uint8_t	RxBuffer_3[LENGTH];   //接受缓冲区 
@@ -63,7 +64,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)  //串口接收中断回
 	{
 		   
         RxFlag_3=1;    //置为接收完成标志    
-//        Vofa_PID_Adjust();
 
         HAL_UART_Receive_DMA(&huart3, (uint8_t *)RxBuffer_3,LENGTH);//DMA使能接收中断  这个必须添加，否则不能再使用DMA进行发送接受
 	}

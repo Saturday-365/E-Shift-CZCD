@@ -24,21 +24,23 @@ can波特率配置
 
  ********************************************************************************************************************/
 #include "headfile.h"
+#include "CyberGear_Control.h"
 
 ///*	CAN接收数据处理 */
 
-int   RPM=0;
-int MAP=0;
-int TPS=0;
-int CLT=0;
-int IAT=0;
-int ECUvlot=0;
-int GEAR=0;
-int LAMDA1=0;
-int OilPressure=0;
-int APPS=0;
-int IgnitionTiming=0;
+float   RPM=1000;
+float MAP=0;
+float TPS=100;
+float CLT=0;
+float IAT=0;
+float ECUvlot=0;
+float GEAR=2;
+float LAMDA1=0;
+float OilPressure=0;
+float APPS=0;
+float IgnitionTiming=0;
 uint8_t ReceFlage=0;
+extern uint8_t RxBuffer_3[LENGTH];
 //void CZCD_CAN_Runing(void)
 //{		             
 //        CZCD_CAN_Receive(CANRxData);	
@@ -52,39 +54,63 @@ uint8_t ReceFlage=0;
 //    
 //}            
 
-//void CZCD_CANData_tran(void)
+void CZCD_CANData_tran(uint8_t CANRxData[LENGTH])
+{
+ switch (CANRxData[0]) 
+            {
+                case 1:       
+                        RPM=uint16_to_float(CANRxData[2]<<8|(CANRxData[3]),0,65535,16);
+                        MAP=uint16_to_float(CANRxData[4]<<8|(CANRxData[5]),0,65535,16);break;
+                case 2: 
+                        TPS=uint16_to_float(CANRxData[4]<<8|(CANRxData[5]),0,65535,16)*0.1;break;
+                case 3:  
+                        CLT=uint16_to_float(CANRxData[6]<<8|(CANRxData[7]),0,65535,16)-50;break;
+                case 4:
+                        IAT=uint16_to_float(CANRxData[2]<<8|(CANRxData[3]),0,65535,16)-50;
+                        ECUvlot=uint16_to_float(CANRxData[4]<<8|(CANRxData[5]),0,65535,16)*0.01;break;
+                case 5:
+                        GEAR=uint16_to_float(CANRxData[2]<<8|(CANRxData[3]),0,65535,16);
+                        IgnitionTiming=uint16_to_float(CANRxData[6]<<8|(CANRxData[7]),0,65535,16)*0.1-100;break;
+                case 6:break;
+                case 7: 
+                        LAMDA1=uint16_to_float(CANRxData[4]<<8|(CANRxData[5]),0,65535,16)*0.001;break;
+                case 8:break;
+                case 9:
+                        OilPressure=uint16_to_float(CANRxData[4]<<8|(CANRxData[5]),0,65535,16);break;
+                case 10:break;
+                case 11:break;
+                case 12:break;
+                case 13:break;
+                case 14:
+                        APPS=uint16_to_float((CANRxData[2]<<8|CANRxData[3]),0,65536,16)*0.1;break;
+                
+                default:break;                    
+            }
+}  
+//union Fp32
 //{
-// switch (CANRxData[0]) 
-//            {
-//                case 1:       
-//                        RPM=(CANRxData[2]+(CANRxData[3]<<8));
-//                        MAP=(CANRxData[4]+(CANRxData[5]<<8));break;
-//                case 2: 
-//                        TPS=(CANRxData[4]+(CANRxData[5]<<8))*0.1;break;
-//                case 3:  
-//                        CLT=(CANRxData[6]+(CANRxData[7]<<8))-50;break;
-//                case 4:
-//                        IAT=(CANRxData[2]+(CANRxData[3]<<8))-50;
-//                        ECUvlot=(CANRxData[4]+(CANRxData[5]<<8))*0.01;break;
-//                case 5:
-//                        GEAR=(CANRxData[2]+(CANRxData[3]<<8));
-//                        IgnitionTiming=(CANRxData[6]+(CANRxData[7]<<8))*0.1-100;break;
-//                case 6:break;
-//                case 7: 
-//                        LAMDA1=(CANRxData[4]+(CANRxData[5]<<8))*0.001;break;
-//                case 8:break;
-//                case 9:
-//                        OilPressure=(CANRxData[4]+(CANRxData[5]<<8));break;
-//                case 10:break;
-//                case 11:break;
-//                case 12:break;
-//                case 13:break;
-//                case 14:
-//                        APPS=(CANRxData[2]+(CANRxData[3]<<8))*0.1;break;
-//                
-//                default:break;                    
-//            }
-//}  
+//    uint32_t u;
+//    float f;
+//};
+
+
+//float uint6_cov_float(uint16_t value)
+//{
+//    const Fp32 magic = { (254U - 15U) << 23 };
+//    const Fp32 was_infnan = { (127U + 16U) << 23 };
+//    Fp32 out;
+
+//    out.u = (value & 0x7FFFU) << 13;   /* exponent/mantissa bits */
+//    out.f *= magic.f;                  /* exponent adjust */
+//    if (out.f >= was_infnan.f)         /* make sure Inf/NaN survive */
+//    {
+//        out.u |= 255U << 23;
+//    }
+//    out.u |= (value & 0x8000U) << 16;  /* sign bit */
+
+//    return out.f;
+//}
+
 //  
 //void CZCD_CANData_Send(void)
 //{

@@ -3,6 +3,7 @@
 #include "Cybergear_Control.h"
 #include "math.h"
 #include "SA_Usart.h"
+#include "SA_CANDataprocess.h"
 Cyber_Motor Cyber;//小米电机定义
 
 CAN_RxHeaderTypeDef rxMsg;//发送接收结构体
@@ -280,14 +281,20 @@ void Motor_Data_Handler(Cyber_Motor *Motor,uint8_t DataFrame[8],uint32_t IDFrame
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
     HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rxMsg, rx_data);//接收数据  
-    Motor_Data_Handler(&Cyber,rx_data,rxMsg.ExtId);
-    HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)0);
+    if (rxMsg.StdId==0) {Motor_Data_Handler(&Cyber,rx_data,rxMsg.ExtId);}
+//    if(rxMsg.StdId==1000&&rx_data[0]<=14 && rx_data[1]==0)//每帧前两位的状态符合标准则使用该帧
+//        {   
+//            CZCD_CANData_tran(rx_data);
+//            HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)0);
+//        }
+//    else  printf("%d\n",rxMsg.StdId);
 }
-
+extern uint16_t a,b,c;
 void CANtest(Cyber_Motor *Motor)
 {
 //printf("%f,%f,%f,%f,%d\n",Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,Motor->error_code);
-JustFloat_8(Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,1.2,1.3,1.4,1.5);
+//JustFloat_8(Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,RPM,GEAR,TPS,ECUvlot);
+JustFloat_8(Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,999,a,b,c);
 
 }
  
