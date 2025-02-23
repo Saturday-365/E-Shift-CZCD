@@ -29,6 +29,7 @@
 /* USER CODE BEGIN Includes */
 
 #include "headfile.h"    //头文
+#include "SA_E_shift.h"    //头文
 
 /* USER CODE END Includes */
 
@@ -66,8 +67,12 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 //float a;
 //float b;
-uint16_t a,b,c,d;
+uint16_t Motor_speed=0,Motor_dir=0;
+uint8_t Eshift_up_flag=0,Eshift_dw_flag=0;
+uint8_t key_num,gus_gear=0;
+
 float set111,angle=0;
+#define Clutch_pos 50
 /* USER CODE END 0 */
 
 /**
@@ -108,41 +113,45 @@ int main(void)
   MX_USART3_UART_Init();
   MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
-  Motor_init();
-//    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_4);
+//    HAL_TIM_Base_Start_IT(&htim2);//定时器5ms中断开启
+    Motor_init();
     Init_Cyber(&Cyber, 0x01);
-//    Start_Cyber(&Cyber);
-        angle=0;
-        b=0;c=0;
-      Stop_Cyber(&Cyber, 1);
-//      Set_Cyber_Mode(&Cyber,Motion_mode);
-      Set_Cyber_Mode(&Cyber,1);
-//     Cyber_ControlMode(&Cyber,4,3,0,0.3,0.1);
-//    Set_Cyber_Pos(&Cyber,0) ;
+    Stop_Cyber(&Cyber, 1);
+    Set_Cyber_Mode(&Cyber,1);
+    Set_Cyber_Pos(&Cyber,0) ;
     Set_Cyber_limitSp(&Cyber,12) ;
     Start_Cyber(&Cyber);
-
-//    Init_Cyber(&Cyber, 4);
-//    Set_Cyber_limitSp(&Cyber, 3);
-//    Set_Cyber_limitTor(&Cyber, 3);
-//    Set_Cyber_Mode(&Cyber,0);
-//    HAL_TIM_Base_Start_IT(&htim2);//定时器5ms中断开启
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {       
-//        Cyber_ControlMode(&Cyber,10,6,angle,0.4,0.1);
-      Set_Cyber_Pos(&Cyber,angle) ;
-//      Read_Cyber_Pos(&Cyber);
-      CANtest(&Cyber);
-      Motor_run(b,c);
-      a=get_key_num();
-      if (a==4) {Stop_Cyber(&Cyber, 1);}
-      if (a==2) {Start_Cyber(&Cyber);}
-      if (a==3) {angle+=10;b=1000;c=1;}
-      if (a==1) {angle-=10;b=2000;c=0;}
+      Set_Cyber_Pos(&Cyber,0) ;
+      Motor_run(Motor_speed,Motor_dir);
+      key_num=get_key_num();
+      if (key_num==4) {Stop_Cyber(&Cyber, 1);}
+      if (key_num==3) {Start_Cyber(&Cyber);}
+      if (key_num==1) //upshiftsign
+          {
+              Eshift_up_flag=1;
+              while(Eshift_up_flag)
+                {
+                    Set_Cyber_Pos(&Cyber,Clutch_pos);
+                    UPSHIFT_flag(1);
+                    while(pre_pos_ready(&Cyber,Clutch_pos,10))//等待离合拉到指定位置-提前量  
+                    {
+//                        if(gus_gear) 
+                            Motor_run(Motor_speed,Motor_dir);
+//                          gus_gear++;
+                        
+                        UPSHIFT_flag(0);
+                        Eshift_up_flag=0;
+                        break;
+                    }
+                }
+           }
+      if (key_num==2) {}
 
     HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)1);
 
@@ -207,9 +216,7 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     if(htim == &htim2)  //判断中断是否来自于定时器2
-   {
-
-       
+   {      
    }
 }
                         

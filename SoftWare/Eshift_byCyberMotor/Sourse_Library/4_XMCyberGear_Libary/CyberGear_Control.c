@@ -270,6 +270,12 @@ void Motor_Data_Handler(Cyber_Motor *Motor,uint8_t DataFrame[8],uint32_t IDFrame
     Motor->pre_temperature=(DataFrame[6]<<8|DataFrame[7])*Temp_Gain;
     Motor->error_code=(IDFrame&0x1F0000)>>16;
 }
+
+uint8_t pre_pos_ready(Cyber_Motor *Motor,float pos,float fompos)
+{
+    if(Motor->pre_pos>=pos-fompos) return 1;
+    else return 0; 
+}
  
 /***************************************电机信息接受和发送**************************************/
 
@@ -285,16 +291,20 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 //    if(rxMsg.StdId==1000&&rx_data[0]<=14 && rx_data[1]==0)//每帧前两位的状态符合标准则使用该帧
 //        {   
 //            CZCD_CANData_tran(rx_data);
-//            HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)0);
+//            
 //        }
 //    else  printf("%d\n",rxMsg.StdId);
+//    HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)0);
+          CANtest(&Cyber);       
+
 }
-extern uint16_t a,b,c;
+extern uint16_t Motor_speed,Motor_dir;
+extern uint8_t Eshift_up_flag;
 void CANtest(Cyber_Motor *Motor)
 {
 //printf("%f,%f,%f,%f,%d\n",Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,Motor->error_code);
 //JustFloat_8(Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,RPM,GEAR,TPS,ECUvlot);
-JustFloat_8(Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,999,a,b,c);
+JustFloat_8(Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,999,Eshift_up_flag,Motor_speed,Motor_dir);
 
 }
  

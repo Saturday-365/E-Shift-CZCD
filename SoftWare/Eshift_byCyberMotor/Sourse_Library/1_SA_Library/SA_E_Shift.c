@@ -49,7 +49,13 @@ void DOWNSHIFT_flag(uint8_t flag2){
     else HAL_GPIO_WritePin((GPIO_TypeDef *)DOWNSHIFTSIG_OUT_GPIO_Port, (uint16_t)DOWNSHIFTSIG_OUT_Pin, (GPIO_PinState)0);
 }
 
+//void UPSHIFT_movement(){
 
+
+
+//}
+
+//void Clutch 
 
 
 

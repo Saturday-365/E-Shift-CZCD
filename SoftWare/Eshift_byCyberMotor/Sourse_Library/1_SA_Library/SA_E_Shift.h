@@ -5,6 +5,8 @@
 
 void Motor_init(void);
 void Motor_run(uint16_t speed,uint8_t dir);
+void UPSHIFT_flag(uint8_t flag1);
+void DOWNSHIFT_flag(uint8_t flag2);
 
 //void testdata(FOCmotor_Typedef*foc1,FOCmotor_Typedef*foc2,FOCmotor_Typedef*foc3,float data1);
 
