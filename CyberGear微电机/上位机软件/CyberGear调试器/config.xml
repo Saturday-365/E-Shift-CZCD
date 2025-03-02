@@ -4,7 +4,7 @@
     <c name="debug_pack" type="1" value="false"/>
     <c name="debug_step" type="1" value="false"/>
     <c name="language" type="10" value="zh_CN"/>
-    <c name="last_com" type="10" value="COM6"/>
+    <c name="last_com" type="10" value="COM21"/>
     <c name="oscilloscope_frame_rate" type="4" value="24"/>
     <c name="scale" type="4" value="100"/>
     <c name="setting">

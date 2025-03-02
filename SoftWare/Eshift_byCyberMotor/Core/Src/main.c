@@ -72,7 +72,7 @@ uint8_t Eshift_up_flag=0,Eshift_dw_flag=0;
 uint8_t key_num,gus_gear=0;
 
 float set111,angle=0;
-#define Clutch_pos 50
+#define Clutch_pos -110
 /* USER CODE END 0 */
 
 /**
@@ -89,7 +89,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+    HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -103,6 +103,7 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
+      HAL_Delay(2000);
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_USART1_UART_Init();
@@ -114,20 +115,27 @@ int main(void)
   MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 //    HAL_TIM_Base_Start_IT(&htim2);//定时器5ms中断开启
-    Motor_init();
+   while (Start_ready(&Cyber))
+  {       
+   Motor_init();
     Init_Cyber(&Cyber, 0x01);
     Stop_Cyber(&Cyber, 1);
     Set_Cyber_Mode(&Cyber,1);
-    Set_Cyber_Pos(&Cyber,0) ;
-    Set_Cyber_limitSp(&Cyber,12) ;
     Start_Cyber(&Cyber);
-  /* USER CODE END 2 */
+    Set_Cyber_ZeroPos(&Cyber);
+    Set_Cyber_Mode(&Cyber,1);
+    Set_Cyber_Pos(&Cyber,0) ;
+    Set_Cyber_limitSp(&Cyber,50) ;
+    Set_Cyber_limitTor(&Cyber,12) ;
+
+  }/* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {       
-      Set_Cyber_Pos(&Cyber,0) ;
+      CANtest(&Cyber);       
+      Set_Cyber_Pos(&Cyber,10) ;
       Motor_run(Motor_speed,Motor_dir);
       key_num=get_key_num();
       if (key_num==4) {Stop_Cyber(&Cyber, 1);}
@@ -144,7 +152,11 @@ int main(void)
 //                        if(gus_gear) 
                             Motor_run(Motor_speed,Motor_dir);
 //                          gus_gear++;
-                        
+                        HAL_Delay(200);
+                        Motor_run(Motor_speed,Motor_dir);
+                        HAL_Delay(200);
+                        Motor_run(Motor_speed,Motor_dir);
+                        HAL_Delay(200);
                         UPSHIFT_flag(0);
                         Eshift_up_flag=0;
                         break;

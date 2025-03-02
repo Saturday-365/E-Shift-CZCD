@@ -106,6 +106,7 @@ void request_motor_feedback(Cyber_Motor *Motor);
 void Motor_Data_Handler(Cyber_Motor *Motor,uint8_t DataFrame[8],uint32_t IDFrame);
 
 uint8_t pre_pos_ready(Cyber_Motor *Motor,float pos,float fompos);
+uint8_t Start_ready(Cyber_Motor *Motor);
 
 void CANtest(Cyber_Motor *Motor);
 

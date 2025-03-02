@@ -276,7 +276,12 @@ uint8_t pre_pos_ready(Cyber_Motor *Motor,float pos,float fompos)
     if(Motor->pre_pos>=pos-fompos) return 1;
     else return 0; 
 }
- 
+
+uint8_t Start_ready(Cyber_Motor *Motor)
+{
+    if(Motor->pre_temperature>=10) return 0;
+    else return 1; 
+}
 /***************************************电机信息接受和发送**************************************/
 
 /**
@@ -295,7 +300,6 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 //        }
 //    else  printf("%d\n",rxMsg.StdId);
 //    HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)0);
-          CANtest(&Cyber);       
 
 }
 extern uint16_t Motor_speed,Motor_dir;
