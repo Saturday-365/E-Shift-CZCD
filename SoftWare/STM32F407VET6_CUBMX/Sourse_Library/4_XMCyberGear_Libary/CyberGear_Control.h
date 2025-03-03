@@ -85,8 +85,11 @@ typedef struct{           //小米电机结构体
  
     
 extern Cyber_Motor Clutch_Cyber;
+extern Cyber_Motor Shift_Cyber;
 /*****************************初始化*****************************/
 void Init_Cyber(Cyber_Motor *Motor, uint8_t Can_Id);
+void Init_MOTO_CAN(void);
+
 void Start_Cyber(Cyber_Motor *Motor);
 void Stop_Cyber(Cyber_Motor *Motor, uint8_t clear_error);
  
@@ -108,7 +111,7 @@ void Motor_Data_Handler(Cyber_Motor *Motor,uint8_t DataFrame[8],uint32_t IDFrame
 uint8_t pre_pos_ready(Cyber_Motor *Motor,float pos,float fompos);
 uint8_t Start_ready(Cyber_Motor *Motor);
 
-void CANtest(Cyber_Motor *Motor);
+void CANtest(Cyber_Motor *Motor1,Cyber_Motor *Motor2);
 
 /*****************************暂时没用，电机参数读取设置*****************************/
 void Check_Cyber(uint8_t ID);

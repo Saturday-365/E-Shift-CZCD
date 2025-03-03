@@ -5,7 +5,7 @@
 #include "SA_Usart.h"
 #include "SA_CANDataprocess.h"
 Cyber_Motor Clutch_Cyber;//小米电机定义
-Cyber_Motor Shift_CyberCyber;//小米电机定义
+Cyber_Motor Shift_Cyber;//小米电机定义
 
 CAN_RxHeaderTypeDef rxMsg;//发送接收结构体
 CAN_TxHeaderTypeDef txMsg;//发送配置结构体
@@ -38,9 +38,12 @@ void Init_Cyber(Cyber_Motor *Motor,uint8_t Can_Id)
     txMsg.RTR = CAN_RTR_DATA;   //配置CAN发送：数据帧
     txMsg.DLC = 0x08;           //配置CAN发送：数据长度
     
-    Motor->CAN_ID=Can_Id;       //ID设置 
-    
-    /* 配置CAN过滤器 */
+    Motor->CAN_ID=Can_Id;       //ID设置    
+}
+//@brief          小米电机初始化参数
+void Init_MOTO_CAN()
+{
+/* 配置CAN过滤器 */
 	CAN_FilterTypeDef sFilterConfig;
     sFilterConfig.FilterBank = 0;                             /* 过滤器0 */
     sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
@@ -291,26 +294,30 @@ uint8_t Start_ready(Cyber_Motor *Motor)
   * @param[in]      hcan:CAN句柄指针
   * @retval         none
   */
+int16_t motor_id;
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
     HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxMsg, rx_data);//接收数据  
-    if (rxMsg.StdId==0) {Motor_Data_Handler(&Clutch_Cyber,rx_data,rxMsg.ExtId);}
+    //printf("%d\n",rxMsg.StdId);
+    motor_id= (rxMsg.ExtId&0xFF00)>>8;
+    if (motor_id==1) {Motor_Data_Handler(&Shift_Cyber,rx_data,rxMsg.ExtId);}
+    else if (motor_id==2){Motor_Data_Handler(&Clutch_Cyber,rx_data,rxMsg.ExtId);}
 //    if(rxMsg.StdId==1000&&rx_data[0]<=14 && rx_data[1]==0)//每帧前两位的状态符合标准则使用该帧
 //        {   
 //            CZCD_CANData_tran(rx_data);
 //            
 //        }
 //    else  printf("%d\n",rxMsg.StdId);
-//    HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)0);
+    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);
 
 }
 extern uint16_t Motor_speed,Motor_dir;
 extern uint8_t Eshift_up_flag;
-void CANtest(Cyber_Motor *Motor)
+void CANtest(Cyber_Motor *Motor1,Cyber_Motor *Motor2)
 {
 //printf("%f,%f,%f,%f,%d\n",Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,Motor->error_code);
 //JustFloat_8(Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,RPM,GEAR,TPS,ECUvlot);
-JustFloat_8(Motor->pre_pos,Motor->pre_vel,Motor->pre_tor,Motor->pre_temperature,999,Eshift_up_flag,Motor_speed,Motor_dir);
+JustFloat_8(Motor1->pre_pos,Motor1->pre_vel,Motor1->pre_tor,Motor1->pre_temperature,Motor2->pre_pos,Motor2->pre_vel,Motor2->pre_tor,Motor2->pre_temperature);
 
 }
  

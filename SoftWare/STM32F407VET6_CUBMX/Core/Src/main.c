@@ -51,7 +51,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-// 我叫宋嘉诚，我是大帅哥
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -70,6 +70,14 @@ uint8_t key_num,gus_gear=0;
 
 float set111,angle=0;
 #define Clutch_pos -110
+#define UPshift_pos 30
+#define DOWNshift_pos -30
+
+#define Clutch_speed 50
+#define Clutch_tor 12
+#define Shift_speed 50
+#define Shift_tor 12
+
 /* USER CODE END 0 */
 
 /**
@@ -96,7 +104,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  HAL_Delay(2000);
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -115,28 +123,44 @@ int main(void)
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 //    HAL_TIM_Base_Start_IT(&htim2);//定时器5ms中断开启
-   while (Start_ready(&Clutch_Cyber))
-  {       
-   Motor_init();
-    Init_Cyber(&Clutch_Cyber, 0x01);
+//   while (Start_ready(&Clutch_Cyber))
+//  {       
+    Init_Cyber(&Clutch_Cyber, 0x02);
+    Init_Cyber(&Shift_Cyber, 0x01);
+    Init_MOTO_CAN();
     Stop_Cyber(&Clutch_Cyber, 1);
+    Stop_Cyber(&Shift_Cyber, 1);    
+
     Set_Cyber_Mode(&Clutch_Cyber,1);
+    Set_Cyber_Mode(&Shift_Cyber,1);
+    
     Start_Cyber(&Clutch_Cyber);
+    Start_Cyber(&Shift_Cyber);
+    
     Set_Cyber_ZeroPos(&Clutch_Cyber);
+    Set_Cyber_ZeroPos(&Shift_Cyber);
+    
     Set_Cyber_Mode(&Clutch_Cyber,1);
+    Set_Cyber_Mode(&Shift_Cyber,1);
+    
     Set_Cyber_Pos(&Clutch_Cyber,0) ;
-    Set_Cyber_limitSp(&Clutch_Cyber,50) ;
-    Set_Cyber_limitTor(&Clutch_Cyber,12) ;
-  }
+    Set_Cyber_Pos(&Shift_Cyber,0) ;
+    
+    Set_Cyber_limitSp(&Clutch_Cyber,Clutch_speed) ;
+    Set_Cyber_limitSp(&Shift_Cyber,Shift_speed) ;
+    
+    Set_Cyber_limitTor(&Clutch_Cyber,Clutch_tor) ;
+    Set_Cyber_limitTor(&Shift_Cyber,Shift_tor) ;
+//    }
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-        CANtest(&Clutch_Cyber);       
-      Set_Cyber_Pos(&Clutch_Cyber,10) ;
-      Motor_run(Motor_speed,Motor_dir);
+      CANtest(&Clutch_Cyber,&Shift_Cyber);       
+      Set_Cyber_Pos(&Clutch_Cyber,0) ;
+      Set_Cyber_Pos(&Shift_Cyber,0) ;
       key_num=get_key_num();
       if (key_num==4) {Stop_Cyber(&Clutch_Cyber, 1);}
       if (key_num==3) {Start_Cyber(&Clutch_Cyber);}
@@ -149,23 +173,37 @@ int main(void)
                     UPSHIFT_flag(1);
                     while(pre_pos_ready(&Clutch_Cyber,Clutch_pos,10))//等待离合拉到指定位置-提前量  
                     {
-//                        if(gus_gear) 
-                            Motor_run(Motor_speed,Motor_dir);
-//                          gus_gear++;
-                        HAL_Delay(200);
-                        Motor_run(Motor_speed,Motor_dir);
-                        HAL_Delay(200);
-                        Motor_run(Motor_speed,Motor_dir);
-                        HAL_Delay(200);
-                        UPSHIFT_flag(0);
-                        Eshift_up_flag=0;
+                        Set_Cyber_Pos(&Shift_Cyber,Clutch_pos);
+                            while(pre_pos_ready(&Shift_Cyber,Clutch_pos,10))//等待离合拉到指定位置-提前量  
+                        {
+                            Set_Cyber_Pos(&Shift_Cyber,0);
+                            UPSHIFT_flag(0);
+                            Eshift_up_flag=0;
+                            break;
+                        }
                         break;
                     }
                 }
            }
-      if (key_num==2) {}
+      if (key_num==2) 
+            {
+              Eshift_dw_flag=1;
+              while(Eshift_dw_flag)
+                {
+                    Set_Cyber_Pos(&Shift_Cyber,Clutch_pos);
+                    UPSHIFT_flag(1);
+                    while(pre_pos_ready(&Shift_Cyber,Clutch_pos,10))//等待离合拉到指定位置-提前量  
+                    {
+//                        if(gus_gear) 
+                        HAL_Delay(200);
+                        UPSHIFT_flag(0);
+                        Eshift_dw_flag=0;
+                        break;
+                    }
+                }           
+            }
 
-    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);
+    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);
 
 
 //    printf("samples: %f \n",angle);
