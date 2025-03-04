@@ -224,7 +224,7 @@ void JustFloat_8(float data1,float data2,float data3,float data4,float data5,flo
     HAL_UART_Transmit(&huart1,(uint8_t *)c5h,sizeof(c5h),HAL_MAX_DELAY);
     HAL_UART_Transmit(&huart1,(uint8_t *)c6h,sizeof(c6h),HAL_MAX_DELAY);
     HAL_UART_Transmit(&huart1,(uint8_t *)c7h,sizeof(c7h),HAL_MAX_DELAY);
-   HAL_UART_Transmit(&huart1,(uint8_t *)tail,sizeof(tail),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)tail,sizeof(tail),HAL_MAX_DELAY);
 }
 
 //https://blog.csdn.net/qq_45945548/article/details/121160290

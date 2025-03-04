@@ -278,13 +278,13 @@ void Motor_Data_Handler(Cyber_Motor *Motor,uint8_t DataFrame[8],uint32_t IDFrame
 
 uint8_t pre_pos_ready(Cyber_Motor *Motor,float pos,float fompos)
 {
-    if(Motor->pre_pos>=pos-fompos) return 1;
+    if(fabs(Motor->pre_pos)>=fabs(pos)-fompos) return 1;
     else return 0; 
 }
 
-uint8_t Start_ready(Cyber_Motor *Motor)
+uint8_t Start_ready(Cyber_Motor *Motor,Cyber_Motor *Motor2)
 {
-    if(Motor->pre_temperature>=10) return 0;
+    if((Motor->pre_temperature>=10)&&(Motor2->pre_temperature>=10)) return 0;
     else return 1; 
 }
 /***************************************电机信息接受和发送**************************************/
@@ -298,7 +298,6 @@ int16_t motor_id;
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
     HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxMsg, rx_data);//接收数据  
-    //printf("%d\n",rxMsg.StdId);
     motor_id= (rxMsg.ExtId&0xFF00)>>8;
     if (motor_id==1) {Motor_Data_Handler(&Shift_Cyber,rx_data,rxMsg.ExtId);}
     else if (motor_id==2){Motor_Data_Handler(&Clutch_Cyber,rx_data,rxMsg.ExtId);}

@@ -69,14 +69,15 @@ uint8_t Eshift_up_flag=0,Eshift_dw_flag=0;
 uint8_t key_num,gus_gear=0;
 
 float set111,angle=0;
-#define Clutch_pos -110
-#define UPshift_pos 30
-#define DOWNshift_pos -30
-
-#define Clutch_speed 50
-#define Clutch_tor 12
-#define Shift_speed 50
-#define Shift_tor 12
+#define Clutch_pos -75
+#define UPshift_pos 38
+#define DOWNshift_pos  -38
+ //5-6 37
+ //4-5
+#define Clutch_speed 100
+#define Clutch_tor 11.9
+#define Shift_speed 100
+#define Shift_tor 11.9
 
 /* USER CODE END 0 */
 
@@ -123,35 +124,40 @@ int main(void)
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 //    HAL_TIM_Base_Start_IT(&htim2);//定时器5ms中断开启
-//   while (Start_ready(&Clutch_Cyber))
+//   while (Start_ready(&Clutch_Cyber,&Shift_Cyber))
 //  {       
-    Init_Cyber(&Clutch_Cyber, 0x02);
+    Init_Cyber(&Clutch_Cyber, 0x02);   //初始化电机参数
     Init_Cyber(&Shift_Cyber, 0x01);
-    Init_MOTO_CAN();
+    Init_MOTO_CAN();    //初始化can滤波器
     Stop_Cyber(&Clutch_Cyber, 1);
-    Stop_Cyber(&Shift_Cyber, 1);    
-
-    Set_Cyber_Mode(&Clutch_Cyber,1);
+    HAL_Delay(20);
+    Stop_Cyber(&Shift_Cyber, 1);     //停止电机
+    HAL_Delay(20);
+    Set_Cyber_Mode(&Clutch_Cyber,1);    //设置电机模式
+    HAL_Delay(20);
     Set_Cyber_Mode(&Shift_Cyber,1);
-    
-    Start_Cyber(&Clutch_Cyber);
-    Start_Cyber(&Shift_Cyber);
-    
+    HAL_Delay(20); 
     Set_Cyber_ZeroPos(&Clutch_Cyber);
-    Set_Cyber_ZeroPos(&Shift_Cyber);
-    
-    Set_Cyber_Mode(&Clutch_Cyber,1);
-    Set_Cyber_Mode(&Shift_Cyber,1);
-    
-    Set_Cyber_Pos(&Clutch_Cyber,0) ;
+    HAL_Delay(20);
+    Set_Cyber_ZeroPos(&Shift_Cyber);    //设置当前位置为0位
+    HAL_Delay(20);
+    Start_Cyber(&Shift_Cyber);     
+    HAL_Delay(20);
+    Start_Cyber(&Clutch_Cyber);
+    HAL_Delay(20);     
+    Set_Cyber_Pos(&Clutch_Cyber,0) ;   //设置电机位置
+    HAL_Delay(20);
     Set_Cyber_Pos(&Shift_Cyber,0) ;
-    
+    HAL_Delay(20);
     Set_Cyber_limitSp(&Clutch_Cyber,Clutch_speed) ;
-    Set_Cyber_limitSp(&Shift_Cyber,Shift_speed) ;
-    
+    HAL_Delay(20);
+    Set_Cyber_limitSp(&Shift_Cyber,Shift_speed) ;   
     Set_Cyber_limitTor(&Clutch_Cyber,Clutch_tor) ;
+    HAL_Delay(20);
     Set_Cyber_limitTor(&Shift_Cyber,Shift_tor) ;
+    
 //    }
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -169,13 +175,16 @@ int main(void)
               Eshift_up_flag=1;
               while(Eshift_up_flag)
                 {
+                     CANtest(&Clutch_Cyber,&Shift_Cyber);       
                     Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos);
                     UPSHIFT_flag(1);
-                    while(pre_pos_ready(&Clutch_Cyber,Clutch_pos,10))//等待离合拉到指定位置-提前量  
+                    while(pre_pos_ready(&Clutch_Cyber,Clutch_pos,30))//等待离合拉到指定位置-提前量  
                     {
-                        Set_Cyber_Pos(&Shift_Cyber,Clutch_pos);
-                            while(pre_pos_ready(&Shift_Cyber,Clutch_pos,10))//等待离合拉到指定位置-提前量  
+                        CANtest(&Clutch_Cyber,&Shift_Cyber); 
+                        Set_Cyber_Pos(&Shift_Cyber,UPshift_pos);
+                            while(pre_pos_ready(&Shift_Cyber,UPshift_pos,0))//等待离合拉到指定位置-提前量  
                         {
+                            CANtest(&Clutch_Cyber,&Shift_Cyber); 
                             Set_Cyber_Pos(&Shift_Cyber,0);
                             UPSHIFT_flag(0);
                             Eshift_up_flag=0;
@@ -184,24 +193,45 @@ int main(void)
                         break;
                     }
                 }
+//              Eshift_up_flag=1;
+//              while(Eshift_up_flag)
+//                {
+//                        CANtest(&Clutch_Cyber,&Shift_Cyber); 
+//                        Set_Cyber_Pos(&Shift_Cyber,UPshift_pos);
+//                            while(pre_pos_ready(&Shift_Cyber,UPshift_pos,0))//等待离合拉到指定位置-提前量  
+//                        {
+//                            CANtest(&Clutch_Cyber,&Shift_Cyber); 
+//                            Set_Cyber_Pos(&Shift_Cyber,0);
+//                            UPSHIFT_flag(0);
+//                            Eshift_up_flag=0;
+//                            break;
+//                        }
+//                        break;
+//                }
+
            }
       if (key_num==2) 
             {
               Eshift_dw_flag=1;
               while(Eshift_dw_flag)
                 {
-                    Set_Cyber_Pos(&Shift_Cyber,Clutch_pos);
-                    UPSHIFT_flag(1);
-                    while(pre_pos_ready(&Shift_Cyber,Clutch_pos,10))//等待离合拉到指定位置-提前量  
+                    Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos);
+                    DOWNSHIFT_flag(1);
+                    while(pre_pos_ready(&Clutch_Cyber,Clutch_pos,30))//等待离合拉到指定位置-提前量  
                     {
-//                        if(gus_gear) 
-                        HAL_Delay(200);
-                        UPSHIFT_flag(0);
-                        Eshift_dw_flag=0;
+                        Set_Cyber_Pos(&Shift_Cyber,DOWNshift_pos);
+                            while(pre_pos_ready(&Shift_Cyber,DOWNshift_pos,1))//等待离合拉到指定位置-提前量  
+                        {
+                            Set_Cyber_Pos(&Shift_Cyber,0);
+                            DOWNSHIFT_flag(0);
+                            Eshift_dw_flag=0;
+                            break;
+                        }
                         break;
                     }
-                }           
-            }
+                }
+                      
+  }
 
     HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);
 
