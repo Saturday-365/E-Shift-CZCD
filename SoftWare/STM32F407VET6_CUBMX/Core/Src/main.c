@@ -122,6 +122,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 //    HAL_TIM_Base_Start_IT(&htim2);//定时器5ms中断开启
 //   while (Start_ready(&Clutch_Cyber,&Shift_Cyber))
@@ -129,6 +130,8 @@ int main(void)
     Init_Cyber(&Clutch_Cyber, 0x02);   //初始化电机参数
     Init_Cyber(&Shift_Cyber, 0x01);
     Init_MOTO_CAN();    //初始化can滤波器
+    Init_DATA_CAN();
+    HAL_Delay(20);
     Stop_Cyber(&Clutch_Cyber, 1);
     HAL_Delay(20);
     Stop_Cyber(&Shift_Cyber, 1);     //停止电机
@@ -164,7 +167,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      CANtest(&Clutch_Cyber,&Shift_Cyber);       
+      JustFloat_5(GEAR,ECUvlot,RPM,CLT,TPS);
+      //CANtest(&Clutch_Cyber,&Shift_Cyber);       
       Set_Cyber_Pos(&Clutch_Cyber,0) ;
       Set_Cyber_Pos(&Shift_Cyber,0) ;
       key_num=get_key_num();
@@ -233,7 +237,7 @@ int main(void)
                       
   }
 
-    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);
+    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);
 
 
 //    printf("samples: %f \n",angle);

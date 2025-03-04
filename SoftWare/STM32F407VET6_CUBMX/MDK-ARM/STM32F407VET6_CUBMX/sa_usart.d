@@ -53,6 +53,7 @@ stm32f407vet6_cubmx\sa_usart.o: ../Sourse_Library/1_SA_Library/SA_motor.h
 stm32f407vet6_cubmx\sa_usart.o: ../Sourse_Library/1_SA_Library/SA_Delay.h
 stm32f407vet6_cubmx\sa_usart.o: ../Sourse_Library/1_SA_Library/SA_Key.h
 stm32f407vet6_cubmx\sa_usart.o: ../Sourse_Library/1_SA_Library/SA_Flash.h
+stm32f407vet6_cubmx\sa_usart.o: ../Sourse_Library/1_SA_Library/SA_CANDataprocess.h
 stm32f407vet6_cubmx\sa_usart.o: ../Sourse_Library/4_XMCyberGear_Libary/Cybergear_Control.h
 stm32f407vet6_cubmx\sa_usart.o: ../Core/Inc/can.h
 stm32f407vet6_cubmx\sa_usart.o: ../Sourse_Library/4_XMCyberGear_Libary/xiaomi_driver.h

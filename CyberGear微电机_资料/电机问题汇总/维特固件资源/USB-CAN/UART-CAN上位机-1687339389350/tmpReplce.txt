@@ -1,0 +1,1 @@
+E:\SoftwareDevelopment\C#Project\公司上位机\UartToCAN\CanMiniIMU\bin\Debug\temp\CanMiniIMU.exe,E:\SoftwareDevelopment\C#Project\公司上位机\UartToCAN\CanMiniIMU\bin\Debug\CanMiniIMU.exe

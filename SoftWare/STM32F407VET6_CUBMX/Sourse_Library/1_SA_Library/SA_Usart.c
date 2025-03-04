@@ -205,7 +205,20 @@ void JustFloat_4(float data1,float data2,float data3,float data4)
     HAL_UART_Transmit(&huart1,(uint8_t *)c3h,sizeof(c3h),HAL_MAX_DELAY);
     HAL_UART_Transmit(&huart1,(uint8_t *)tail,sizeof(tail),HAL_MAX_DELAY);
 }
-
+void JustFloat_5(float data1,float data2,float data3,float data4,float data5)
+{
+    Float_to_Byte_usart(data1,c0h);
+    Float_to_Byte_usart(data2,c1h);
+    Float_to_Byte_usart(data3,c2h);
+    Float_to_Byte_usart(data4,c3h);
+    Float_to_Byte_usart(data5,c4h);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c0h,sizeof(c0h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c1h,sizeof(c1h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c2h,sizeof(c2h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c3h,sizeof(c3h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c4h,sizeof(c4h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)tail,sizeof(tail),HAL_MAX_DELAY);
+}
 void JustFloat_8(float data1,float data2,float data3,float data4,float data5,float data6,float data7,float data8)
 {
     Float_to_Byte_usart(data1,c0h);

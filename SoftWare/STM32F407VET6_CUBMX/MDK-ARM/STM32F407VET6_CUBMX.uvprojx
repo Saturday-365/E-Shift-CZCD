@@ -1339,16 +1339,6 @@
           <GroupName>SA_CZCD</GroupName>
           <Files>
             <File>
-              <FileName>SA_CANDataprocess.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Sourse_Library\1_SA_Library\SA_CANDataprocess.c</FilePath>
-            </File>
-            <File>
-              <FileName>SA_CANDataprocess.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Sourse_Library\1_SA_Library\SA_CANDataprocess.h</FilePath>
-            </File>
-            <File>
               <FileName>SA_E_Shift.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Sourse_Library\1_SA_Library\SA_E_Shift.c</FilePath>
@@ -1357,6 +1347,16 @@
               <FileName>SA_E_Shift.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Sourse_Library\1_SA_Library\SA_E_Shift.h</FilePath>
+            </File>
+            <File>
+              <FileName>SA_CANDataprocess.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Sourse_Library\1_SA_Library\SA_CANDataprocess.c</FilePath>
+            </File>
+            <File>
+              <FileName>SA_CANDataprocess.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Sourse_Library\1_SA_Library\SA_CANDataprocess.h</FilePath>
             </File>
           </Files>
         </Group>

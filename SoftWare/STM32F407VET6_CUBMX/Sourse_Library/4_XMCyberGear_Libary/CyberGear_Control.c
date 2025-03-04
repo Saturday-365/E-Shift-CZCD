@@ -44,17 +44,18 @@ void Init_Cyber(Cyber_Motor *Motor,uint8_t Can_Id)
 void Init_MOTO_CAN()
 {
 /* 配置CAN过滤器 */
-	CAN_FilterTypeDef sFilterConfig;
-    sFilterConfig.FilterBank = 0;                             /* 过滤器0 */
-    sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
-    sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
-    sFilterConfig.FilterIdHigh = 0x0000;                      /* 32位ID */
-    sFilterConfig.FilterIdLow = 0x0000;
-    sFilterConfig.FilterMaskIdHigh = 0x0000;                  /* 32位MASK */
-    sFilterConfig.FilterMaskIdLow = 0x0000;
-    sFilterConfig.FilterActivation = CAN_FILTER_ENABLE;       /* 激活滤波器0 */
-    sFilterConfig.SlaveStartFilterBank = 14;				//设置CAN2的起始过滤器组（对于单CAN的CPU或从CAN此参数无效；对于双CAN的CPU此参数为从CAN的起始过滤器组编号）
-    HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig);             /* 过滤器配置 */
+	CAN_FilterTypeDef sFilterConfig1;
+    sFilterConfig1.FilterBank = 1;                             /* 过滤器0 */
+    sFilterConfig1.FilterMode = CAN_FILTERMODE_IDMASK;
+    sFilterConfig1.FilterScale = CAN_FILTERSCALE_32BIT;
+    sFilterConfig1.FilterIdHigh = 0x0000;                      /* 32位ID */
+    sFilterConfig1.FilterIdLow = 0x0000;
+    sFilterConfig1.FilterMaskIdHigh = 0x0000;                  /* 32位MASK */
+    sFilterConfig1.FilterMaskIdLow = 0x0000;
+    sFilterConfig1.FilterFIFOAssignment = CAN_RX_FIFO0; // 给邮箱0配置的过滤器
+    sFilterConfig1.FilterActivation = CAN_FILTER_ENABLE;       /* 激活滤波器0 */
+    sFilterConfig1.SlaveStartFilterBank = 13;				//设置CAN2的起始过滤器组（对于单CAN的CPU或从CAN此参数无效；对于双CAN的CPU此参数为从CAN的起始过滤器组编号）
+    HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig1);             /* 过滤器配置 */
                         
     HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
 
@@ -307,7 +308,6 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 //            
 //        }
 //    else  printf("%d\n",rxMsg.StdId);
-    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);
 
 }
 extern uint16_t Motor_speed,Motor_dir;
@@ -366,7 +366,7 @@ void Setting_AbsoluteZero(Cyber_Motor *Motor)
         Set_Cyber_RotNum(Motor, 0);
         
         // 检查力矩和速度
-        if (Motor->pre_vel < 0.01)
+        if (Motor->pre_vel < 0.01f)
         {
             Set_Cyber_ZeroPos(Motor);
             Set_Cyber_limitSp(Motor,6);

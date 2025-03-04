@@ -8,5 +8,6 @@ uint8_t Report_stage(void);
 void Vofa_PID_Adjust(void);
 void JustFloat_4(float data1,float data2,float data3,float data4);
 void JustFloat_8(float data1,float data2,float data3,float data4,float data5,float data6,float data7,float data8);
+void JustFloat_5(float data1,float data2,float data3,float data4,float data5);
 
 #endif

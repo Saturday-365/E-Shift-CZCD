@@ -12,6 +12,7 @@
 
 //void CAN_NVIC_Configuration(void);
 void CZCD_CANData_tran(uint8_t CANRxData[8]);
+void Init_DATA_CAN(void);
 //void CZCD_CANData_Send(void);
 extern float RPM;
 extern float MAP;

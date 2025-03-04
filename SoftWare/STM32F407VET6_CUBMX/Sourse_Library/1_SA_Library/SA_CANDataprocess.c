@@ -24,7 +24,15 @@ can波特率配置
 
  ********************************************************************************************************************/
 #include "headfile.h"
+#include "SA_CANDataprocess.h"
+#include "can.h"
 #include "CyberGear_Control.h"
+
+CAN_RxHeaderTypeDef ECU_rxMsg;//发送接收结构体
+
+uint8_t rx_ECUdata[8];       //接收数据
+uint8_t ECUbyte[4];          //转换临时数据
+ 
 
 ///*	CAN接收数据处理 */
 
@@ -41,48 +49,63 @@ float APPS=0;
 float IgnitionTiming=0;
 uint8_t ReceFlage=0;
 extern uint8_t RxBuffer_3[LENGTH];
-//void CZCD_CAN_Runing(void)
-//{		             
-//        CZCD_CAN_Receive(CANRxData);	
-//        if(CANRxData[0]<=14 && CANRxData[1]==0)//每帧前两位的状态符合标准则使用该帧
-//        {   
-//            ReceFlage=1;
-//            CZCD_CANData_tran();
-//        }
-//        else ReceFlage=2;
-//    memset(CANRxData,0,8);  //清空缓存数组       
-//    
-//}            
 
+void Init_DATA_CAN()
+{
+/* 配置CAN过滤器 */
+	CAN_FilterTypeDef sFilterConfig;
+    sFilterConfig.FilterBank = 14;                             /* 过滤器14 */
+    sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
+    sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
+    sFilterConfig.FilterIdHigh = 0x0000;                      /* 32位ID */
+    sFilterConfig.FilterIdLow = 0x0000;
+    sFilterConfig.FilterMaskIdHigh = 0x0000;                  /* 32位MASK */
+    sFilterConfig.FilterMaskIdLow = 0x0000;
+    sFilterConfig.FilterFIFOAssignment = CAN_RX_FIFO1; // 给邮箱1配置的过滤器
+    sFilterConfig.FilterActivation = CAN_FILTER_ENABLE;       /* 激活滤波器0 */
+    sFilterConfig.SlaveStartFilterBank = 13;				//设置CAN2的起始过滤器组（对于单CAN的CPU或从CAN此参数无效；对于双CAN的CPU此参数为从CAN的起始过滤器组编号）
+    HAL_CAN_ConfigFilter(&hcan2, &sFilterConfig);             /* 过滤器配置 */
+                        
+    HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO1_MSG_PENDING);    
+    HAL_CAN_Start(&hcan2);//此语句不打开，则不能发送也不能接收数据
+}
+        
+void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
+{
+    HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO1, &ECU_rxMsg, rx_ECUdata);//接收数据  
+    if(rx_ECUdata[0]<=14 && rx_ECUdata[1]==0) CZCD_CANData_tran(rx_ECUdata);
+    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);
+
+}
 void CZCD_CANData_tran(uint8_t CANRxData[LENGTH])
 {
  switch (CANRxData[0]) 
-            {
-                case 1:       
-                        RPM=uint16_to_float(CANRxData[2]<<8|(CANRxData[3]),0,65535,16);
-                        MAP=uint16_to_float(CANRxData[4]<<8|(CANRxData[5]),0,65535,16);break;
-                case 2: 
-                        TPS=uint16_to_float(CANRxData[4]<<8|(CANRxData[5]),0,65535,16)*0.1;break;
-                case 3:  
-                        CLT=uint16_to_float(CANRxData[6]<<8|(CANRxData[7]),0,65535,16)-50;break;
+            {//data[1] << 8) | data[0]
+                case 0:       
+                        RPM=((CANRxData[2]<<8)|CANRxData[3])/256;
+                        MAP=((CANRxData[4]<<8)|CANRxData[5])/256;break;
+                case 1: 
+                        TPS=((CANRxData[4]<<8|(CANRxData[5]))*0.1)/256;break;
+                case 2:  
+                        CLT=((CANRxData[6]<<8|(CANRxData[7]))/256)-50;break;
+                case 3:
+                        IAT=((CANRxData[2]<<8|(CANRxData[3]))-50)/256;
+                        ECUvlot=((CANRxData[4]<<8)|CANRxData[5])/256*0.01;break;
                 case 4:
-                        IAT=uint16_to_float(CANRxData[2]<<8|(CANRxData[3]),0,65535,16)-50;
-                        ECUvlot=uint16_to_float(CANRxData[4]<<8|(CANRxData[5]),0,65535,16)*0.01;break;
-                case 5:
-                        GEAR=uint16_to_float(CANRxData[2]<<8|(CANRxData[3]),0,65535,16);
-                        IgnitionTiming=uint16_to_float(CANRxData[6]<<8|(CANRxData[7]),0,65535,16)*0.1-100;break;
-                case 6:break;
-                case 7: 
-                        LAMDA1=uint16_to_float(CANRxData[4]<<8|(CANRxData[5]),0,65535,16)*0.001;break;
-                case 8:break;
-                case 9:
-                        OilPressure=uint16_to_float(CANRxData[4]<<8|(CANRxData[5]),0,65535,16);break;
+                        GEAR=((CANRxData[2]<<8)|CANRxData[3])/256;
+                        IgnitionTiming=((CANRxData[6]<<8|(CANRxData[7]))*0.1-100)/256;break;
+                case 5:break;
+                case 6: 
+                        LAMDA1=((CANRxData[4]<<8|(CANRxData[5]))*0.001)/256;break;
+                case 7:break;
+                case 8:
+                        OilPressure=(CANRxData[4]<<8|(CANRxData[5]))/256;break;
+                case 9:break;
                 case 10:break;
                 case 11:break;
                 case 12:break;
-                case 13:break;
-                case 14:
-                        APPS=uint16_to_float((CANRxData[2]<<8|CANRxData[3]),0,65536,16)*0.1;break;
+                case 13:
+                        APPS=((CANRxData[2]<<8|CANRxData[3])*0.1)/256;break;
                 
                 default:break;                    
             }
