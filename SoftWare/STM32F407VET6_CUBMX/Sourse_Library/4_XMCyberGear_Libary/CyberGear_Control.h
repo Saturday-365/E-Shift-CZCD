@@ -4,7 +4,6 @@
 #include "main.h"
 #include "can.h"
 #include "xiaomi_driver.h"
-#include "pc_communication.h"
  #include <math.h>
 
 #ifdef __cplusplus

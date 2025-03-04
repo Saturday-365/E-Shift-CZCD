@@ -240,6 +240,81 @@ void JustFloat_8(float data1,float data2,float data3,float data4,float data5,flo
     HAL_UART_Transmit(&huart1,(uint8_t *)tail,sizeof(tail),HAL_MAX_DELAY);
 }
 
+void JustFloat_16_rs232(float data1,float data2,float data3,float data4,float data5,float data6,float data7,float data8,
+    float data9,float data10,float data11,float data12,float data13,float data14,float data15,float data16)
+{
+    Float_to_Byte_usart(data1,c0h);
+    Float_to_Byte_usart(data2,c1h);
+    Float_to_Byte_usart(data3,c2h);
+    Float_to_Byte_usart(data4,c3h);
+    Float_to_Byte_usart(data5,c4h);
+    Float_to_Byte_usart(data6,c5h);
+    Float_to_Byte_usart(data7,c6h);
+    Float_to_Byte_usart(data8,c7h);
+    Float_to_Byte_usart(data9,c8h);
+    Float_to_Byte_usart(data10,c9h);
+    Float_to_Byte_usart(data11,c10h);
+    Float_to_Byte_usart(data12,c11h);
+    Float_to_Byte_usart(data13,c12h);
+    Float_to_Byte_usart(data14,c13h);
+    Float_to_Byte_usart(data15,c14h);
+    Float_to_Byte_usart(data16,c15h);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c0h,sizeof(c0h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c1h,sizeof(c1h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c2h,sizeof(c2h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c3h,sizeof(c3h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c4h,sizeof(c4h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c5h,sizeof(c5h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c6h,sizeof(c6h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c7h,sizeof(c7h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c8h,sizeof(c8h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c9h,sizeof(c9h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c10h,sizeof(c10h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c11h,sizeof(c11h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c12h,sizeof(c12h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c13h,sizeof(c13h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c14h,sizeof(c14h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)c15h,sizeof(c15h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3,(uint8_t *)tail,sizeof(tail),HAL_MAX_DELAY);
+}
+void JustFloat_16(float data1,float data2,float data3,float data4,float data5,float data6,float data7,float data8,
+    float data9,float data10,float data11,float data12,float data13,float data14,float data15,float data16)
+{
+    Float_to_Byte_usart(data1,c0h);
+    Float_to_Byte_usart(data2,c1h);
+    Float_to_Byte_usart(data3,c2h);
+    Float_to_Byte_usart(data4,c3h);
+    Float_to_Byte_usart(data5,c4h);
+    Float_to_Byte_usart(data6,c5h);
+    Float_to_Byte_usart(data7,c6h);
+    Float_to_Byte_usart(data8,c7h);
+    Float_to_Byte_usart(data9,c8h);
+    Float_to_Byte_usart(data10,c9h);
+    Float_to_Byte_usart(data11,c10h);
+    Float_to_Byte_usart(data12,c11h);
+    Float_to_Byte_usart(data13,c12h);
+    Float_to_Byte_usart(data14,c13h);
+    Float_to_Byte_usart(data15,c14h);
+    Float_to_Byte_usart(data16,c15h);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c0h,sizeof(c0h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c1h,sizeof(c1h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c2h,sizeof(c2h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c3h,sizeof(c3h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c4h,sizeof(c4h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c5h,sizeof(c5h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c6h,sizeof(c6h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c7h,sizeof(c7h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c8h,sizeof(c8h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c9h,sizeof(c9h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c10h,sizeof(c10h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c11h,sizeof(c11h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c12h,sizeof(c12h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c13h,sizeof(c13h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c14h,sizeof(c14h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)c15h,sizeof(c15h),HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1,(uint8_t *)tail,sizeof(tail),HAL_MAX_DELAY);
+}
+
 //https://blog.csdn.net/qq_45945548/article/details/121160290
 //在main函数内部，while循环外部添加以下代码
 

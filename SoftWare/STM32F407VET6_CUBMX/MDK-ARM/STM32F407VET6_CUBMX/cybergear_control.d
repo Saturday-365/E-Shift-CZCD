@@ -40,12 +40,6 @@ stm32f407vet6_cubmx\cybergear_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm
 stm32f407vet6_cubmx\cybergear_control.o: ../Core/Inc/can.h
 stm32f407vet6_cubmx\cybergear_control.o: ..\Sourse_Library\4_XMCyberGear_Libary\Cybergear_Control.h
 stm32f407vet6_cubmx\cybergear_control.o: ..\Sourse_Library\4_XMCyberGear_Libary\xiaomi_driver.h
-stm32f407vet6_cubmx\cybergear_control.o: ..\Sourse_Library\4_XMCyberGear_Libary\pc_communication.h
-stm32f407vet6_cubmx\cybergear_control.o: ../Core/Inc/dma.h
-stm32f407vet6_cubmx\cybergear_control.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\string.h
-stm32f407vet6_cubmx\cybergear_control.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\stdarg.h
-stm32f407vet6_cubmx\cybergear_control.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\stdio.h
-stm32f407vet6_cubmx\cybergear_control.o: ../Core/Inc/usart.h
 stm32f407vet6_cubmx\cybergear_control.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\math.h
 stm32f407vet6_cubmx\cybergear_control.o: ../Sourse_Library/1_SA_Library/SA_Usart.h
 stm32f407vet6_cubmx\cybergear_control.o: ../Sourse_Library/1_SA_Library/SA_CANDataprocess.h

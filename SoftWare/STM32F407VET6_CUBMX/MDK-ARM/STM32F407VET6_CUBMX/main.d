@@ -60,6 +60,4 @@ stm32f407vet6_cubmx\main.o: ../Sourse_Library/1_SA_Library/SA_Flash.h
 stm32f407vet6_cubmx\main.o: ../Sourse_Library/1_SA_Library/SA_CANDataprocess.h
 stm32f407vet6_cubmx\main.o: ../Sourse_Library/4_XMCyberGear_Libary/Cybergear_Control.h
 stm32f407vet6_cubmx\main.o: ../Sourse_Library/4_XMCyberGear_Libary/xiaomi_driver.h
-stm32f407vet6_cubmx\main.o: ../Sourse_Library/4_XMCyberGear_Libary/pc_communication.h
-stm32f407vet6_cubmx\main.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\stdarg.h
 stm32f407vet6_cubmx\main.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\math.h

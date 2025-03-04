@@ -2,7 +2,7 @@ stm32f407vet6_cubmx\sa_e_shift.o: ..\Sourse_Library\1_SA_Library\SA_E_Shift.c
 stm32f407vet6_cubmx\sa_e_shift.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\math.h
 stm32f407vet6_cubmx\sa_e_shift.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\stdio.h
 stm32f407vet6_cubmx\sa_e_shift.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\string.h
-stm32f407vet6_cubmx\sa_e_shift.o: ..\Sourse_Library\1_SA_Library\SA_Delay.h
+stm32f407vet6_cubmx\sa_e_shift.o: ..\Sourse_Library\1_SA_Library\SA_E_Shift.h
 stm32f407vet6_cubmx\sa_e_shift.o: ../Core/Inc/main.h
 stm32f407vet6_cubmx\sa_e_shift.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 stm32f407vet6_cubmx\sa_e_shift.o: ../Core/Inc/stm32f4xx_hal_conf.h
@@ -41,5 +41,8 @@ stm32f407vet6_cubmx\sa_e_shift.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_
 stm32f407vet6_cubmx\sa_e_shift.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 stm32f407vet6_cubmx\sa_e_shift.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 stm32f407vet6_cubmx\sa_e_shift.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-stm32f407vet6_cubmx\sa_e_shift.o: ../Core/Inc/tim.h
-stm32f407vet6_cubmx\sa_e_shift.o: ..\Sourse_Library\1_SA_Library\SA_motor.h
+stm32f407vet6_cubmx\sa_e_shift.o: ../Sourse_Library/4_XMCyberGear_Libary/Cybergear_Control.h
+stm32f407vet6_cubmx\sa_e_shift.o: ../Core/Inc/can.h
+stm32f407vet6_cubmx\sa_e_shift.o: ../Sourse_Library/4_XMCyberGear_Libary/xiaomi_driver.h
+stm32f407vet6_cubmx\sa_e_shift.o: ..\Sourse_Library\1_SA_Library\SA_CANDataprocess.h
+stm32f407vet6_cubmx\sa_e_shift.o: ..\Sourse_Library\1_SA_Library\SA_usart.h

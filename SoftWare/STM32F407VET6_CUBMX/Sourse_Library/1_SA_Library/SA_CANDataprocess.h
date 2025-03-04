@@ -3,26 +3,26 @@
 
 #include "main.h"
 #include "SA_usart.h"
-//void CZCD_CAN_Init(void);
-//void CZCD_CAN_Transmit(uint32_t ID, uint8_t Length, uint8_t *Data); //can发送数据 
-//uint8_t CZCD_CAN_ReceiveFlag(void);   //can接收标志位
-//void CZCD_CAN_Receive(uint8_t *Data); //can接收数据
-//void CAN_INIT(void);
-//void CZCD_CAN_Runing(void);
+typedef struct{           //小米电机结构体
+    float RPM;
+    float MAP;
+    float TPS;
+    float CLT;
+    float IAT;
+    float ECUvlot;
+    float GEAR;
+    float LAMDA1;
+    float OilPressure;
+    float APPS;
+    float IgnitionTiming;
+}Data_Radio;
 
-//void CAN_NVIC_Configuration(void);
-void CZCD_CANData_tran(uint8_t CANRxData[8]);
+extern Data_Radio ECUDATA;
+
+void CZCD_CANData_tran(Data_Radio *DATA,uint8_t CANRxData[8]);
 void Init_DATA_CAN(void);
-//void CZCD_CANData_Send(void);
-extern float RPM;
-extern float MAP;
-extern float TPS;
-extern float CLT;
-extern float IAT;
-extern float ECUvlot;
-extern float GEAR;
-extern float LAMDA1;
-extern float OilPressure;
-extern float APPS;
-extern float IgnitionTiming;
+
+
+ 
+
 #endif
