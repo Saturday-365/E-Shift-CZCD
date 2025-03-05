@@ -18,7 +18,7 @@ uint16_t Shift_pos_UP,Shift_pos_DOWM;
 #define Shift_speed 100
 #define Shift_tor 11.9
 
-uint8_t Eshift_up_flag=0,Eshift_dw_flag=0;
+uint8_t Eshift_flag_UP=0,Eshift_flag_DOWM=0;
 
 /**
   * @brief          升档信号设置
@@ -77,43 +77,101 @@ void Motor_Init()
 }
 
 uint16_t last_gear;
-uint16_t Gear_data(Data_Radio *DATA){
-    if (DATA->GEAR>=0&&DATA->GEAR<=6){
-        if (DATA->GEAR==0) {last_gear=0; return 0;}
-        else if (DATA->GEAR==1) {last_gear=1; return 1;}
-        else if (DATA->GEAR==2) {last_gear=2; return 2;}
-        else if (DATA->GEAR==3) {last_gear=3; return 3;}
-        else if (DATA->GEAR==4) {last_gear=4; return 4;}
-        else if (DATA->GEAR==5) {last_gear=5; return 5;}
-        else if (DATA->GEAR==6) {last_gear=6; return 6;}
+//uint16_t Gear_data(Data_Radio *DATA){
+//    if (DATA->GEAR>=0&&DATA->GEAR<=6){
+//        if (DATA->GEAR==0) {last_gear=0; return 0;}
+//        else if (DATA->GEAR==1) {last_gear=1; return 1;}
+//        else if (DATA->GEAR==2) {last_gear=2; return 2;}
+//        else if (DATA->GEAR==3) {last_gear=3; return 3;}
+//        else if (DATA->GEAR==4) {last_gear=4; return 4;}
+//        else if (DATA->GEAR==5) {last_gear=5; return 5;}
+//        else if (DATA->GEAR==6) {last_gear=6; return 6;}
+//    }
+//    else return last_gear;
+//}
+uint16_t Gear_data(float GEAR){
+    if (GEAR>=0&&GEAR<=6){
+        if (GEAR==0) {last_gear=0; return 0;}
+        else if (GEAR==1) {last_gear=1; return 1;}
+        else if (GEAR==2) {last_gear=2; return 2;}
+        else if (GEAR==3) {last_gear=3; return 3;}
+        else if (GEAR==4) {last_gear=4; return 4;}
+        else if (GEAR==5) {last_gear=5; return 5;}
+        else if (GEAR==6) {last_gear=6; return 6;}
     }
     else return last_gear;
 }
 
+uint16_t Gear_ready(float aim_GEAR,Data_Radio *DATA){
+    if (aim_GEAR==DATA->GEAR) return 1;
+    else return 0;
+}
+
+
+uint16_t Shift_pos_list[2][6]=
+    {
+        {  20 , -45 , -38 , -38 , -38 , -38 },//0 降档
+       // 1->0  2->1  3->2  4->3  5->4  6->5     
+        { -20 ,  45 ,  38 ,  38 ,  38 ,  38 },//1 升档
+       // 0->1  1->2  2->3  3->4  4->5  5->6
+    };//升降档规则表 Pos
+
+
+float GET_Shift_pos(uint8_t upordown,uint16_t Gear){
+    if (upordown==1) return Shift_pos_list[1][Gear];
+    else if (upordown==0) return Shift_pos_list[0][Gear-1];
+    else return 0;
+
+}
+uint16_t aim_gear;
 void EShift_move(uint8_t upordown,Data_Radio *DATA)
 {          
-    Eshift_up_flag=1;
-  while(Eshift_up_flag)
-    {
-        Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,0);             
-        Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos_up);
-        UPSHIFT_flag(1);
-        while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_up,30))//等待离合拉到指定位置-提前量  
-        {
-            Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,0);     
-            Shift_pos_DOWM;
-            Set_Cyber_Pos(&Shift_Cyber,UPshift_pos);
-                while(pre_pos_ready(&Shift_Cyber,UPshift_pos,0))//等待离合拉到指定位置-提前量  
-            {
-                Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,0);     
-                Set_Cyber_Pos(&Shift_Cyber,0);
-                UPSHIFT_flag(0);
-                Eshift_up_flag=0;
+    //升档动作开始
+    if (upordown==1&&DATA->GEAR<=5){    
+        Eshift_flag_UP=1;
+        while(Eshift_flag_UP){
+            Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,0);//电台发送数据             
+            Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos_up);  //设定离合位置
+            UPSHIFT_flag(1);                                //升档断火信号发送
+            while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_up,30)){//等待离合拉到 指定位置-提前量              
+                Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,0); //电台发送数据                   
+                aim_gear=DATA->GEAR+1;//设置目标档位
+                Shift_pos_UP=GET_Shift_pos(1,Gear_data(DATA->GEAR)); // 根据档位得到特定角度回传给电机              
+                Set_Cyber_Pos(&Shift_Cyber,Shift_pos_UP);  //传递电机信号
+                while(Gear_ready(aim_gear,&ECUDATA)){//等待挡位传感器回传数据-提前量                  
+                    Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,0);  //电台发送数据   
+                    Set_Cyber_Pos(&Shift_Cyber,0);  //电机归位
+                    UPSHIFT_flag(0);
+                    Eshift_flag_UP=0;
+                    break;
+                }
                 break;
             }
-            break;
         }
-    }
+    }//升档动作if结束
+    //降档动作开始
+    if (upordown==0&&DATA->GEAR>=1){    
+        Eshift_flag_DOWM=1;
+        while(Eshift_flag_DOWM){
+            Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,0);//电台发送数据             
+            Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos_down);  //设定离合位置
+            DOWNSHIFT_flag(1);                                //降档补油信号发送
+            while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_down,30)){//等待离合拉到 指定位置-提前量              
+                Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,0); //电台发送数据                   
+                aim_gear=DATA->GEAR+1;//设置目标档位
+                Shift_pos_UP=GET_Shift_pos(0,Gear_data(DATA->GEAR)); // 根据档位得到特定角度回传给电机              
+                Set_Cyber_Pos(&Shift_Cyber,Shift_pos_UP);  //传递电机信号
+                while(Gear_ready(aim_gear,&ECUDATA)){//等待挡位传感器回传数据-提前量                  
+                    Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,0);  //电台发送数据   
+                    Set_Cyber_Pos(&Shift_Cyber,0);  //电机归位
+                    DOWNSHIFT_flag(0);
+                    Eshift_flag_DOWM=0;
+                    break;
+                }
+                break;
+            }
+        }
+    }//升档动作if结束
 
 }
 

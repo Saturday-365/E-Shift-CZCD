@@ -116,7 +116,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      //CANtest(&Clutch_Cyber,&Shift_Cyber);       
+      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,0);//电台发送数据             
       Set_Cyber_Pos(&Clutch_Cyber,0) ;
       Set_Cyber_Pos(&Shift_Cyber,0) ;
       key_num=get_key_num();
@@ -124,11 +124,11 @@ int main(void)
       if (key_num==3) {Start_Cyber(&Clutch_Cyber);}
       if (key_num==1) //upshiftsign
             {
-                EShift_move(1,Gear_data(GEAR));
+                EShift_move(1,&ECUDATA);
             }
       if (key_num==2) 
             {
-                EShift_move(0,Gear_data(GEAR));
+                EShift_move(0,&ECUDATA);
             }
 
     HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);
