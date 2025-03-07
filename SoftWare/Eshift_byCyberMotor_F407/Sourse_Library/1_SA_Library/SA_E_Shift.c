@@ -107,7 +107,14 @@ uint16_t Gear_ready(uint16_t aim_GEAR,Data_Radio *DATA){
     if (aim_GEAR==DATA->GEAR) return 1;
     else return 0;
 }
-
+//uint16_t starttick=0;
+void Set_Start_ottick(){
+    overtime_tick=100;
+}
+uint8_t judge_ottick(){
+    if (overtime_tick==260) return 1;
+    else return 0;
+}
 
 float Shift_pos_list[2][6]=
     {
@@ -123,7 +130,6 @@ float GET_Shift_pos(uint8_t upordown,uint16_t Gear){
     if (upordown==1) return Shift_pos_list[1][Gear];
     else if (upordown==0) return Shift_pos_list[0][Gear-1];
     else return 0;
-
 }
 uint16_t aim_gear,t;
 void EShift_move(uint8_t upordown,Data_Radio *DATA)
@@ -133,22 +139,15 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
         Eshift_flag_UP=1;
         aim_gear=DATA->GEAR+1;//设置目标档位
         Shift_pos_UP=GET_Shift_pos(1,DATA->GEAR); // 根据档位得到特定角度回传给电机              
+        Set_Start_ottick();
         while(Eshift_flag_UP){
             Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,radio_mode);//电台发送数据             
-            Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos_up);  //设定离合位置
-            t=0;
+            Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos_up);  //设定离合位置         
             UPSHIFT_flag(1);                                //升档断火信号发送
             while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_up,0)){//等待离合拉到 指定位置-提前量              
                 Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,radio_mode); //电台发送数据                   
                 Set_Cyber_Pos(&Shift_Cyber,Shift_pos_UP);  //传递电机信号
-                t++;
-                    if (t>=errtime) {
-                        Set_Cyber_Pos(&Shift_Cyber,0);  //电机归位
-                        DOWNSHIFT_flag(0);
-                        Eshift_flag_DOWM=0;
-                        break;
-                        }                    
-                while(Gear_ready(aim_gear,&ECUDATA)/*pre_pos_ready(&Shift_Cyber,Shift_pos_UP,1)*/){//等待挡位传感器回传数据-提前量                  
+                while(Gear_ready(aim_gear,&ECUDATA) || judge_ottick()/*pre_pos_ready(&Shift_Cyber,Shift_pos_UP,1)*/){//等待挡位传感器回传数据-提前量                  
                     Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,radio_mode);  //电台发送数据   
                     Set_Cyber_Pos(&Shift_Cyber,0);  //电机归位
                     UPSHIFT_flag(0);
@@ -164,22 +163,15 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
         Eshift_flag_DOWM=1;
         aim_gear=DATA->GEAR-1;//设置目标档位
         Shift_pos_DOWM=GET_Shift_pos(0,Gear_data(DATA->GEAR)); // 根据档位得到特定角度回传给电机              
+        Set_Start_ottick();
         while(Eshift_flag_DOWM){
             Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,radio_mode);//电台发送数据             
             Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos_down);  //设定离合位置
             DOWNSHIFT_flag(1);                                //降档补油信号发送
-            t=0;
             while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_down,30)){//等待离合拉到 指定位置-提前量              
                 Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,radio_mode); //电台发送数据                   
                 Set_Cyber_Pos(&Shift_Cyber,Shift_pos_DOWM);  //传递电机信号
-                t++;
-                if (t>=errtime) {
-                        Set_Cyber_Pos(&Shift_Cyber,0);  //电机归位
-                        DOWNSHIFT_flag(0);
-                        Eshift_flag_DOWM=0;
-                        break;
-                        }
-                while(Gear_ready(aim_gear,&ECUDATA)){//等待挡位传感器回传数据-提前量                  
+                while(Gear_ready(aim_gear,&ECUDATA) || judge_ottick()){//等待挡位传感器回传数据-提前量                  
                     
                     Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,radio_mode);  //电台发送数据   
                     Set_Cyber_Pos(&Shift_Cyber,0);  //电机归位

@@ -35,7 +35,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+#define overtime_tick_max 65534
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -112,6 +112,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   Motor_Init();
   /* USER CODE END 2 */
+  HAL_TIM_Base_Start_IT(&htim2);//定时器5ms中断开启
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -186,13 +187,15 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
-
+uint16_t overtime_tick=0;
 /* USER CODE BEGIN 4 */
-//void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-//    if(htim == &htim2)  //判断中断是否来自于定时器2
-//   {      
-//   }
-//}
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+    if(htim == &htim2)  //判断中断是否来自于定时器2
+   {   
+       overtime_tick++;
+       if (overtime_tick > overtime_tick_max) overtime_tick=0;
+   }
+}
                         
 
 //单片机测试代码
