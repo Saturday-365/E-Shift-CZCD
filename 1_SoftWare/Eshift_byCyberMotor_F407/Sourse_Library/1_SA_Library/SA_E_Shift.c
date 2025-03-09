@@ -112,7 +112,7 @@ void Set_Start_ottick(){
     overtime_tick=100;
 }
 uint8_t judge_ottick(){
-    if (overtime_tick==260) return 1;
+    if (overtime_tick==150) return 1;
     else return 0;
 }
 
