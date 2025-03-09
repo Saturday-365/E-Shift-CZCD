@@ -117,6 +117,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+      UPSHIFT_flag(0);
       Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,0);//电台发送数据             
 //      CANtest(&Clutch_Cyber,&Shift_Cyber);
       Set_Cyber_Pos(&Clutch_Cyber,0) ;
