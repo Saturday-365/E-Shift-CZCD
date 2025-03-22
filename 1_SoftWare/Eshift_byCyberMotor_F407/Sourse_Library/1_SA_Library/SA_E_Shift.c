@@ -9,7 +9,7 @@
 #define Clutch_pos_up  0    //升档离合角度
 #define Clutch_pos_down -75 //降档离合角度
 #define errtime 50     //换挡超时判断时间 单位 /20ms
-#define radio_mode 0  //定义数据传输模式 0为无线串口传输  1为数传电台传输
+#define radio_mode 1  //定义数据传输模式 0为无线串口传输  1为数传电台传输
 
 #define Clutch_speed 100    //离合电机最大速度
 #define Clutch_tor 11.9     //离合电机最大扭矩
@@ -114,15 +114,7 @@ uint16_t Gear_data(uint16_t GEAR){
     }
     else return last_gear;
 }
-/**
-  * @brief          判断挡位是否
-  * @param[in]      目标挡位 实时挡位
-  * @retval         bool 0 1
-  */
-uint16_t Gear_ready(uint16_t aim_GEAR,Data_Radio *DATA){
-    if (aim_GEAR==DATA->GEAR) return 1;
-    else return 0;
-}
+
 
 /**
   * @brief          超时判断 
@@ -141,13 +133,23 @@ uint8_t judge_ottick(){
 //*********************升降档规则表定义*********************//
 float Shift_pos_list[2][6]=
     {
-        {  37 , -45 , -54 , -38 , -38 , -38 },//0 降档
-       // 1->0  2->1  3->2  4->3  5->4  6->5     
+        {  37  , -45 , -54 , -38 , -38 , -38 },//0 降档
+       //37// 1->0  2->1  3->2  4->3  5->4  6->5     
         { -47 ,  58 ,  52 ,  49 ,  41 ,  47 },//1 升档
 //        { -47,  58 ,  41 ,  50 ,  40 ,  48 },//1 升档
         // 0->1  1->2  2->3  3->4  4->5  5->6
     };//升降档规则表 Pos
-
+    
+    /**
+  * @brief          判断挡位是否
+  * @param[in]      目标挡位 实时挡位
+  * @retval         bool 0 1
+  */
+uint16_t Gear_ready(uint16_t aim_GEAR,Data_Radio *DATA,Cyber_Motor *Motor){
+    if (aim_GEAR==0 && Motor->pre_pos>=32) return 1;
+    else if (aim_GEAR!=0 && aim_GEAR==DATA->GEAR) return 1;
+    else return 0;
+}
 /**
   * @brief          升档规则表查表 
   * @param[in]      upordowm 升档还是降档 目前挡位
@@ -180,7 +182,7 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
             while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_up,0)){//等待离合拉到 指定位置-提前量              
                 Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,radio_mode); //电台发送数据                   
                 Set_Cyber_Pos(&Shift_Cyber,Shift_pos_UP);  //传递电机信号
-                while(Gear_ready(aim_gear,&ECUDATA) || judge_ottick()/*pre_pos_ready(&Shift_Cyber,Shift_pos_UP,1)*/){//等待挡位传感器回传数据-提前量                  
+                while(Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber) || judge_ottick()/*pre_pos_ready(&Shift_Cyber,Shift_pos_UP,1)*/){//等待挡位传感器回传数据-提前量                  
                     Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,radio_mode);  //电台发送数据   
                     Set_Cyber_Pos(&Shift_Cyber,0);  //电机归位
                     UPSHIFT_flag(0);
@@ -204,7 +206,7 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
             while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_down,30)){//等待离合拉到 指定位置-提前量              
                 Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,radio_mode); //电台发送数据                   
                 Set_Cyber_Pos(&Shift_Cyber,Shift_pos_DOWM);  //传递电机信号
-                while(Gear_ready(aim_gear,&ECUDATA) || judge_ottick()){//等待挡位传感器回传数据-提前量                  
+                while(Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber) || judge_ottick()){//等待挡位传感器回传数据-提前量                  
                     
                     Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,radio_mode);  //电台发送数据   
                     Set_Cyber_Pos(&Shift_Cyber,0);  //电机归位

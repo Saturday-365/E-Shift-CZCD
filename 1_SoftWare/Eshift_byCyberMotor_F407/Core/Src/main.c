@@ -62,7 +62,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+uint16_t overtime_tick;
 uint8_t key_num;
 
 /* USER CODE END 0 */
@@ -110,15 +110,16 @@ int main(void)
   MX_USART3_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  Motor_Init();
-  /* USER CODE END 2 */
-  HAL_TIM_Base_Start_IT(&htim2);//定时器5ms中断开启
+    Motor_Init();
+    HAL_TIM_Base_Start_IT(&htim2);//定时器5ms中断开启
+  /* USER CODE END 2
+  */
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      UPSHIFT_flag(0);
-      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,0);//电台发送数据             
+      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,1);//电台发送数据            
 //      CANtest(&Clutch_Cyber,&Shift_Cyber);
       Set_Cyber_Pos(&Clutch_Cyber,0) ;
       Set_Cyber_Pos(&Shift_Cyber,0) ;
@@ -134,7 +135,7 @@ int main(void)
                 EShift_move(0,&ECUDATA);
             }
 
-    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);
+    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);
 
     /* USER CODE END WHILE */
 
@@ -188,7 +189,7 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
-uint16_t overtime_tick=0;
+
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     if(htim == &htim2)  //判断中断是否来自于定时器2
