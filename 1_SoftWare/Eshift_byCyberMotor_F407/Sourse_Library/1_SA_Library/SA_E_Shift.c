@@ -104,7 +104,7 @@ uint16_t last_gear=0;
 
 uint16_t Gear_data(uint16_t GEAR){ 
     if (GEAR<=6){
-        if (GEAR==0) {last_gear=0; return 0;}
+        if (GEAR==0 && last_gear!=3 && last_gear!=4&&last_gear!=5) {last_gear=0; return 0;}
         else if (GEAR==1) {last_gear=1; return 1;}
         else if (GEAR==2) {last_gear=2; return 2;}
         else if (GEAR==3) {last_gear=3; return 3;}
@@ -184,7 +184,8 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
                 Set_Cyber_Pos(&Shift_Cyber,Shift_pos_UP);  //传递电机信号
                 while(Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber) || judge_ottick()/*pre_pos_ready(&Shift_Cyber,Shift_pos_UP,1)*/){//等待挡位传感器回传数据-提前量                  
                     Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,radio_mode);  //电台发送数据   
-                    Set_Cyber_Pos(&Shift_Cyber,0);  //电机归位
+                    Set_Cyber_Pos(&Shift_Cyber,1
+                    );  //电机归位
                     UPSHIFT_flag(0);
                     Eshift_flag_UP=0;
                     break;
@@ -209,7 +210,7 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
                 while(Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber) || judge_ottick()){//等待挡位传感器回传数据-提前量                  
                     
                     Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,radio_mode);  //电台发送数据   
-                    Set_Cyber_Pos(&Shift_Cyber,0);  //电机归位
+                    Set_Cyber_Pos(&Shift_Cyber,1);  //电机归位
                     DOWNSHIFT_flag(0);
                     Eshift_flag_DOWM=0;
                     break;

@@ -122,7 +122,7 @@ int main(void)
       Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,1);//电台发送数据            
 //      CANtest(&Clutch_Cyber,&Shift_Cyber);
       Set_Cyber_Pos(&Clutch_Cyber,0) ;
-      Set_Cyber_Pos(&Shift_Cyber,0) ;
+      Set_Cyber_Pos(&Shift_Cyber,1) ;
       key_num=get_key_num();
       if (key_num==4) {Stop_Cyber(&Clutch_Cyber, 1);Stop_Cyber(&Shift_Cyber, 1);}
       if (key_num==3) {Start_Cyber(&Clutch_Cyber);Start_Cyber(&Shift_Cyber);}
