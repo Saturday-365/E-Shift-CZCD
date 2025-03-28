@@ -13,7 +13,9 @@ F407代码含有两个文件夹
 ### 2、[硬件设计(2_HardWare)](https://github.com/Saturday-365/E-Shift-CZCD/tree/master/2_HardWare) 
 硬件设计使用嘉立创EDA进行，包含有F407核心版工程文件，集成板V1.0、V2.0  
 硬件特色 按键硬件消抖 集成RS232转ttl，can收发模块板载接口(为什么不直接集成到板子上呢，问就是懒) 
-![图片名称](https://github.com/Saturday-365/E-Shift-CZCD/blob/master/4_Document/photo/img1.jpg)  
+
+![](/4_Document/photo/img1.jpg)  
+
 #### 四级标题  
 ##### 五级标题  
 ###### 六级标题 
