@@ -15,19 +15,19 @@ F407代码含有两个文件夹
 硬件设计使用嘉立创EDA进行，包含有F407核心版工程文件，集成板V1.0、V2.0  
 硬件特色 按键硬件消抖 集成RS232转ttl，can收发模块板载接口(为什么不直接集成到板子上呢，问就是懒) 
 
-![集成板正面](\4_Document\photo\img1.jpg)  
-![集成板背面](\4_Document\photo\img2.jpg)  
-![核心版](\4_Document\photo\img3.jpg)  
+![集成板正面](/4_Document/photo/img1.jpg)  
+![集成板背面](/4_Document/photo/img2.jpg)  
+![核心版](/4_Document/photo/img3.jpg)  
 
 ### 3、[机械设计(3_3DProject)](https://github.com/Saturday-365/E-Shift-CZCD/tree/master/3_3DProject) 
 机械设计为电机安装支架，和电机输出轴  
 电机安装支架采用线切割工艺，平均造价为40/个  
 电机输出轴为金属3D打印技术，造价为150左右  
 换挡电机输出轴冗余过大，下一次更换可以删除几个安装孔增加几个加强筋，同时减少管子壁厚  
-![离合电机支架](\4_Document\photo\img4.png)  
-![换挡电机支架](\4_Document\photo\img5.png)  
-![换挡电机输出轴](\4_Document\photo\img6.png)  
-![离合电机输出轴](\4_Document\photo\img7.png) 
+![离合电机支架](/4_Document/photo/img4.png)  
+![换挡电机支架](/4_Document/photo/img5.png)  
+![换挡电机输出轴](/4_Document/photo/img6.png)  
+![离合电机输出轴](/4_Document/photo/img7.png) 
 
 ### 4、[相关资料(4_Document)](https://github.com/Saturday-365/E-Shift-CZCD/tree/master/4_Document) 
 相关资料为小米关节电机的官方资料包含有上位机配置软件，电机使用说明书，电机通信协议表格；用于配置ecu断火补油程序的帮助文档，reademe文件中的图片资料，已经无线数传电台的配置上位机和相关资料
