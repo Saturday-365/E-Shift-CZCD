@@ -1,10 +1,3 @@
-<style>
-img{
-    width: 60%;
-    padding-left: 20%;
-}
-</style>
-
 # 华侨大学承志车队2025赛季电控换挡系统
 
 ## 仓库结构
@@ -42,6 +35,7 @@ F407代码含有两个文件夹
 ### 5、[测试数据(5_TestData)](https://github.com/Saturday-365/E-Shift-CZCD/tree/master/5_TestData) 
 测试数据为出车过程中，数传电台回传的数据的存档文件  
 使用的串口示波器为VOFA+
+
 ## 代码结构
 
 

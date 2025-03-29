@@ -107,7 +107,7 @@ uint16_t last_gear=0;
 //    else return last_gear;
 //}
 
-uint16_t Gear_data(uint16_t GEAR){ 
+uint16_t Gear_data(uint16_t GEAR){ //基本档传数据处理
     if (GEAR<=6){
         if (GEAR==0 && last_gear!=3 && last_gear!=4&&last_gear!=5) {last_gear=0; return 0;}
         else if (GEAR==1) {last_gear=1; return 1;}
@@ -120,7 +120,7 @@ uint16_t Gear_data(uint16_t GEAR){
     else return last_gear;
 }
 
-uint16_t stabilize_gear(Data_Radio *DATA) {
+uint16_t stabilize_gear(uint16_t GearDataIN) {
     static int16_t current_gear = -1;        // 当前稳定档位
     static int16_t candidate_gear = -1;      // 候选档位
     static uint16_t counter = 0;     // 连续采样计数器
@@ -131,7 +131,7 @@ uint16_t stabilize_gear(Data_Radio *DATA) {
     // 验证输入是否为有效档位
     int16_t valid = 0;
     for (int i = 0; i < num_gears; i++) {
-        if (DATA->GEAR == valid_gears[i]) {
+        if (GearDataIN == valid_gears[i]) {
             valid = 1;
             break;
         }
@@ -140,29 +140,29 @@ uint16_t stabilize_gear(Data_Radio *DATA) {
 
     // 初始化处理
     if (current_gear == -1) {
-        current_gear = DATA->GEAR;
+        current_gear = GearDataIN;
         return current_gear;
     }
 
     // 相同输入重置计数器
-    if (DATA->GEAR == current_gear) {
+    if (GearDataIN == current_gear) {
         candidate_gear = -1;
         counter = 0;
         return current_gear;
     }
 
     // 检查是否为合法相邻档位
-    int gear_diff = abs(DATA->GEAR - current_gear);
+    int gear_diff = abs(GearDataIN - current_gear);
     if (gear_diff == 1) {  // 仅允许相邻档位变化
-        if (DATA->GEAR == candidate_gear) {
+        if (GearDataIN == candidate_gear) {
             if (++counter >= threshold) {
-                current_gear = DATA->GEAR;   // 更新稳定档位
+                current_gear = GearDataIN;   // 更新稳定档位
                 candidate_gear = -1;
                 counter = 0;
             }
         } 
         else {
-            candidate_gear = DATA->GEAR;     // 设置新的候选档位
+            candidate_gear = GearDataIN;     // 设置新的候选档位
             counter = 1;
         }
     } 
@@ -205,10 +205,17 @@ float Shift_pos_list[2][6]=
   * @retval         bool 0 1
   */
 uint16_t Real_Gear;
+//uint16_t Gear_ready(uint16_t aim_GEAR,Data_Radio *DATA,Cyber_Motor *Motor){
+//    //Real_Gear=stabilize_gear(DATA->GEAR);
+//    if (aim_GEAR==0 && Motor->pre_pos>=32) return 1;
+//    else if (aim_GEAR!=0 && aim_GEAR==Real_Gear) return 1;
+//    else return 0;
+//}
+
 uint16_t Gear_ready(uint16_t aim_GEAR,Data_Radio *DATA,Cyber_Motor *Motor){
     //Real_Gear=stabilize_gear(DATA->GEAR);
     if (aim_GEAR==0 && Motor->pre_pos>=32) return 1;
-    else if (aim_GEAR!=0 && aim_GEAR==Real_Gear) return 1;
+    else if (aim_GEAR!=0 && aim_GEAR==DATA->RealGEAR) return 1;
     else return 0;
 }
 /**
@@ -235,6 +242,7 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
     if (upordown==1&&DATA->GEAR<=5){    
         Eshift_flag_UP=1;
         //Real_Gear=stabilize_gear(DATA->GEAR);
+        Real_Gear=DATA->RealGEAR;
         aim_gear=Real_Gear+1;//设置目标档位
         Shift_pos_UP=GET_Shift_pos(1,Real_Gear); // 根据档位得到特定角度回传给电机              
         Set_Start_ottick();
@@ -260,6 +268,7 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
     if (upordown==0&&DATA->GEAR>=1){    
         Eshift_flag_DOWM=1;
         //Real_Gear=stabilize_gear(DATA->GEAR);
+        Real_Gear=DATA->RealGEAR;
         aim_gear=Real_Gear-1;//设置目标档位
         Shift_pos_DOWM=GET_Shift_pos(0,Real_Gear); // 根据档位得到特定角度回传给电机              
         Set_Start_ottick();
@@ -297,7 +306,7 @@ void Radio_Data_Send(Cyber_Motor *Motor1,Cyber_Motor *Motor2,Data_Radio *DATA,ui
     if(mode==1)
             JustFloat_10_rs232(Motor1->pre_pos,Motor1->pre_temperature,
                        Motor2->pre_pos,Motor2->pre_temperature,
-                       DATA->GEAR,Gear,DATA->RPM,DATA->APPS,DATA->ECUvlot,DATA->LAMDA1);
+                       DATA->GEAR,DATA->RealGEAR,Gear,DATA->RPM,DATA->APPS,DATA->LAMDA1);
     else    JustFloat_10(Motor1->pre_pos,Motor1->pre_tor,Motor1->pre_temperature,Motor1->error_code,
                        Motor2->pre_pos,Motor2->pre_tor,Motor2->pre_temperature,Motor2->error_code, 
                        DATA->GEAR,DATA->RPM);

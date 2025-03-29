@@ -91,7 +91,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-  HAL_Delay(2000);
+    HAL_Delay(2000); //上电后延时2s，等待电平稳定后再初始化单片机
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -109,7 +109,6 @@ int main(void)
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
   MX_TIM2_Init();
-  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -119,22 +118,22 @@ int main(void)
   while (1)
   {
       Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,1);//电台发送数据            
-//      CANtest(&Clutch_Cyber,&Shift_Cyber);
-      Set_Cyber_Pos(&Clutch_Cyber,0) ;
-      Set_Cyber_Pos(&Shift_Cyber,1) ;
-      key_num=get_key_num();
-      if (key_num==4) {Stop_Cyber(&Clutch_Cyber, 1);Stop_Cyber(&Shift_Cyber, 1);}
-      if (key_num==3) {Start_Cyber(&Clutch_Cyber);Start_Cyber(&Shift_Cyber);}
+//      CANtest(&Clutch_Cyber,&Shift_Cyber);//基础串口调试代码
+      Set_Cyber_Pos(&Clutch_Cyber,0) ;  //设置电机归0
+      Set_Cyber_Pos(&Shift_Cyber,0) ; //设置电机默认位置 （根据档位传感器的值决定默认位置 单位度数）
+      key_num=get_key_num();   //按键读取（硬件消抖）
+      if (key_num==4) {Stop_Cyber(&Clutch_Cyber, 1);Stop_Cyber(&Shift_Cyber, 1);}  //停止电机
+      if (key_num==3) {Start_Cyber(&Clutch_Cyber);Start_Cyber(&Shift_Cyber);}  //开启电机
       if (key_num==1) //upshiftsign
             {
-                EShift_move(1,&ECUDATA);
+                EShift_move(1,&ECUDATA);  //升档操作
             }
       if (key_num==2) 
             {
-                EShift_move(0,&ECUDATA);
+                EShift_move(0,&ECUDATA);  //降档操作
             }
 
-    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);
+            HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);  //主循环工作指示灯
     //UPSHIFT_flag(1);
     /* USER CODE END WHILE */
 
@@ -194,11 +193,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     if(htim == &htim2)  //判断中断是否来自于定时器2
    {   
        overtime_tick++;
-       if (overtime_tick > overtime_tick_max) overtime_tick=0;
+       if (overtime_tick > overtime_tick_max) overtime_tick=0;  //超时判断定时器中断
    }
-   if(htim==&htim6){
-   Real_Gear=stabilize_gear(&ECUDATA);
-   }
+//   if(htim==&htim6){
+//   //Real_Gear=stabilize_gear(&ECUDATA);
+//   }
 }
                         
 

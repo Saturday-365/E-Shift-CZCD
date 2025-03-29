@@ -99,6 +99,7 @@ void CZCD_CANData_tran(Data_Radio *DATA,uint8_t CANRxData[LENGTH])
                 
                 default:break;                    
             }
+            DATA->RealGEAR=stabilize_gear(DATA->GEAR);
 }  
 //union Fp32
 //{

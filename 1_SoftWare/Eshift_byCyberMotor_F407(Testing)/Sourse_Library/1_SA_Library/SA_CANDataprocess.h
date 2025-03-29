@@ -11,6 +11,7 @@ typedef struct{           //小米电机结构体
     uint16_t IAT;
     uint16_t ECUvlot;
     uint16_t GEAR;
+    uint16_t RealGEAR;
     uint16_t LAMDA1;
     uint16_t OilPressure;
     uint16_t APPS;
