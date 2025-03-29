@@ -1,3 +1,10 @@
+<style>
+img{
+    width: 60%;
+    padding-left: 20%;
+}
+</style>
+
 # 华侨大学承志车队2025赛季电控换挡系统
 
 ## 仓库结构
