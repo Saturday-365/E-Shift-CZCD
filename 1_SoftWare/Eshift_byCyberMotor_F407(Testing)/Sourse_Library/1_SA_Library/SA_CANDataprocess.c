@@ -83,6 +83,7 @@ void CZCD_CANData_tran(Data_Radio *DATA,uint8_t CANRxData[LENGTH])
                         DATA->ECUvlot=((CANRxData[4]<<8)|CANRxData[5])/256*0.01;break;
                 case 4:
                         DATA->GEAR=((CANRxData[2]<<8)|CANRxData[3])/256;
+                        DATA->RealGEAR=stabilize_gear(DATA->GEAR);        
                         DATA->IgnitionTiming=((CANRxData[6]<<8|(CANRxData[7]))*0.1-100)/256;break;
                 case 5:break;
                 case 6: 
@@ -99,7 +100,7 @@ void CZCD_CANData_tran(Data_Radio *DATA,uint8_t CANRxData[LENGTH])
                 
                 default:break;                    
             }
-            DATA->RealGEAR=stabilize_gear(DATA->GEAR);
+            
 }  
 //union Fp32
 //{

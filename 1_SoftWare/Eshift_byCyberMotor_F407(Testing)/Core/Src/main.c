@@ -110,14 +110,15 @@ int main(void)
   MX_USART3_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-
+    Motor_Init();
+    HAL_TIM_Base_Start_IT(&htim2);//定时器20ms中断开启
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,1);//电台发送数据            
+      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,0);//电台发送数据            
 //      CANtest(&Clutch_Cyber,&Shift_Cyber);//基础串口调试代码
       Set_Cyber_Pos(&Clutch_Cyber,0) ;  //设置电机归0
       Set_Cyber_Pos(&Shift_Cyber,0) ; //设置电机默认位置 （根据档位传感器的值决定默认位置 单位度数）

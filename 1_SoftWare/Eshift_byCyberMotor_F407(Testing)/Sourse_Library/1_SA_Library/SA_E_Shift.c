@@ -1,5 +1,6 @@
 #include "math.h"
 #include "stdio.h"
+#include "stdbool.h"
 #include "stdlib.h"
 #include "string.h"
 #include "SA_E_Shift.h"
@@ -9,8 +10,8 @@
 //**********************定义可调参数***************************//
 #define Clutch_pos_up  0    //升档离合角度
 #define Clutch_pos_down -75 //降档离合角度
-#define errtime 50     //换挡超时判断时间 单位 /20ms
-#define radio_mode 1  //定义数据传输模式 0为无线串口传输  1为数传电台传输
+#define errtime 10     //换挡超时判断时间 单位 /20ms
+#define radio_mode 0  //定义数据传输模式 0为无线串口传输  1为数传电台传输
 
 #define Clutch_speed 100    //离合电机最大速度
 #define Clutch_tor 11.9     //离合电机最大扭矩
@@ -120,15 +121,72 @@ uint16_t Gear_data(uint16_t GEAR){ //基本档传数据处理
     else return last_gear;
 }
 
+//uint16_t stabilize_gear(uint16_t GearDataIN) {
+//    static int16_t current_gear = 7;        // 当前稳定档位
+//    static int16_t candidate_gear = 7;      // 候选档位
+//    static uint16_t counter = 0;     // 连续采样计数器
+//    const uint16_t threshold = 3;    // 连续采样阈值（需根据实际情况调整）
+//    const int16_t valid_gears[] = {0, 1, 2, 3, 4, 5, 6};
+//    const int16_t num_gears = sizeof(valid_gears)/sizeof(valid_gears[0]);
+
+//    // 验证输入是否为有效档位
+//    int16_t valid = 0;
+//    for (int i = 0; i < num_gears; i++) {
+//        if (GearDataIN == valid_gears[i]) {
+//            valid = 1;
+//            break;
+//        }
+//    }
+//    if (!valid) return current_gear;  // 无效输入保持当前档位
+
+//    // 初始化处理
+//    if (current_gear == 7) {
+//        current_gear = GearDataIN;
+//        return current_gear;
+//    }
+
+//    // 相同输入重置计数器
+//    if (GearDataIN == current_gear) {
+//        candidate_gear = 7;
+//        counter = 0;
+//        return current_gear;
+//    }
+
+//    // 检查是否为合法相邻档位
+//    int gear_diff = abs(GearDataIN - current_gear);
+//    if (gear_diff == 1) {  // 仅允许相邻档位变化
+//        if (GearDataIN == candidate_gear) {
+//            if (++counter >= threshold) {
+//                current_gear = GearDataIN;   // 更新稳定档位
+//                candidate_gear = 7;
+//                counter = 0;
+//            }
+//        } 
+//        else {
+//            candidate_gear = GearDataIN;     // 设置新的候选档位
+//            counter = 1;
+//        }
+//    }     
+//    else {  // 非法跳变
+//        candidate_gear = 7;
+//        counter = 0;
+//    }
+
+//    return current_gear;
+//}
 uint16_t stabilize_gear(uint16_t GearDataIN) {
-    static int16_t current_gear = -1;        // 当前稳定档位
-    static int16_t candidate_gear = -1;      // 候选档位
+    static int16_t current_gear = 7;        // 当前稳定档位
+    static int16_t candidate_gear = 7;      // 候选档位
     static uint16_t counter = 0;     // 连续采样计数器
-    const uint16_t threshold = 3;    // 连续采样阈值（需根据实际情况调整）
+    const uint16_t threshold = 9;    // 连续采样阈值
     const int16_t valid_gears[] = {0, 1, 2, 3, 4, 5, 6};
     const int16_t num_gears = sizeof(valid_gears)/sizeof(valid_gears[0]);
+    //if (current_gear==1 && Eshift_flag_DOWM==1 ) {current_gear=0;return current_gear;}
 
-    // 验证输入是否为有效档位
+    // 新增中间状态标记
+    static bool passing_neutral = false;  // 标记是否经过空档
+    
+    // 验证输入有效性（保持原逻辑）
     int16_t valid = 0;
     for (int i = 0; i < num_gears; i++) {
         if (GearDataIN == valid_gears[i]) {
@@ -136,45 +194,56 @@ uint16_t stabilize_gear(uint16_t GearDataIN) {
             break;
         }
     }
-    if (!valid) return current_gear;  // 无效输入保持当前档位
+    if (!valid) return current_gear;
 
-    // 初始化处理
-    if (current_gear == -1) {
+    // 初始化处理（保持原逻辑）
+    if (current_gear == 7) {
         current_gear = GearDataIN;
         return current_gear;
     }
-
-    // 相同输入重置计数器
-    if (GearDataIN == current_gear) {
-        candidate_gear = -1;
+    
+    // 新增中间状态处理逻辑
+    if (GearDataIN == 0 && current_gear != 0) {
+        passing_neutral = true;  // 标记进入空档过渡状态
+        candidate_gear = 7;       // 重置候选档位
         counter = 0;
         return current_gear;
     }
 
-    // 检查是否为合法相邻档位
+    // 主逻辑修改
     int gear_diff = abs(GearDataIN - current_gear);
-    if (gear_diff == 1) {  // 仅允许相邻档位变化
+    
+    // 情况1：正常相邻档位跳变（保持原逻辑）
+    if (gear_diff == 1 || (passing_neutral && gear_diff == 2)) {
         if (GearDataIN == candidate_gear) {
             if (++counter >= threshold) {
-                current_gear = GearDataIN;   // 更新稳定档位
-                candidate_gear = -1;
+                current_gear = GearDataIN;
+                candidate_gear = 7;
                 counter = 0;
+                passing_neutral = false;  // 重置过渡标记
             }
-        } 
-        else {
-            candidate_gear = GearDataIN;     // 设置新的候选档位
+        } else {
+            candidate_gear = GearDataIN;
             counter = 1;
         }
-    } 
-    else {  // 非法跳变
-        candidate_gear = -1;
-        counter = 0;
     }
-
+    // 情况2：经过空档的合法跳变（新增逻辑）
+    else if (passing_neutral && (current_gear == 1 && GearDataIN == 2)) {
+        if (++counter >= threshold) {
+            current_gear = GearDataIN;
+            candidate_gear = 7;
+            counter = 0;
+            passing_neutral = false;  // 完成过渡
+        }
+    }
+    // 情况3：非法跳变（保持原逻辑）
+    else {  
+        candidate_gear = 7;
+        counter = 0;
+        passing_neutral = false;  // 重置过渡标记
+    }
     return current_gear;
 }
-
-
 /**
   * @brief          超时判断 
                     overtime_tick在20ms定时器中断中调用进行自增
@@ -306,10 +375,9 @@ void Radio_Data_Send(Cyber_Motor *Motor1,Cyber_Motor *Motor2,Data_Radio *DATA,ui
     if(mode==1)
             JustFloat_10_rs232(Motor1->pre_pos,Motor1->pre_temperature,
                        Motor2->pre_pos,Motor2->pre_temperature,
-                       DATA->GEAR,DATA->RealGEAR,Gear,DATA->RPM,DATA->APPS,DATA->LAMDA1);
-    else    JustFloat_10(Motor1->pre_pos,Motor1->pre_tor,Motor1->pre_temperature,Motor1->error_code,
-                       Motor2->pre_pos,Motor2->pre_tor,Motor2->pre_temperature,Motor2->error_code, 
-                       DATA->GEAR,DATA->RPM);
+                       DATA->GEAR,DATA->RealGEAR,Gear,DATA->RPM,DATA->APPS,overtime_tick);
+    else    JustFloat_10(Motor1->pre_pos,Motor1->pre_temperature,Motor2->pre_pos,Motor2->pre_temperature,
+                       DATA->GEAR,DATA->RealGEAR,Gear,DATA->RPM,DATA->APPS,overtime_tick);
     //    if(mode==1)           //发送16个数据vofa出现卡顿故先使用10个数据进行调试电机
 //            JustFloat_16_rs232(Motor1->pre_pos,Motor1->pre_vel,Motor1->pre_tor,Motor1->pre_temperature,Motor1->error_code,
 //                       Motor2->pre_pos,Motor2->pre_vel,Motor2->pre_tor,Motor2->pre_temperature,Motor2->error_code, 
