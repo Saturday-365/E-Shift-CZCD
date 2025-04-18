@@ -9,14 +9,14 @@
 #include "SA_Usart.h"
 //**********************定义可调参数***************************//
 #define Clutch_pos_up  0    //升档离合角度
-#define Clutch_pos_down -75 //降档离合角度
+#define Clutch_pos_down 0 //-75 //降档离合角度
 #define errtime 10     //换挡超时判断时间 单位 /20ms
-#define radio_mode 0  //定义数据传输模式 0为无线串口传输  1为数传电台传输
+#define radio_mode 1  //定义数据传输模式 0为无线串口传输  1为数传电台传输
 
 #define Clutch_speed 100    //离合电机最大速度
-#define Clutch_tor 11.9     //离合电机最大扭矩
+#define Clutch_tor 4     //离合电机最大扭矩
 #define Shift_speed 100     //换挡电机最大速度   
-#define Shift_tor 11.9      //换挡电机最大扭矩
+#define Shift_tor 4      //换挡电机最大扭矩
 
 
 
@@ -330,6 +330,7 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
                     break;
                 }
                 break;
+            
             }       
         }
     }//升档动作if结束
@@ -344,12 +345,12 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
         while(Eshift_flag_DOWM){
             Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode);//电台发送数据             
             Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos_down);  //设定离合位置
-            DOWNSHIFT_flag(1);                                //降档补油信号发送
+                                            //降档补油信号发送
             while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_down,30)){//等待离合拉到 指定位置-提前量              
+                DOWNSHIFT_flag(1);
                 Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode); //电台发送数据                   
                 Set_Cyber_Pos(&Shift_Cyber,Shift_pos_DOWM);  //传递电机信号
-                while(Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber) || judge_ottick()){//等待挡位传感器回传数据-提前量                  
-                    
+                while(Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber) || judge_ottick()){//等待挡位传感器回传数据-提前量                                    
                     Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode);  //电台发送数据   
                     Set_Cyber_Pos(&Shift_Cyber,1);  //电机归位
                     DOWNSHIFT_flag(0);
@@ -373,9 +374,10 @@ void Radio_Data_Send(Cyber_Motor *Motor1,Cyber_Motor *Motor2,Data_Radio *DATA,ui
 //                       Motor2->pre_pos,Motor2->pre_tor,Motor2->pre_temperature,Motor2->error_code, 
 //                       DATA->GEAR,DATA->RPM);
     if(mode==1)
-            JustFloat_10_rs232(Motor1->pre_pos,Motor1->pre_temperature,
-                       Motor2->pre_pos,Motor2->pre_temperature,
-                       DATA->GEAR,DATA->RealGEAR,Gear,DATA->RPM,DATA->APPS,overtime_tick);
+            JustFloat_10_rs232(Motor1->pre_pos,Motor1->pre_tor,Motor1->pre_temperature,
+                       Motor2->pre_pos,Motor2->pre_tor,Motor2->pre_temperature,
+                       DATA->GEAR,DATA->RealGEAR,Gear,DATA->RPM);
+    
     else    JustFloat_10(Motor1->pre_pos,Motor1->pre_temperature,Motor2->pre_pos,Motor2->pre_temperature,
                        DATA->GEAR,DATA->RealGEAR,Gear,DATA->RPM,DATA->APPS,overtime_tick);
     //    if(mode==1)           //发送16个数据vofa出现卡顿故先使用10个数据进行调试电机
@@ -387,3 +389,4 @@ void Radio_Data_Send(Cyber_Motor *Motor1,Cyber_Motor *Motor2,Data_Radio *DATA,ui
 //                       DATA->GEAR,DATA->RPM,DATA->CLT,DATA->TPS,DATA->ECUvlot,DATA->LAMDA1);
 
 }
+

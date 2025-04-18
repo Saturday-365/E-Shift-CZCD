@@ -118,8 +118,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,0);//电台发送数据            
-//      CANtest(&Clutch_Cyber,&Shift_Cyber);//基础串口调试代码
+      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,1);//电台发送数据            
+      CANtest(&Clutch_Cyber,&Shift_Cyber);//基础串口调试代码
       Set_Cyber_Pos(&Clutch_Cyber,0) ;  //设置电机归0
       Set_Cyber_Pos(&Shift_Cyber,0) ; //设置电机默认位置 （根据档位传感器的值决定默认位置 单位度数）
       key_num=get_key_num();   //按键读取（硬件消抖）
