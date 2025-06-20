@@ -17,8 +17,7 @@
 #define Clutch_tor 4     //离合电机最大扭矩
 #define Shift_speed 100     //换挡电机最大速度   
 #define Shift_tor 4      //换挡电机最大扭矩
-
-
+#define Shift_wait 50      //升档等待断火时间 /ms
 
 
 //**********************定义可调参数***************************//
@@ -95,18 +94,6 @@ void Motor_Init()
   * @retval         0-6 GEAR
   */
 uint16_t last_gear=0;
-//uint16_t Gear_data(Data_Radio *DATA){
-//    if (DATA->GEAR>=0&&DATA->GEAR<=6){
-//        if (DATA->GEAR==0) {last_gear=0; return 0;}
-//        else if (DATA->GEAR==1) {last_gear=1; return 1;}
-//        else if (DATA->GEAR==2) {last_gear=2; return 2;}
-//        else if (DATA->GEAR==3) {last_gear=3; return 3;}
-//        else if (DATA->GEAR==4) {last_gear=4; return 4;}
-//        else if (DATA->GEAR==5) {last_gear=5; return 5;}
-//        else if (DATA->GEAR==6) {last_gear=6; return 6;}
-//    }
-//    else return last_gear;
-//}
 
 uint16_t Gear_data(uint16_t GEAR){ //基本档传数据处理
     if (GEAR<=6){
@@ -121,59 +108,6 @@ uint16_t Gear_data(uint16_t GEAR){ //基本档传数据处理
     else return last_gear;
 }
 
-//uint16_t stabilize_gear(uint16_t GearDataIN) {
-//    static int16_t current_gear = 7;        // 当前稳定档位
-//    static int16_t candidate_gear = 7;      // 候选档位
-//    static uint16_t counter = 0;     // 连续采样计数器
-//    const uint16_t threshold = 3;    // 连续采样阈值（需根据实际情况调整）
-//    const int16_t valid_gears[] = {0, 1, 2, 3, 4, 5, 6};
-//    const int16_t num_gears = sizeof(valid_gears)/sizeof(valid_gears[0]);
-
-//    // 验证输入是否为有效档位
-//    int16_t valid = 0;
-//    for (int i = 0; i < num_gears; i++) {
-//        if (GearDataIN == valid_gears[i]) {
-//            valid = 1;
-//            break;
-//        }
-//    }
-//    if (!valid) return current_gear;  // 无效输入保持当前档位
-
-//    // 初始化处理
-//    if (current_gear == 7) {
-//        current_gear = GearDataIN;
-//        return current_gear;
-//    }
-
-//    // 相同输入重置计数器
-//    if (GearDataIN == current_gear) {
-//        candidate_gear = 7;
-//        counter = 0;
-//        return current_gear;
-//    }
-
-//    // 检查是否为合法相邻档位
-//    int gear_diff = abs(GearDataIN - current_gear);
-//    if (gear_diff == 1) {  // 仅允许相邻档位变化
-//        if (GearDataIN == candidate_gear) {
-//            if (++counter >= threshold) {
-//                current_gear = GearDataIN;   // 更新稳定档位
-//                candidate_gear = 7;
-//                counter = 0;
-//            }
-//        } 
-//        else {
-//            candidate_gear = GearDataIN;     // 设置新的候选档位
-//            counter = 1;
-//        }
-//    }     
-//    else {  // 非法跳变
-//        candidate_gear = 7;
-//        counter = 0;
-//    }
-
-//    return current_gear;
-//}
 uint16_t stabilize_gear(uint16_t GearDataIN) {
     static int16_t current_gear = 7;        // 当前稳定档位
     static int16_t candidate_gear = 7;      // 候选档位
@@ -254,8 +188,8 @@ uint16_t stabilize_gear(uint16_t GearDataIN) {
 void Set_Start_ottick(){
     overtime_tick=100;
 }
-uint8_t judge_ottick(){
-    if (overtime_tick==100+errtime) return 1;
+uint8_t judge_ottick(uint16_t time){
+    if (overtime_tick>=100+time) return 1;
     else return 0;
 }
 //*********************升降档规则表定义*********************//
@@ -304,25 +238,35 @@ float GET_Shift_pos(uint8_t upordown,uint16_t Gear){
   * @retval         none
   */
 uint16_t aim_gear; //定义目标档位
-
+uint8_t wati_flage=0;
 void EShift_move(uint8_t upordown,Data_Radio *DATA)
     {   //while写的状态机，后续可以考虑使用更加清晰的状态机编写
     //升档动作开始
     if (upordown==1&&DATA->GEAR<=5){    
-        Eshift_flag_UP=1;
         //Real_Gear=stabilize_gear(DATA->GEAR);
+        UPSHIFT_flag(1);                                //升档动作一触发即发送断火信号
+        Set_Start_ottick();//开始换挡等待计时
         Real_Gear=DATA->RealGEAR;
         aim_gear=Real_Gear+1;//设置目标档位
         Shift_pos_UP=GET_Shift_pos(1,Real_Gear); // 根据档位得到特定角度回传给电机              
+        while(!wati_flage){
+            if(judge_ottick(Shift_wait)){ 
+                wati_flage=1;
+                Eshift_flag_UP=1;
+            }
+        }      
         Set_Start_ottick();
+        ///开始升档流程
         while(Eshift_flag_UP){
             Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode);//电台发送数据             
             Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos_up);  //设定离合位置         
-            UPSHIFT_flag(1);                                //升档断火信号发送
-            while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_up,0)){//等待离合拉到 指定位置-提前量              
+//            UPSHIFT_flag(1);                                //升档断火信号发送
+            //等待离合拉到 指定位置-提前量 
+            while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_up,0)){             
                 Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode); //电台发送数据                   
                 Set_Cyber_Pos(&Shift_Cyber,Shift_pos_UP);  //传递电机信号
-                while(Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber) || judge_ottick()/*pre_pos_ready(&Shift_Cyber,Shift_pos_UP,1)*/){//等待挡位传感器回传数据-提前量                  
+                //等待挡位传感器回传数据-提前量          
+                while(Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber) || judge_ottick(errtime)/*pre_pos_ready(&Shift_Cyber,Shift_pos_UP,1)*/){        
                     Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode);  //电台发送数据   
                     Set_Cyber_Pos(&Shift_Cyber,1);  //电机归位
                     UPSHIFT_flag(0);
@@ -350,7 +294,7 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
                 DOWNSHIFT_flag(1);
                 Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode); //电台发送数据                   
                 Set_Cyber_Pos(&Shift_Cyber,Shift_pos_DOWM);  //传递电机信号
-                while(Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber) || judge_ottick()){//等待挡位传感器回传数据-提前量                                    
+                while(Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber) || judge_ottick(errtime)){//等待挡位传感器回传数据-提前量                                    
                     Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode);  //电台发送数据   
                     Set_Cyber_Pos(&Shift_Cyber,1);  //电机归位
                     DOWNSHIFT_flag(0);

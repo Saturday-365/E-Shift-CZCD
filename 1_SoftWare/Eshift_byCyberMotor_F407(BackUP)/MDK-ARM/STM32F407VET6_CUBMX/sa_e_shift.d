@@ -1,6 +1,8 @@
 stm32f407vet6_cubmx\sa_e_shift.o: ..\Sourse_Library\1_SA_Library\SA_E_Shift.c
 stm32f407vet6_cubmx\sa_e_shift.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\math.h
 stm32f407vet6_cubmx\sa_e_shift.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\stdio.h
+stm32f407vet6_cubmx\sa_e_shift.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\stdbool.h
+stm32f407vet6_cubmx\sa_e_shift.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\stdlib.h
 stm32f407vet6_cubmx\sa_e_shift.o: C:\KEIL_V5\ARM\ARMCC\Bin\..\include\string.h
 stm32f407vet6_cubmx\sa_e_shift.o: ..\Sourse_Library\1_SA_Library\SA_E_Shift.h
 stm32f407vet6_cubmx\sa_e_shift.o: ../Core/Inc/main.h
