@@ -35,6 +35,16 @@ void FLASH_ErasePage(uint32_t ErasePageBaseAddr,uint32_t ErasePageNbPageCount);
 void Store_Init(void);
 void Store_Save(void);
 
+// 直接获取float的前16位(内存视角)
+uint16_t float_to_uint16_mem_high(float f) ;
+
+// 直接获取float的后16位(内存视角)
+uint16_t float_to_uint16_mem_low(float f) ;
+
+// 将两个uint16_t组合成一个float
+float uint16s_to_float(uint16_t high, uint16_t low) ;
+
+
 #endif
 
 

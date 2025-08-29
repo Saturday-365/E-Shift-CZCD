@@ -62,6 +62,10 @@ void Error_Handler(void);
 #define LED_GPIO_Port GPIOC
 #define SWITCH5_Pin GPIO_PIN_4
 #define SWITCH5_GPIO_Port GPIOA
+#define USER_LED1_Pin GPIO_PIN_6
+#define USER_LED1_GPIO_Port GPIOA
+#define USER_LED2_Pin GPIO_PIN_7
+#define USER_LED2_GPIO_Port GPIOA
 #define SWITCH3_Pin GPIO_PIN_4
 #define SWITCH3_GPIO_Port GPIOC
 #define SWITCH2_Pin GPIO_PIN_5

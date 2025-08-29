@@ -15,6 +15,7 @@ uint16_t stabilize_gear(uint16_t GearDataIN);
 
 void UPSHIFT_flag(uint8_t flag1);
 void DOWNSHIFT_flag(uint8_t flag2);
+void set_gear_N(void);
 
 void Radio_Data_Send(Cyber_Motor *Motor1,Cyber_Motor *Motor2,Data_Radio *DATA,uint16_t Gear,uint8_t mode);
 extern uint16_t Real_Gear;

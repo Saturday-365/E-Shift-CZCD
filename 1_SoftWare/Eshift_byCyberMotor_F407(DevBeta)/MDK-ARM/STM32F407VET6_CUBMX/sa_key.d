@@ -37,3 +37,5 @@ stm32f407vet6_cubmx\sa_key.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_
 stm32f407vet6_cubmx\sa_key.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 stm32f407vet6_cubmx\sa_key.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 stm32f407vet6_cubmx\sa_key.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+stm32f407vet6_cubmx\sa_key.o: ..\Sourse_Library\1_SA_Library\SA_Key.h
+stm32f407vet6_cubmx\sa_key.o: ../Core/Inc/gpio.h

@@ -57,4 +57,5 @@ stm32f407vet6_cubmx\sa_usart.o: ../Sourse_Library/1_SA_Library/SA_pid.h
 stm32f407vet6_cubmx\sa_usart.o: ../Sourse_Library/1_SA_Library/SA_motor.h
 stm32f407vet6_cubmx\sa_usart.o: ../Sourse_Library/1_SA_Library/SA_Delay.h
 stm32f407vet6_cubmx\sa_usart.o: ../Sourse_Library/1_SA_Library/SA_Key.h
+stm32f407vet6_cubmx\sa_usart.o: ../Core/Inc/gpio.h
 stm32f407vet6_cubmx\sa_usart.o: ../Sourse_Library/1_SA_Library/SA_Flash.h

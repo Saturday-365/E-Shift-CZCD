@@ -3,7 +3,7 @@
 #include "headfile.h"
 #include "main.h"
 uint16_t Store_Data[STORE_COUNT];				//定义SRAM数组
-
+uint8_t flahs_flage=0;
 /**
   * 函    数：参数存储模块初始化
   * 参    数：无
@@ -15,21 +15,24 @@ void Store_Init(void)
 	
     if (FLASH_ReadHalfWord(STORE_START_ADDRESS) == 0xA5A5) 
         {
-        HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0); 	
-        }
+//        HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)0); 	
+        flahs_flage=0;
+       }
         
     if (FLASH_ReadHalfWord(STORE_START_ADDRESS) != 0xA5A5)	//读取第一个半字的标志位，if成立，则执行第一次使用的初始化
 	{
-		FLASH_ErasePage(STORE_START_ADDRESS,1);					//擦除指定页
+        FLASH_ErasePage(STORE_START_ADDRESS,1);					//擦除指定页
 		HAL_FLASH_Unlock();
         HAL_FLASH_Program(FLASH_TYPEPROGRAM_HALFWORD,STORE_START_ADDRESS, 0xA5A5);	//在第一个半字写入自己规定的标志位，用于判断是不是第一次使用
-		HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1); 
+//		HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)1); 
 
         for (uint16_t i = 1; i < STORE_COUNT; i ++)				//循环STORE_COUNT次，除了第一个标志位
 		{
 			HAL_FLASH_Program(FLASH_TYPEPROGRAM_HALFWORD,STORE_START_ADDRESS + i * 2, 0x0000);		//除了标志位的有效数据全部清0
 		}
         HAL_FLASH_Lock();
+        flahs_flage=1;
+
 	}
         /*上电时，将闪存数据加载回SRAM数组，实现SRAM数组的掉电不丢失*/
 	for (uint16_t i = 0; i < STORE_COUNT; i ++)					//循环STORE_COUNT次，包括第一个标志位
@@ -66,7 +69,7 @@ void FLASH_ErasePage(uint32_t ErasePageBaseAddr,uint32_t ErasePageNbPageCount)
     {
         HAL_FLASH_Unlock();
         FLASH_EraseInitTypeDef EraseInitStruct = {
-            .TypeErase = FLASH_TYPEERASE_SECTORS,   //页擦除    
+            .TypeErase = FLASH_TYPEERASE_SECTORS,   //页擦除F407叫sectors f103 叫pages  
             .Sector = ErasePageBaseAddr, //擦除地址               
             .NbSectors = ErasePageNbPageCount     //擦除页数                         
             };
@@ -160,4 +163,47 @@ void FLASH_ReadData(uint32_t ReadAddr,uint16_t *pBuffer,uint16_t NumToRead)
 		pBuffer[i] = FLASH_ReadHalfWord(ReadAddr);
 		ReadAddr+=2;
 	}
+}
+
+
+//void float_to_uint16(float f, uint16_t *high, uint16_t *low) {
+//    FloatToUint16Union converter;
+//    converter.f = f;
+//    
+//    // 在小端模式下，u16[0]是低16位，u16[1]是高16位
+//    // 如系统为大端模式，需要交换顺序
+//    *low = converter.u16[0];
+//    *high = converter.u16[1];
+//}
+
+//float uint16_to_float(uint16_t high, uint16_t low) {
+//    FloatToUint16Union converter;
+//    
+//    // 注意字节顺序需与转换时保持一致
+//    converter.u16[0] = low;
+//    converter.u16[1] = high;
+//    
+//    return converter.f;
+//}
+
+// 直接获取float的前16位(内存视角)
+uint16_t float_to_uint16_mem_high(float f) {
+    uint32_t temp;
+    memcpy(&temp, &f, sizeof(float));  // 将float的4字节复制到32位整数
+    return (uint16_t)(temp >> 16);     // 返回高16位
+}
+
+// 直接获取float的后16位(内存视角)
+uint16_t float_to_uint16_mem_low(float f) {
+    uint32_t temp;
+    memcpy(&temp, &f, sizeof(float));  // 将float的4字节复制到32位整数
+    return (uint16_t)(temp & 0xFFFF);  // 返回低16位
+}
+
+// 将两个uint16_t组合成一个float
+float uint16s_to_float(uint16_t high, uint16_t low) {
+    uint32_t temp = ((uint32_t)high << 16) | low;
+    float f;
+    memcpy(&f, &temp, sizeof(float));  // 将32位整数复制到float
+    return f;
 }

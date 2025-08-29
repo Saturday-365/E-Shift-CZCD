@@ -108,14 +108,13 @@ uint16_t Gear_data(uint16_t GEAR){ //基本档传数据处理
     else return last_gear;
 }
 
+static int16_t current_gear = 7;        // 当前稳定档位
 uint16_t stabilize_gear(uint16_t GearDataIN) {
-    static int16_t current_gear = 7;        // 当前稳定档位
     static int16_t candidate_gear = 7;      // 候选档位
     static uint16_t counter = 0;     // 连续采样计数器
     const uint16_t threshold = 9;    // 连续采样阈值
     const int16_t valid_gears[] = {0, 1, 2, 3, 4, 5, 6};
     const int16_t num_gears = sizeof(valid_gears)/sizeof(valid_gears[0]);
-    //if (current_gear==1 && Eshift_flag_DOWM==1 ) {current_gear=0;return current_gear;}
 
     // 新增中间状态标记
     static bool passing_neutral = false;  // 标记是否经过空档
@@ -178,6 +177,11 @@ uint16_t stabilize_gear(uint16_t GearDataIN) {
     }
     return current_gear;
 }
+
+void set_gear_N(void){
+    current_gear = 7;
+}
+
 /**
   * @brief          超时判断 
                     overtime_tick在20ms定时器中断中调用进行自增
