@@ -56,6 +56,7 @@ Section Cross References
     main.o(i.main) refers to sa_key.o(i.key_init) for key_init
     main.o(i.main) refers to stm32f4xx_hal_tim.o(i.HAL_TIM_Base_Start_IT) for HAL_TIM_Base_Start_IT
     main.o(i.main) refers to sa_e_shift.o(i.Radio_Data_Send) for Radio_Data_Send
+    main.o(i.main) refers to stm32f4xx_hal_gpio.o(i.HAL_GPIO_WritePin) for HAL_GPIO_WritePin
     main.o(i.main) refers to tim.o(.bss) for htim2
     main.o(i.main) refers to sa_e_shift.o(.data) for Real_Gear
     main.o(i.main) refers to sa_candataprocess.o(.bss) for ECUDATA
@@ -2341,34 +2342,34 @@ Image Symbol Table
     i.key_init                               0x080033b8   Section        0  sa_key.o(i.key_init)
     i.key_scanner                            0x08003400   Section        0  sa_key.o(i.key_scanner)
     i.main                                   0x080034cc   Section        0  main.o(i.main)
-    i.stabilize_gear                         0x08003554   Section        0  sa_e_shift.o(i.stabilize_gear)
-    i.uint16_to_float                        0x08003604   Section        0  cybergear_control.o(i.uint16_to_float)
-    x$fpl$d2f                                0x0800362c   Section       98  d2f.o(x$fpl$d2f)
-    $v0                                      0x0800362c   Number         0  d2f.o(x$fpl$d2f)
-    x$fpl$dadd                               0x08003690   Section      336  daddsub_clz.o(x$fpl$dadd)
-    $v0                                      0x08003690   Number         0  daddsub_clz.o(x$fpl$dadd)
-    _dadd1                                   0x080036a1   Thumb Code     0  daddsub_clz.o(x$fpl$dadd)
-    x$fpl$dfltu                              0x080037e0   Section       38  dflt_clz.o(x$fpl$dfltu)
-    $v0                                      0x080037e0   Number         0  dflt_clz.o(x$fpl$dfltu)
-    x$fpl$dmul                               0x08003808   Section      340  dmul.o(x$fpl$dmul)
-    $v0                                      0x08003808   Number         0  dmul.o(x$fpl$dmul)
-    x$fpl$dnaninf                            0x0800395c   Section      156  dnaninf.o(x$fpl$dnaninf)
-    $v0                                      0x0800395c   Number         0  dnaninf.o(x$fpl$dnaninf)
-    x$fpl$dretinf                            0x080039f8   Section       12  dretinf.o(x$fpl$dretinf)
-    $v0                                      0x080039f8   Number         0  dretinf.o(x$fpl$dretinf)
-    x$fpl$dsub                               0x08003a04   Section      468  daddsub_clz.o(x$fpl$dsub)
-    $v0                                      0x08003a04   Number         0  daddsub_clz.o(x$fpl$dsub)
-    _dsub1                                   0x08003a15   Thumb Code     0  daddsub_clz.o(x$fpl$dsub)
-    x$fpl$fpinit                             0x08003bd8   Section       10  fpinit.o(x$fpl$fpinit)
-    $v0                                      0x08003bd8   Number         0  fpinit.o(x$fpl$fpinit)
-    x$fpl$fretinf                            0x08003be2   Section       10  fretinf.o(x$fpl$fretinf)
-    $v0                                      0x08003be2   Number         0  fretinf.o(x$fpl$fretinf)
-    .constdata                               0x08003bec   Section        8  stm32f4xx_hal_dma.o(.constdata)
-    x$fpl$usenofp                            0x08003bec   Section        0  usenofp.o(x$fpl$usenofp)
-    flagBitshiftOffset                       0x08003bec   Data           8  stm32f4xx_hal_dma.o(.constdata)
-    .constdata                               0x08003bf4   Section       16  system_stm32f4xx.o(.constdata)
-    .constdata                               0x08003c04   Section        8  system_stm32f4xx.o(.constdata)
-    .constdata                               0x08003c0c   Section       14  sa_e_shift.o(.constdata)
+    i.stabilize_gear                         0x08003594   Section        0  sa_e_shift.o(i.stabilize_gear)
+    i.uint16_to_float                        0x08003644   Section        0  cybergear_control.o(i.uint16_to_float)
+    x$fpl$d2f                                0x0800366c   Section       98  d2f.o(x$fpl$d2f)
+    $v0                                      0x0800366c   Number         0  d2f.o(x$fpl$d2f)
+    x$fpl$dadd                               0x080036d0   Section      336  daddsub_clz.o(x$fpl$dadd)
+    $v0                                      0x080036d0   Number         0  daddsub_clz.o(x$fpl$dadd)
+    _dadd1                                   0x080036e1   Thumb Code     0  daddsub_clz.o(x$fpl$dadd)
+    x$fpl$dfltu                              0x08003820   Section       38  dflt_clz.o(x$fpl$dfltu)
+    $v0                                      0x08003820   Number         0  dflt_clz.o(x$fpl$dfltu)
+    x$fpl$dmul                               0x08003848   Section      340  dmul.o(x$fpl$dmul)
+    $v0                                      0x08003848   Number         0  dmul.o(x$fpl$dmul)
+    x$fpl$dnaninf                            0x0800399c   Section      156  dnaninf.o(x$fpl$dnaninf)
+    $v0                                      0x0800399c   Number         0  dnaninf.o(x$fpl$dnaninf)
+    x$fpl$dretinf                            0x08003a38   Section       12  dretinf.o(x$fpl$dretinf)
+    $v0                                      0x08003a38   Number         0  dretinf.o(x$fpl$dretinf)
+    x$fpl$dsub                               0x08003a44   Section      468  daddsub_clz.o(x$fpl$dsub)
+    $v0                                      0x08003a44   Number         0  daddsub_clz.o(x$fpl$dsub)
+    _dsub1                                   0x08003a55   Thumb Code     0  daddsub_clz.o(x$fpl$dsub)
+    x$fpl$fpinit                             0x08003c18   Section       10  fpinit.o(x$fpl$fpinit)
+    $v0                                      0x08003c18   Number         0  fpinit.o(x$fpl$fpinit)
+    x$fpl$fretinf                            0x08003c22   Section       10  fretinf.o(x$fpl$fretinf)
+    $v0                                      0x08003c22   Number         0  fretinf.o(x$fpl$fretinf)
+    .constdata                               0x08003c2c   Section        8  stm32f4xx_hal_dma.o(.constdata)
+    x$fpl$usenofp                            0x08003c2c   Section        0  usenofp.o(x$fpl$usenofp)
+    flagBitshiftOffset                       0x08003c2c   Data           8  stm32f4xx_hal_dma.o(.constdata)
+    .constdata                               0x08003c34   Section       16  system_stm32f4xx.o(.constdata)
+    .constdata                               0x08003c44   Section        8  system_stm32f4xx.o(.constdata)
+    .constdata                               0x08003c4c   Section       14  sa_e_shift.o(.constdata)
     .data                                    0x20000000   Section        2  main.o(.data)
     .data                                    0x20000004   Section        4  can.o(.data)
     HAL_RCC_CAN1_CLK_ENABLED                 0x20000004   Data           4  can.o(.data)
@@ -2690,30 +2691,30 @@ Image Symbol Table
     gpio_get_level                           0x08003379   Thumb Code    52  sa_key.o(i.gpio_get_level)
     key_init                                 0x080033b9   Thumb Code    64  sa_key.o(i.key_init)
     key_scanner                              0x08003401   Thumb Code   196  sa_key.o(i.key_scanner)
-    main                                     0x080034cd   Thumb Code   112  main.o(i.main)
-    stabilize_gear                           0x08003555   Thumb Code   168  sa_e_shift.o(i.stabilize_gear)
-    uint16_to_float                          0x08003605   Thumb Code    40  cybergear_control.o(i.uint16_to_float)
-    __aeabi_d2f                              0x0800362d   Thumb Code     0  d2f.o(x$fpl$d2f)
-    _d2f                                     0x0800362d   Thumb Code    98  d2f.o(x$fpl$d2f)
-    __aeabi_dadd                             0x08003691   Thumb Code     0  daddsub_clz.o(x$fpl$dadd)
-    _dadd                                    0x08003691   Thumb Code   332  daddsub_clz.o(x$fpl$dadd)
-    __aeabi_ui2d                             0x080037e1   Thumb Code     0  dflt_clz.o(x$fpl$dfltu)
-    _dfltu                                   0x080037e1   Thumb Code    38  dflt_clz.o(x$fpl$dfltu)
-    __aeabi_dmul                             0x08003809   Thumb Code     0  dmul.o(x$fpl$dmul)
-    _dmul                                    0x08003809   Thumb Code   332  dmul.o(x$fpl$dmul)
-    __fpl_dnaninf                            0x0800395d   Thumb Code   156  dnaninf.o(x$fpl$dnaninf)
-    __fpl_dretinf                            0x080039f9   Thumb Code    12  dretinf.o(x$fpl$dretinf)
-    __aeabi_dsub                             0x08003a05   Thumb Code     0  daddsub_clz.o(x$fpl$dsub)
-    _dsub                                    0x08003a05   Thumb Code   464  daddsub_clz.o(x$fpl$dsub)
-    _fp_init                                 0x08003bd9   Thumb Code    10  fpinit.o(x$fpl$fpinit)
-    __fplib_config_fpu_vfp                   0x08003be1   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    __fplib_config_pureend_doubles           0x08003be1   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    __fpl_fretinf                            0x08003be3   Thumb Code    10  fretinf.o(x$fpl$fretinf)
-    __I$use$fp                               0x08003bec   Number         0  usenofp.o(x$fpl$usenofp)
-    AHBPrescTable                            0x08003bf4   Data          16  system_stm32f4xx.o(.constdata)
-    APBPrescTable                            0x08003c04   Data           8  system_stm32f4xx.o(.constdata)
-    Region$$Table$$Base                      0x08003c1c   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08003c3c   Number         0  anon$$obj.o(Region$$Table)
+    main                                     0x080034cd   Thumb Code   170  main.o(i.main)
+    stabilize_gear                           0x08003595   Thumb Code   168  sa_e_shift.o(i.stabilize_gear)
+    uint16_to_float                          0x08003645   Thumb Code    40  cybergear_control.o(i.uint16_to_float)
+    __aeabi_d2f                              0x0800366d   Thumb Code     0  d2f.o(x$fpl$d2f)
+    _d2f                                     0x0800366d   Thumb Code    98  d2f.o(x$fpl$d2f)
+    __aeabi_dadd                             0x080036d1   Thumb Code     0  daddsub_clz.o(x$fpl$dadd)
+    _dadd                                    0x080036d1   Thumb Code   332  daddsub_clz.o(x$fpl$dadd)
+    __aeabi_ui2d                             0x08003821   Thumb Code     0  dflt_clz.o(x$fpl$dfltu)
+    _dfltu                                   0x08003821   Thumb Code    38  dflt_clz.o(x$fpl$dfltu)
+    __aeabi_dmul                             0x08003849   Thumb Code     0  dmul.o(x$fpl$dmul)
+    _dmul                                    0x08003849   Thumb Code   332  dmul.o(x$fpl$dmul)
+    __fpl_dnaninf                            0x0800399d   Thumb Code   156  dnaninf.o(x$fpl$dnaninf)
+    __fpl_dretinf                            0x08003a39   Thumb Code    12  dretinf.o(x$fpl$dretinf)
+    __aeabi_dsub                             0x08003a45   Thumb Code     0  daddsub_clz.o(x$fpl$dsub)
+    _dsub                                    0x08003a45   Thumb Code   464  daddsub_clz.o(x$fpl$dsub)
+    _fp_init                                 0x08003c19   Thumb Code    10  fpinit.o(x$fpl$fpinit)
+    __fplib_config_fpu_vfp                   0x08003c21   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    __fplib_config_pureend_doubles           0x08003c21   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    __fpl_fretinf                            0x08003c23   Thumb Code    10  fretinf.o(x$fpl$fretinf)
+    __I$use$fp                               0x08003c2c   Number         0  usenofp.o(x$fpl$usenofp)
+    AHBPrescTable                            0x08003c34   Data          16  system_stm32f4xx.o(.constdata)
+    APBPrescTable                            0x08003c44   Data           8  system_stm32f4xx.o(.constdata)
+    Region$$Table$$Base                      0x08003c5c   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08003c7c   Number         0  anon$$obj.o(Region$$Table)
     overtime_tick                            0x20000000   Data           2  main.o(.data)
     uwTickFreq                               0x20000008   Data           1  stm32f4xx_hal.o(.data)
     uwTickPrio                               0x2000000c   Data           4  stm32f4xx_hal.o(.data)
@@ -2785,9 +2786,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000189
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00003d18, Max: 0x00080000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00003d58, Max: 0x00080000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00003c3c, Max: 0x00080000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00003c7c, Max: 0x00080000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2982,44 +2983,44 @@ Memory Map of the image
     0x08003378   0x08003378   0x00000040   Code   RO         4499    i.gpio_get_level    sa_key.o
     0x080033b8   0x080033b8   0x00000048   Code   RO         4503    i.key_init          sa_key.o
     0x08003400   0x08003400   0x000000cc   Code   RO         4504    i.key_scanner       sa_key.o
-    0x080034cc   0x080034cc   0x00000088   Code   RO           16    i.main              main.o
-    0x08003554   0x08003554   0x000000b0   Code   RO         4696    i.stabilize_gear    sa_e_shift.o
-    0x08003604   0x08003604   0x00000028   Code   RO         4892    i.uint16_to_float   cybergear_control.o
-    0x0800362c   0x0800362c   0x00000062   Code   RO         5087    x$fpl$d2f           fz_wm.l(d2f.o)
-    0x0800368e   0x0800368e   0x00000002   PAD
-    0x08003690   0x08003690   0x00000150   Code   RO         5089    x$fpl$dadd          fz_wm.l(daddsub_clz.o)
-    0x080037e0   0x080037e0   0x00000026   Code   RO         5095    x$fpl$dfltu         fz_wm.l(dflt_clz.o)
-    0x08003806   0x08003806   0x00000002   PAD
-    0x08003808   0x08003808   0x00000154   Code   RO         5101    x$fpl$dmul          fz_wm.l(dmul.o)
-    0x0800395c   0x0800395c   0x0000009c   Code   RO         5136    x$fpl$dnaninf       fz_wm.l(dnaninf.o)
-    0x080039f8   0x080039f8   0x0000000c   Code   RO         5138    x$fpl$dretinf       fz_wm.l(dretinf.o)
-    0x08003a04   0x08003a04   0x000001d4   Code   RO         5091    x$fpl$dsub          fz_wm.l(daddsub_clz.o)
-    0x08003bd8   0x08003bd8   0x0000000a   Code   RO         5408    x$fpl$fpinit        fz_wm.l(fpinit.o)
-    0x08003be2   0x08003be2   0x0000000a   Code   RO         5142    x$fpl$fretinf       fz_wm.l(fretinf.o)
-    0x08003bec   0x08003bec   0x00000000   Code   RO         5144    x$fpl$usenofp       fz_wm.l(usenofp.o)
-    0x08003bec   0x08003bec   0x00000008   Data   RO         1556    .constdata          stm32f4xx_hal_dma.o
-    0x08003bf4   0x08003bf4   0x00000010   Data   RO         4259    .constdata          system_stm32f4xx.o
-    0x08003c04   0x08003c04   0x00000008   Data   RO         4260    .constdata          system_stm32f4xx.o
-    0x08003c0c   0x08003c0c   0x0000000e   Data   RO         4697    .constdata          sa_e_shift.o
-    0x08003c1a   0x08003c1a   0x00000002   PAD
-    0x08003c1c   0x08003c1c   0x00000020   Data   RO         5479    Region$$Table       anon$$obj.o
+    0x080034cc   0x080034cc   0x000000c8   Code   RO           16    i.main              main.o
+    0x08003594   0x08003594   0x000000b0   Code   RO         4696    i.stabilize_gear    sa_e_shift.o
+    0x08003644   0x08003644   0x00000028   Code   RO         4892    i.uint16_to_float   cybergear_control.o
+    0x0800366c   0x0800366c   0x00000062   Code   RO         5087    x$fpl$d2f           fz_wm.l(d2f.o)
+    0x080036ce   0x080036ce   0x00000002   PAD
+    0x080036d0   0x080036d0   0x00000150   Code   RO         5089    x$fpl$dadd          fz_wm.l(daddsub_clz.o)
+    0x08003820   0x08003820   0x00000026   Code   RO         5095    x$fpl$dfltu         fz_wm.l(dflt_clz.o)
+    0x08003846   0x08003846   0x00000002   PAD
+    0x08003848   0x08003848   0x00000154   Code   RO         5101    x$fpl$dmul          fz_wm.l(dmul.o)
+    0x0800399c   0x0800399c   0x0000009c   Code   RO         5136    x$fpl$dnaninf       fz_wm.l(dnaninf.o)
+    0x08003a38   0x08003a38   0x0000000c   Code   RO         5138    x$fpl$dretinf       fz_wm.l(dretinf.o)
+    0x08003a44   0x08003a44   0x000001d4   Code   RO         5091    x$fpl$dsub          fz_wm.l(daddsub_clz.o)
+    0x08003c18   0x08003c18   0x0000000a   Code   RO         5408    x$fpl$fpinit        fz_wm.l(fpinit.o)
+    0x08003c22   0x08003c22   0x0000000a   Code   RO         5142    x$fpl$fretinf       fz_wm.l(fretinf.o)
+    0x08003c2c   0x08003c2c   0x00000000   Code   RO         5144    x$fpl$usenofp       fz_wm.l(usenofp.o)
+    0x08003c2c   0x08003c2c   0x00000008   Data   RO         1556    .constdata          stm32f4xx_hal_dma.o
+    0x08003c34   0x08003c34   0x00000010   Data   RO         4259    .constdata          system_stm32f4xx.o
+    0x08003c44   0x08003c44   0x00000008   Data   RO         4260    .constdata          system_stm32f4xx.o
+    0x08003c4c   0x08003c4c   0x0000000e   Data   RO         4697    .constdata          sa_e_shift.o
+    0x08003c5a   0x08003c5a   0x00000002   PAD
+    0x08003c5c   0x08003c5c   0x00000020   Data   RO         5479    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08003c3c, Size: 0x00000ce0, Max: 0x0001c000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08003c7c, Size: 0x00000ce0, Max: 0x0001c000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x08003c3c   0x00000002   Data   RW           17    .data               main.o
-    0x20000002   0x08003c3e   0x00000002   PAD
-    0x20000004   0x08003c40   0x00000004   Data   RW          333    .data               can.o
-    0x20000008   0x08003c44   0x0000000c   Data   RW         2001    .data               stm32f4xx_hal.o
-    0x20000014   0x08003c50   0x00000004   Data   RW         4261    .data               system_stm32f4xx.o
-    0x20000018   0x08003c54   0x00000013   Data   RW         4506    .data               sa_key.o
-    0x2000002b   0x08003c67   0x00000001   PAD
-    0x2000002c   0x08003c68   0x0000004c   Data   RW         4573    .data               sa_usart.o
-    0x20000078   0x08003cb4   0x00000048   Data   RW         4698    .data               sa_e_shift.o
-    0x200000c0   0x08003cfc   0x00000008   Data   RW         4798    .data               sa_candataprocess.o
-    0x200000c8   0x08003d04   0x00000014   Data   RW         4897    .data               cybergear_control.o
+    0x20000000   0x08003c7c   0x00000002   Data   RW           17    .data               main.o
+    0x20000002   0x08003c7e   0x00000002   PAD
+    0x20000004   0x08003c80   0x00000004   Data   RW          333    .data               can.o
+    0x20000008   0x08003c84   0x0000000c   Data   RW         2001    .data               stm32f4xx_hal.o
+    0x20000014   0x08003c90   0x00000004   Data   RW         4261    .data               system_stm32f4xx.o
+    0x20000018   0x08003c94   0x00000013   Data   RW         4506    .data               sa_key.o
+    0x2000002b   0x08003ca7   0x00000001   PAD
+    0x2000002c   0x08003ca8   0x0000004c   Data   RW         4573    .data               sa_usart.o
+    0x20000078   0x08003cf4   0x00000048   Data   RW         4698    .data               sa_e_shift.o
+    0x200000c0   0x08003d3c   0x00000008   Data   RW         4798    .data               sa_candataprocess.o
+    0x200000c8   0x08003d44   0x00000014   Data   RW         4897    .data               cybergear_control.o
     0x200000dc        -       0x00000048   Zero   RW          289    .bss                adc.o
     0x20000124        -       0x00000050   Zero   RW          332    .bss                can.o
     0x20000174        -       0x000000a8   Zero   RW          405    .bss                i2c.o
@@ -3029,12 +3030,12 @@ Memory Map of the image
     0x20000514        -       0x0000005c   Zero   RW         4796    .bss                sa_candataprocess.o
     0x20000570        -       0x0000010c   Zero   RW         4894    .bss                cybergear_control.o
     0x2000067c        -       0x00000060   Zero   RW         5204    .bss                c_w.l(libspace.o)
-    0x200006dc   0x08003d18   0x00000004   PAD
+    0x200006dc   0x08003d58   0x00000004   PAD
     0x200006e0        -       0x00000200   Zero   RW            2    HEAP                startup_stm32f407xx.o
     0x200008e0        -       0x00000400   Zero   RW            1    STACK               startup_stm32f407xx.o
 
 
-    Execution Region RW_IRAM2 (Exec base: 0x2001c000, Load base: 0x08003d18, Size: 0x00000000, Max: 0x00004000, ABSOLUTE)
+    Execution Region RW_IRAM2 (Exec base: 0x2001c000, Load base: 0x08003d58, Size: 0x00000000, Max: 0x00004000, ABSOLUTE)
 
     **** No section assigned to this execution region ****
 
@@ -3052,7 +3053,7 @@ Image component sizes
         92          4          0          0          0        894   dma.o
        352         26          0          0          0       1183   gpio.o
        300         46          0          0        168       2526   i2c.o
-       340         44          0          2          0     728098   main.o
+       404         50          0          2          0     728138   main.o
        544         74          0          8         92       3910   sa_candataprocess.o
        340         12         14         72          0       3953   sa_e_shift.o
          0          0          0          0          0       1434   sa_flash.o
@@ -3077,7 +3078,7 @@ Image component sizes
        564         62          0          0        504       3593   usart.o
 
     ----------------------------------------------------------------------
-     12876        892        472        220       2976    1593612   Object Totals
+     12940        898        472        220       2976    1593652   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         24          0          2          3          0          0   (incl. Padding)
 
@@ -3138,15 +3139,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     14948        944        472        220       3076    1583380   Grand Totals
-     14948        944        472        220       3076    1583380   ELF Image Totals
-     14948        944        472        220          0          0   ROM Totals
+     15012        950        472        220       3076    1583420   Grand Totals
+     15012        950        472        220       3076    1583420   ELF Image Totals
+     15012        950        472        220          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                15420 (  15.06kB)
+    Total RO  Size (Code + RO Data)                15484 (  15.12kB)
     Total RW  Size (RW Data + ZI Data)              3296 (   3.22kB)
-    Total ROM Size (Code + RO Data + RW Data)      15640 (  15.27kB)
+    Total ROM Size (Code + RO Data + RW Data)      15704 (  15.34kB)
 
 ==============================================================================
 

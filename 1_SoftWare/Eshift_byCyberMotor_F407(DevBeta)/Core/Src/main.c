@@ -148,6 +148,13 @@ int main(void)
 //            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,1);  
 //        }
 //        HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);  //主循环工作指示灯
+   HAL_GPIO_WritePin(USER_LED1_GPIO_Port, (uint16_t)USER_LED1_Pin, (GPIO_PinState)0);  //主循环工作指示灯
+   HAL_GPIO_WritePin(USER_LED2_GPIO_Port, (uint16_t)USER_LED2_Pin, (GPIO_PinState)0);  //主循环工作指示灯
+   HAL_Delay(1000);
+   HAL_GPIO_WritePin(USER_LED1_GPIO_Port, (uint16_t)USER_LED1_Pin, (GPIO_PinState)1);  //主循环工作指示灯
+   HAL_GPIO_WritePin(USER_LED2_GPIO_Port, (uint16_t)USER_LED2_Pin, (GPIO_PinState)1);  //主循环工作指示灯
+   HAL_Delay(1000);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

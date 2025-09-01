@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F407VET6_CUBMX\STM32F407VET6_CUBMX.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F407VET6_CUBMX\STM32F407VET6_CUBMX.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Sep 01 15:41:40 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Sep 02 00:17:30 2025
 <BR><P>
 <H3>Maximum Stack Usage =        184 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -842,6 +842,7 @@ Global Symbols
 
 <P><STRONG><a name="[9c]"></a>HAL_GPIO_WritePin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f4xx_hal_gpio.o(i.HAL_GPIO_WritePin))
 <BR><BR>[Called By]<UL><LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
+<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_RxFifo1MsgPendingCallback
 </UL>
 
@@ -1186,8 +1187,8 @@ Global Symbols
 <P><STRONG><a name="[d4]"></a>MX_GPIO_Init</STRONG> (Thumb, 326 bytes, Stack size 64 bytes, gpio.o(i.MX_GPIO_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = MX_GPIO_Init &rArr; HAL_GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
-<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
+<BR>[Calls]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
+<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1389,7 +1390,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PeriodElapsedCallback
 </UL>
 
-<P><STRONG><a name="[72]"></a>main</STRONG> (Thumb, 112 bytes, Stack size 8 bytes, main.o(i.main))
+<P><STRONG><a name="[72]"></a>main</STRONG> (Thumb, 170 bytes, Stack size 8 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = main &rArr; SystemClock_Config &rArr; HAL_RCC_ClockConfig &rArr; HAL_RCC_GetSysClockFreq &rArr; __aeabi_uldivmod
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_init
@@ -1410,6 +1411,7 @@ Global Symbols
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_DATA_CAN
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Start_IT
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
+<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 </UL>
