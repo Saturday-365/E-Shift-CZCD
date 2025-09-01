@@ -58,7 +58,6 @@ void Motor_Init()
     Init_Cyber(&Clutch_Cyber, 0x02);   //初始化电机参数
     Init_Cyber(&Shift_Cyber, 0x01);
     Init_MOTO_CAN();    //初始化can滤波器
-    Init_DATA_CAN();
     HAL_Delay(20);
     Stop_Cyber(&Clutch_Cyber, 1);
     HAL_Delay(20);
@@ -325,6 +324,9 @@ void Radio_Data_Send(Cyber_Motor *Motor1,Cyber_Motor *Motor2,Data_Radio *DATA,ui
             JustFloat_10_rs232(Motor1->pre_pos,Motor1->pre_tor,Motor1->pre_temperature,
                        Motor2->pre_pos,Motor2->pre_tor,Motor2->pre_temperature,
                        DATA->GEAR,DATA->RealGEAR,Gear,DATA->RPM);
+    if(mode==2)
+            JustFloat_5(DATA->APPS,DATA->TPS,DATA->CLT,DATA->ECUvlot,DATA->GEAR);
+                       //DATA->IgnitionTiming,DATA->LAMDA1,DATA->MAP,DATA->TPS,DATA->RPM);
     
     else    JustFloat_10(Motor1->pre_pos,Motor1->pre_temperature,Motor2->pre_pos,Motor2->pre_temperature,
                        DATA->GEAR,DATA->RealGEAR,Gear,DATA->RPM,DATA->APPS,overtime_tick);

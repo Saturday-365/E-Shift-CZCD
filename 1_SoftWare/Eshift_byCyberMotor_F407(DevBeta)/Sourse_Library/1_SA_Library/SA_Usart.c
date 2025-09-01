@@ -229,15 +229,15 @@ void JustFloat_8(float data1,float data2,float data3,float data4,float data5,flo
     Float_to_Byte_usart(data6,c5h);
     Float_to_Byte_usart(data7,c6h);
     Float_to_Byte_usart(data8,c7h);
-    HAL_UART_Transmit_DMA(&huart3,(uint8_t *)c0h,sizeof(c0h));
-    HAL_UART_Transmit_DMA(&huart3,(uint8_t *)c1h,sizeof(c1h));
-    HAL_UART_Transmit_DMA(&huart3,(uint8_t *)c2h,sizeof(c2h));
-    HAL_UART_Transmit_DMA(&huart3,(uint8_t *)c3h,sizeof(c3h));
-    HAL_UART_Transmit_DMA(&huart3,(uint8_t *)c4h,sizeof(c4h));
-    HAL_UART_Transmit_DMA(&huart3,(uint8_t *)c5h,sizeof(c5h));
-    HAL_UART_Transmit_DMA(&huart3,(uint8_t *)c6h,sizeof(c6h));
-    HAL_UART_Transmit_DMA(&huart3,(uint8_t *)c7h,sizeof(c7h));
-    HAL_UART_Transmit_DMA(&huart3,(uint8_t *)tail,sizeof(tail));
+    HAL_UART_Transmit_DMA(&huart1,(uint8_t *)c0h,sizeof(c0h));
+    HAL_UART_Transmit_DMA(&huart1,(uint8_t *)c1h,sizeof(c1h));
+    HAL_UART_Transmit_DMA(&huart1,(uint8_t *)c2h,sizeof(c2h));
+    HAL_UART_Transmit_DMA(&huart1,(uint8_t *)c3h,sizeof(c3h));
+    HAL_UART_Transmit_DMA(&huart1,(uint8_t *)c4h,sizeof(c4h));
+    HAL_UART_Transmit_DMA(&huart1,(uint8_t *)c5h,sizeof(c5h));
+    HAL_UART_Transmit_DMA(&huart1,(uint8_t *)c6h,sizeof(c6h));
+    HAL_UART_Transmit_DMA(&huart1,(uint8_t *)c7h,sizeof(c7h));
+    HAL_UART_Transmit_DMA(&huart1,(uint8_t *)tail,sizeof(tail));
 }
 
 void JustFloat_16_rs232(float data1,float data2,float data3,float data4,float data5,float data6,float data7,float data8,

@@ -4,18 +4,22 @@
 #include "main.h"
 #include "SA_usart.h"
 typedef struct{           //小米电机结构体
-    uint16_t RPM;
-    uint16_t MAP;
-    uint16_t TPS;
-    uint16_t CLT;
-    uint16_t IAT;
-    uint16_t ECUvlot;
-    uint16_t GEAR;
-    uint16_t RealGEAR;
-    uint16_t LAMDA1;
-    uint16_t OilPressure;
-    uint16_t APPS;
-    uint16_t IgnitionTiming;
+    float RPM;
+    float MAP;
+    float TPS;
+    float CLT;
+    float IAT;
+    float ECUvlot;
+    float GEAR;
+    float RealGEAR;
+    float LAMDA1;
+    float OilPressure;
+    float APPS;
+    float IgnitionTiming;
+    float FRSpeed;
+    float FLSpeed;
+    float BRSpeed;
+    float BLSpeed;
 }Data_Radio;
 
 extern Data_Radio ECUDATA;

@@ -109,7 +109,9 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-    Motor_Init();
+      Init_DATA_CAN();
+
+//    Motor_Init();
     key_init(2);
     HAL_TIM_Base_Start_IT(&htim2);//定时器2 50ms中断开启
     HAL_TIM_Base_Start_IT(&htim3);//定时器3 20ms中断开启
@@ -120,32 +122,32 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,1);//电台发送数据            
+      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,2);//电台发送数据            
 //      CANtest(&Clutch_Cyber,&Shift_Cyber);//基础串口调试代码
-      Set_Cyber_Pos(&Clutch_Cyber,0) ;  //设置电机归0
-      Set_Cyber_Pos(&Shift_Cyber,0) ; //设置电机默认位置 （根据档位传感器的值决定默认位置 单位度数）
-      
-    if (key_get_state(UPSHIFTSIG)==KEY_JUST_PRESSED)
-        {
-            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,0);  
-            EShift_move(1,&ECUDATA);  //升档操作
-            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,0);  
-        }
-    else if (key_get_state(DOWNSHIFTSIG)==KEY_JUST_PRESSED)
-        {
-            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,0);  
-            EShift_move(0,&ECUDATA);  //降档操作
-            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,1);  
-        }
-    else if (key_get_state(SET_N)==KEY_JUST_PRESSED)
-        {
-            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,0);  
-            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,0);  
-            set_gear_N();  //重置空档
-            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,1);  
-            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,1);  
-        }
-        HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);  //主循环工作指示灯
+//      Set_Cyber_Pos(&Clutch_Cyber,0) ;  //设置电机归0
+//      Set_Cyber_Pos(&Shift_Cyber,0) ; //设置电机默认位置 （根据档位传感器的值决定默认位置 单位度数）
+//      
+//    if (key_get_state(UPSHIFTSIG)==KEY_JUST_PRESSED)
+//        {
+//            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,0);  
+//            EShift_move(1,&ECUDATA);  //升档操作
+//            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,0);  
+//        }
+//    else if (key_get_state(DOWNSHIFTSIG)==KEY_JUST_PRESSED)
+//        {
+//            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,0);  
+//            EShift_move(0,&ECUDATA);  //降档操作
+//            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,1);  
+//        }
+//    else if (key_get_state(SET_N)==KEY_JUST_PRESSED)
+//        {
+//            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,0);  
+//            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,0);  
+//            set_gear_N();  //重置空档
+//            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,1);  
+//            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,1);  
+//        }
+//        HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);  //主循环工作指示灯
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

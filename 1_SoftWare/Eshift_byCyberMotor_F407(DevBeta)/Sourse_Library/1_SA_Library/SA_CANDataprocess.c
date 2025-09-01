@@ -67,37 +67,42 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
     HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);
 
 }
+
 void CZCD_CANData_tran(Data_Radio *DATA,uint8_t CANRxData[LENGTH])
 {
  switch (CANRxData[0]) 
             {//data[1] << 8) | data[0]
                 case 0:       
-                        DATA->RPM=((CANRxData[2]<<8)|CANRxData[3])/256;
-                        DATA->MAP=((CANRxData[4]<<8)|CANRxData[5])/256;break;
+                        DATA->RPM=(CANRxData[3]<<8|CANRxData[2]);
+                        DATA->MAP=(CANRxData[5]<<8|CANRxData[4]);break;
                 case 1: 
-                        DATA->TPS=((CANRxData[4]<<8|(CANRxData[5]))*0.1)/256;break;
+                        DATA->TPS=(CANRxData[5]<<8|CANRxData[4])*0.1f;break;
                 case 2:  
-                        DATA->CLT=((CANRxData[6]<<8|(CANRxData[7]))/256)-50;break;
+                        DATA->CLT=(CANRxData[7]<<8|CANRxData[6])-50;break;
                 case 3:
-                        DATA->IAT=((CANRxData[2]<<8|(CANRxData[3]))-50)/256;
-                        DATA->ECUvlot=((CANRxData[4]<<8)|CANRxData[5])/256*0.01;break;
+                        DATA->IAT=(CANRxData[3]<<8|CANRxData[2])-50;
+                        DATA->ECUvlot=(CANRxData[5]<<8|CANRxData[4])*0.01;break;
                 case 4:
-                        DATA->GEAR=((CANRxData[2]<<8)|CANRxData[3])/256;
+                        DATA->GEAR=(CANRxData[3]<<8|CANRxData[2]);
                         DATA->RealGEAR=stabilize_gear(DATA->GEAR);        
-                        DATA->IgnitionTiming=((CANRxData[6]<<8|(CANRxData[7]))*0.1-100)/256;break;
+                        DATA->IgnitionTiming=(CANRxData[7]<<8|CANRxData[6])*0.1-100;break;
                 case 5:break;
                 case 6: 
-                        DATA->LAMDA1=((CANRxData[4]<<8|(CANRxData[5]))*0.001)/256;break;
+                        DATA->LAMDA1=(CANRxData[5]<<8|CANRxData[4])*0.001;break;
                 case 7:break;
                 case 8:
-                        DATA->OilPressure=(CANRxData[4]<<8|(CANRxData[5]))/256;break;
-                case 9:break;
+                        DATA->OilPressure=(CANRxData[5]<<8|CANRxData[4]);
+                        DATA->FLSpeed=(CANRxData[5]<<8|CANRxData[4])*0.1;break;
+                case 9:
+                         DATA->BLSpeed=(CANRxData[3]<<8|CANRxData[2])*0.1;
+                        DATA->FRSpeed=(CANRxData[5]<<8|CANRxData[4])*0.1;
+                        DATA->BRSpeed=(CANRxData[7]<<8|CANRxData[6])*0.1;break;                                                                                   
                 case 10:break;
                 case 11:break;
                 case 12:break;
                 case 13:
-                        DATA->APPS=((CANRxData[2]<<8|CANRxData[3])*0.1)/256;break;
-                
+                        DATA->APPS=(CANRxData[3]<<8|CANRxData[2])*0.1f;break;
+
                 default:break;                    
             }
             
