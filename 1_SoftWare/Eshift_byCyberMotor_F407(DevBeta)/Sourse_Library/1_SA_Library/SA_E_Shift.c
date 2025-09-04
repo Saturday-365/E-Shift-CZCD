@@ -68,6 +68,7 @@ void Motor_Init()
     Init_Cyber(&Clutch_Cyber, 0x02);   //初始化电机参数
     Init_Cyber(&Shift_Cyber, 0x01);
     Init_MOTO_CAN();    //初始化can滤波器
+    Init_DATA_CAN();
     HAL_Delay(20);
     Stop_Cyber(&Clutch_Cyber, 1);
     HAL_Delay(20);

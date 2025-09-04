@@ -64,7 +64,7 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
     HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO1, &ECU_rxMsg, rx_ECUdata);//接收数据  
     if(rx_ECUdata[0]<=14 && rx_ECUdata[1]==0) CZCD_CANData_tran(&ECUDATA,rx_ECUdata);
-    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);
+//    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);
 
 }
 

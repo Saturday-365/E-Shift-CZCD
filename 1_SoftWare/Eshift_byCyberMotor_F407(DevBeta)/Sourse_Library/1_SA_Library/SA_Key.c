@@ -28,6 +28,79 @@ GPIO_PinState gpio_get_level(key_index_enum key_index){
 // 使用示例     key_scanner();
 // 备注信息     这个函数放在主循环或者定时器中断中
 //-------------------------------------------------------------------------------------------------------------------
+//void key_scanner(void)
+//{
+//    uint8_t i = 0;
+//    GPIO_PinState current_level;
+//    
+//    for(i = 0; i < KEY_NUMBER; i++)
+//    {
+//        current_level = gpio_get_level(key_index[i]);
+//        
+//        // 检测到电平变化，重置稳定计时器
+//        if(current_level != last_level[i])
+//        {
+//            key_stable_time[i] = 0;
+//            last_level[i] = current_level;
+//        }
+//        else
+//        {
+//            // 电平稳定，增加稳定时间
+//            key_stable_time[i]++;
+//        }
+//        
+//        // 电平稳定时间超过消抖阈值
+//        if(key_stable_time[i] >= KEY_MAX_SHOCK_PERIOD / scanner_period)
+//        {
+//            if(KEY_RELEASE_LEVEL != current_level)  // 按键按下状态
+//            {
+//                key_press_time[i]++;
+//                
+//                // 刚按下状态 - 提高短按响应速度
+//                if(key_press_time[i] == 1)
+//                {
+//                    key_state[i] = KEY_JUST_PRESSED;  // 新增状态：刚刚按下
+//                }
+//                // 判断长按
+//                else if(key_press_time[i] >= KEY_LONG_PRESS_PERIOD / scanner_period)
+//                {
+//                    key_state[i] = KEY_LONG_PRESS;
+//                }
+//                // 短按保持状态
+//                else
+//                {
+//                    if(key_state[i] != KEY_LONG_PRESS)
+//                    {
+//                        key_state[i] = KEY_SHORT_PRESS_HOLD;  // 新增状态：短按保持
+//                    }
+//                }
+//            }
+//            else  // 按键释放状态
+//            {
+//                // 如果之前是短按或长按状态，释放时标记为已释放
+//                if(key_state[i] == KEY_SHORT_PRESS_HOLD || 
+//                   key_state[i] == KEY_JUST_PRESSED ||
+//                   key_state[i] == KEY_LONG_PRESS)
+//                {
+//                    // 如果按下时间较短且不是长按，则标记为短按释放
+//                    if(key_press_time[i] < KEY_LONG_PRESS_PERIOD / scanner_period)
+//                    {
+//                        key_state[i] = KEY_SHORT_PRESS_RELEASE;  // 新增状态：短按释放
+//                    }
+//                    else
+//                    {
+//                        key_state[i] = KEY_RELEASE;
+//                    }
+//                }
+////                else
+////                {
+////                    key_state[i] = KEY_RELEASE;
+////                }
+//                key_press_time[i] = 0;
+//            }
+//        }
+//    }
+//}
 void key_scanner(void)
 {
     uint8_t i = 0;
