@@ -323,9 +323,9 @@ void Radio_Data_Send(Cyber_Motor *Motor1,Cyber_Motor *Motor2,Data_Radio *DATA,ui
 //                       Motor2->pre_pos,Motor2->pre_tor,Motor2->pre_temperature,Motor2->error_code, 
 //                       DATA->GEAR,DATA->RPM);
     if(mode==1)
-            JustFloat_10_rs232(Motor1->pre_pos,Motor1->pre_tor,Motor1->pre_temperature,
+            JustFloat_10_rs232(Motor1->pre_temperature,
                        Motor2->pre_pos,Motor2->pre_tor,Motor2->pre_temperature,
-                       DATA->GEAR,DATA->RealGEAR,Gear,DATA->RPM);
+                       DATA->GEAR,DATA->RealGEAR,DATA->ECUvlot,DATA->RPM,DATA->APPS,DATA->CLT);
     if(mode==2)
             JustFloat_5(DATA->APPS,DATA->TPS,DATA->CLT,DATA->ECUvlot,DATA->GEAR);
                        //DATA->IgnitionTiming,DATA->LAMDA1,DATA->MAP,DATA->TPS,DATA->RPM);
