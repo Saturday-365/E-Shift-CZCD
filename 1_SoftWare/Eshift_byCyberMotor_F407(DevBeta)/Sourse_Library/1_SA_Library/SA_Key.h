@@ -8,11 +8,12 @@
   { DOWNSHIFTSIG, UPSHIFTSIG, SET_N, SWITCH2, SWITCH3}
 
 #define KEY_RELEASE_LEVEL                                                      \
-  (GPIO_PIN_SET) // 按键的默认状态 也就是按键释放状态的电平
+  (GPIO_PIN_RESET) // 按键的默认状态 也就是按键释放状态的电平
 #define KEY_MAX_SHOCK_PERIOD                                                   \
-  (5) // 按键消抖检测时长 单位毫秒 低于这个时长的信号会被认为是杂波抖动
+  (10) // 按键消抖检测时长 单位毫秒 低于这个时长的信号会被认为是杂波抖动
 #define KEY_LONG_PRESS_PERIOD                                                  \
-  (300) // 最小长按时长 单位毫秒 高于这个时长的信号会被认为是长按动作
+  (450) // 最小长按时长 单位毫秒 高于这个时长的信号会被认为是长按动作
+#define With_Tremble // 按键硬件电路是否含有消抖电路 With_Tremble/Without_Tremble
 
 typedef enum {
   DOWNSHIFTSIG,
@@ -24,9 +25,7 @@ typedef enum {
 
 typedef enum {
     KEY_RELEASE = 0,           // 释放状态
-    KEY_JUST_PRESSED,          // 刚刚按下（新状态）
-    KEY_SHORT_PRESS_HOLD,      // 短按保持（新状态）
-    KEY_SHORT_PRESS_RELEASE,   // 短按释放（新状态）
+    KEY_PRESSED,          // 刚刚按下（新状态）
     KEY_LONG_PRESS             // 长按状态
 } key_state_enum;
 

@@ -74,7 +74,6 @@ uint8_t key_num;
 int main(void)
 {
 
-    
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -111,9 +110,9 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
     Motor_Init();
-    key_init(20);
+    key_init(5);
     HAL_TIM_Base_Start_IT(&htim2);//定时器2 50ms中断开启
-    HAL_TIM_Base_Start_IT(&htim3);//定时器3 20ms中断开启
+    HAL_TIM_Base_Start_IT(&htim3);//定时器3 5ms中断开启
         HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);  //主循环工作指示灯
 
   /* USER CODE END 2 */
@@ -127,55 +126,50 @@ int main(void)
       Set_Cyber_Pos(&Clutch_Cyber,0) ;  //设置电机归0
       Set_Cyber_Pos(&Shift_Cyber,0) ; //设置电机默认位置 （根据档位传感器的值决定默认位置 单位度数）
       
-//    if (key_get_state(UPSHIFTSIG)==KEY_JUST_PRESSED)
+    if (key_get_state(UPSHIFTSIG)==KEY_PRESSED)
+        {
+            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_RESET);  
+            EShift_move(1,&ECUDATA);  //升档操作
+            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_SET);  
+        }
+    else if (key_get_state(DOWNSHIFTSIG)==KEY_PRESSED)
+        {
+            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_RESET);  
+            EShift_move(0,&ECUDATA);  //降档操作
+            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_SET);  
+        }
+    else if (key_get_state(SET_N)==KEY_PRESSED)
+        {
+            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_RESET);  
+            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_RESET);  
+            set_gear_N();  //重置空档
+            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_SET);  
+            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_SET);  
+        }
+        HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);  //主循环工作指示灯
+
+
+
+//    if (key_get_state(UPSHIFTSIG)==KEY_PRESSED)
 //        {
-//            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_RESET);  
-//            EShift_move(1,&ECUDATA);  //升档操作
-//            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_SET);  
+//            Set_Cyber_Pos(&Shift_Cyber,40);  //设定离合位置
+//            HAL_Delay(1000);
+
 //        }
-//    else if (key_get_state(DOWNSHIFTSIG)==KEY_JUST_PRESSED)
+//    if (key_get_state(DOWNSHIFTSIG)==KEY_PRESSED)
 //        {
-//            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_RESET);  
-//            EShift_move(0,&ECUDATA);  //降档操作
-//            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_SET);  
+//            Set_Cyber_Pos(&Shift_Cyber,10);  //设定离合位置
+//            HAL_Delay(1000);
+
 //        }
-//    else if (key_get_state(SET_N)==KEY_JUST_PRESSED)
-//        {
-//            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_RESET);  
-//            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_RESET);  
-//            set_gear_N();  //重置空档
-//            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_SET);  
-//            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_SET);  
-//        }
-//        HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);  //主循环工作指示灯
-if (key_get_state(DOWNSHIFTSIG)==KEY_JUST_PRESSED){
-
-   HAL_GPIO_WritePin(LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);  //主循环工作指示灯
-   HAL_Delay(1000);
-   HAL_GPIO_WritePin(LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);  //主循环工作指示灯
-
-}
-if (key_get_state(DOWNSHIFTSIG)==KEY_RELEASE){
-   HAL_GPIO_WritePin(LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);  //主循环工作指示灯
-   HAL_Delay(1000);
-   HAL_GPIO_WritePin(LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);  //主循环工作指示灯
 
 
-}
-if (key_get_state(DOWNSHIFTSIG)==KEY_SHORT_PRESS_HOLD){
-   HAL_GPIO_WritePin(LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);  //主循环工作指示灯
-   HAL_Delay(1000);
-   HAL_GPIO_WritePin(LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);  //主循环工作指示灯
+//if (key_get_state(DOWNSHIFTSIG)==KEY_PRESSED){
 
-
-}
-if (key_get_state(DOWNSHIFTSIG)==KEY_SHORT_PRESS_RELEASE){
-
-   HAL_GPIO_WritePin(LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);  //主循环工作指示灯
-   HAL_Delay(1000);
-   HAL_GPIO_WritePin(LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);  //主循环工作指示灯
-
-}
+//   HAL_GPIO_WritePin(LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);  //主循环工作指示灯
+//   HAL_Delay(1000);
+//   HAL_GPIO_WritePin(LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);  //主循环工作指示灯
+//}
 
 
 
