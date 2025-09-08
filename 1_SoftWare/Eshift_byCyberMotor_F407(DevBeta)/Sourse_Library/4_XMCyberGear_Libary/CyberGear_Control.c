@@ -52,11 +52,8 @@ void Init_MOTO_CAN()
     sFilterConfig1.FilterFIFOAssignment = CAN_RX_FIFO0; // 给邮箱0配置的过滤器
     sFilterConfig1.FilterActivation = CAN_FILTER_ENABLE;       /* 激活滤波器0 */
     sFilterConfig1.SlaveStartFilterBank = 13;				//设置CAN2的起始过滤器组（对于单CAN的CPU或从CAN此参数无效；对于双CAN的CPU此参数为从CAN的起始过滤器组编号）
-    HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig1);             /* 过滤器配置 */
-                        
+    HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig1);             /* 过滤器配置 */                 
     HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
-
-    
     HAL_CAN_Start(&hcan1);//此语句不打开，则不能发送也不能接收数据
 }
 
@@ -305,7 +302,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 //            
 //        }
 //    else  printf("%d\n",rxMsg.StdId);
-
+    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);
 }
 extern uint16_t Motor_speed,Motor_dir;
 extern uint8_t Eshift_up_flag;

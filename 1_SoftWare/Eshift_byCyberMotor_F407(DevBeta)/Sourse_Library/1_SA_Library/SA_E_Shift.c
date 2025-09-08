@@ -10,22 +10,23 @@
 //**********************定义可调参数***************************//
 #define Clutch_pos_up  0    //升档离合角度
 #define Clutch_pos_down 0 //-75 //降档离合角度
-#define errtime 10     //换挡超时判断时间 单位 /50ms
-#define radio_mode 1  //定义数据传输模式 0为无线串口传输  1为数传电台传输
+#define errtime 20     //换挡超时判断时间 单位 /50ms
+#define radio_mode 0  //定义数据传输模式 0为无线串口传输  1为数传电台传输
 
 #define Clutch_speed 100    //离合电机最大速度
 #define Clutch_tor 4     //离合电机最大扭矩
 #define Shift_speed 100     //换挡电机最大速度   
 #define Shift_tor 4      //换挡电机最大扭矩
-#define Shift_wait 10      //升档等待断火时间 /5ms
+#define Shift_wait 2      //升档等待断火时间 /50ms
+#define Down_wait 1        //升档等待断火时间 /50ms
 //**********************定义可调参数***************************//
 
 //*********************升降档规则表定义*********************//
 float Shift_pos_list[2][6]=
     {
-        {  37  , -45 , -54 , -38 , -38 , -38 },//0 降档
+        {     37  , -45 , -45 , -38 , -38 , -38 },//0 降档
        //37// 1->0  2->1  3->2  4->3  5->4  6->5     
-        { -47 ,  58 ,  52 ,  49 ,  41 ,  47 },//1 升档
+        { -47 ,  58 ,  45 ,  49 ,  41 ,  47 },//1 升档
 //        { -47,  58 ,  41 ,  50 ,  40 ,  48 },//1 升档
         // 0->1  1->2  2->3  3->4  4->5  5->6
     };//升降档规则表 Pos
@@ -65,35 +66,35 @@ void DOWNSHIFT_flag(uint8_t flag2){
   */
 void Motor_Init()
 {
-    Init_Cyber(&Clutch_Cyber, 0x02);   //初始化电机参数
+//    Init_Cyber(&Clutch_Cyber, 0x02);   //初始化电机参数
     Init_Cyber(&Shift_Cyber, 0x01);
 //    HAL_Delay(200);
     Init_MOTO_CAN();    //初始化can滤波器
 //    HAL_Delay(200);
-    Stop_Cyber(&Clutch_Cyber, 1);
+//    Stop_Cyber(&Clutch_Cyber, 1);
     HAL_Delay(20);
     Stop_Cyber(&Shift_Cyber, 1);     //停止电机
     HAL_Delay(20);
-    Set_Cyber_Mode(&Clutch_Cyber,1);    //设置电机模式
+//    Set_Cyber_Mode(&Clutch_Cyber,1);    //设置电机模式
     HAL_Delay(20);
     Set_Cyber_Mode(&Shift_Cyber,1);
     HAL_Delay(20); 
-    Set_Cyber_ZeroPos(&Clutch_Cyber);
+//    Set_Cyber_ZeroPos(&Clutch_Cyber);
     HAL_Delay(20);
     Set_Cyber_ZeroPos(&Shift_Cyber);    //设置当前位置为0位
     HAL_Delay(20);
     Start_Cyber(&Shift_Cyber);     
     HAL_Delay(20);
-    Start_Cyber(&Clutch_Cyber);
+//    Start_Cyber(&Clutch_Cyber);
     HAL_Delay(20);     
-    Set_Cyber_Pos(&Clutch_Cyber,0) ;   //设置电机位置
+//    Set_Cyber_Pos(&Clutch_Cyber,0) ;   //设置电机位置
     HAL_Delay(20);
     Set_Cyber_Pos(&Shift_Cyber,0) ;
     HAL_Delay(20);
-    Set_Cyber_limitSp(&Clutch_Cyber,Clutch_speed) ;
+//    Set_Cyber_limitSp(&Clutch_Cyber,Clutch_speed) ;
     HAL_Delay(20);
     Set_Cyber_limitSp(&Shift_Cyber,Shift_speed) ;   
-    Set_Cyber_limitTor(&Clutch_Cyber,Clutch_tor) ;
+//    Set_Cyber_limitTor(&Clutch_Cyber,Clutch_tor) ;
     HAL_Delay(20);
     Set_Cyber_limitTor(&Shift_Cyber,Shift_tor) ;
 }
@@ -254,6 +255,7 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
         Real_Gear=DATA->RealGEAR;
         aim_gear=Real_Gear+1;//设置目标档位
         Shift_pos_UP=GET_Shift_pos(1,Real_Gear); // 根据档位得到特定角度回传给电机              
+        wati_flage=0;
         while(!wati_flage){
             if(judge_ottick(Shift_wait)){ 
                 wati_flage=1;
@@ -264,11 +266,11 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
         ///开始升档流程
         while(Eshift_flag_UP){
             Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode);//电台发送数据             
-            Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos_up);  //设定离合位置         
+//            Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos_up);  //设定离合位置         
 //            UPSHIFT_flag(1);                                //升档断火信号发送
             //等待离合拉到 指定位置-提前量 
-            while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_up,0)){             
-                Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode); //电台发送数据                   
+//            while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_up,0)){             
+//                Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode); //电台发送数据                   
                 Set_Cyber_Pos(&Shift_Cyber,Shift_pos_UP);  //传递电机信号
                 //等待挡位传感器回传数据-提前量          
                 while(Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber) || judge_ottick(errtime)/*pre_pos_ready(&Shift_Cyber,Shift_pos_UP,1)*/){        
@@ -277,10 +279,8 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
                     UPSHIFT_flag(0);
                     Eshift_flag_UP=0;
                     break;
-                }
-                break;
-            
-            }       
+                }            
+//            }       
         }
     }//升档动作if结束
     //降档动作开始
@@ -292,22 +292,30 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
         Shift_pos_DOWM=GET_Shift_pos(0,Real_Gear); // 根据档位得到特定角度回传给电机              
         Set_Start_ottick();
         while(Eshift_flag_DOWM){
-            Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode);//电台发送数据             
-            Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos_down);  //设定离合位置
+//            Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode);//电台发送数据             
+//            Set_Cyber_Pos(&Clutch_Cyber,Clutch_pos_down);  //设定离合位置
                                             //降档补油信号发送
-            while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_down,30)){//等待离合拉到 指定位置-提前量              
-                DOWNSHIFT_flag(1);
+//            while(pre_pos_ready(&Clutch_Cyber,Clutch_pos_down,30)){//等待离合拉到 指定位置-提前量              
                 Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode); //电台发送数据                   
                 Set_Cyber_Pos(&Shift_Cyber,Shift_pos_DOWM);  //传递电机信号
                 while(Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber) || judge_ottick(errtime)){//等待挡位传感器回传数据-提前量                                    
                     Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,radio_mode);  //电台发送数据   
                     Set_Cyber_Pos(&Shift_Cyber,1);  //电机归位
-                    DOWNSHIFT_flag(0);
+                    DOWNSHIFT_flag(1);
                     Eshift_flag_DOWM=0;
                     break;
                 }
-                break;
-            }
+//            }
+        }
+        if (Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber))
+        {   
+            wati_flage=0;
+            while(!wati_flage){
+                if(judge_ottick(Down_wait)){ 
+                    wati_flage=1;
+                    DOWNSHIFT_flag(0);
+                }
+            }      
         }
     }//升档动作if结束
 
@@ -323,18 +331,17 @@ void Radio_Data_Send(Cyber_Motor *Motor1,Cyber_Motor *Motor2,Data_Radio *DATA,ui
 //                       Motor2->pre_pos,Motor2->pre_tor,Motor2->pre_temperature,Motor2->error_code, 
 //                       DATA->GEAR,DATA->RPM);
     if(mode==1)
-            JustFloat_10_rs232(Motor1->pre_temperature,
+            JustFloat_10_rs232(
                        Motor2->pre_pos,Motor2->pre_tor,Motor2->pre_temperature,
-                       DATA->GEAR,DATA->RealGEAR,DATA->ECUvlot,DATA->RPM,DATA->APPS,DATA->CLT);
+                       DATA->GEAR,DATA->RealGEAR,aim_gear,DATA->ECUvlot,DATA->RPM,DATA->APPS,DATA->CLT);
     if(mode==2)
             JustFloat_5(DATA->APPS,DATA->TPS,DATA->CLT,DATA->ECUvlot,DATA->GEAR);
                        //DATA->IgnitionTiming,DATA->LAMDA1,DATA->MAP,DATA->TPS,DATA->RPM);
     
     else if (mode==3)   JustFloat_10(Motor1->pre_pos,Motor1->pre_temperature,Motor2->pre_pos,Motor2->pre_temperature,
                        DATA->GEAR,DATA->RealGEAR,Gear,DATA->RPM,DATA->APPS,overtime_tick);
-    else    JustFloat_10(Motor1->pre_temperature,
-                       Motor2->pre_pos,Motor2->pre_tor,Motor2->pre_temperature,
-                       DATA->GEAR,DATA->RealGEAR,DATA->ECUvlot,DATA->RPM,DATA->APPS,DATA->CLT);
+    else    JustFloat_10(Motor2->pre_pos,Motor2->pre_tor,Motor2->pre_temperature,
+                       DATA->GEAR,DATA->RealGEAR,aim_gear,DATA->ECUvlot,DATA->RPM,DATA->APPS,DATA->CLT);
     //    if(mode==1)           //发送16个数据vofa出现卡顿故先使用10个数据进行调试电机
 //            JustFloat_16_rs232(Motor1->pre_pos,Motor1->pre_vel,Motor1->pre_tor,Motor1->pre_temperature,Motor1->error_code,
 //                       Motor2->pre_pos,Motor2->pre_vel,Motor2->pre_tor,Motor2->pre_temperature,Motor2->error_code, 
