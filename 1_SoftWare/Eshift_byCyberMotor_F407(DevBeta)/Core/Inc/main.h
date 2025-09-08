@@ -54,6 +54,7 @@ extern uint16_t overtime_tick;
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+void USER_LED_BLINK(GPIO_TypeDef *Port,uint16_t Pin,uint16_t time);
 
 /* USER CODE END EFP */
 

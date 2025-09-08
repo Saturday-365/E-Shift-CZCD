@@ -91,37 +91,45 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-    HAL_Delay(4000); //上电后延时2s，等待电平稳定后再初始化单片机
+    HAL_Delay(2000); //上电后延时2s，等待电平稳定后再初始化单片机
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_SET);  
+  HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_SET);  
   MX_DMA_Init();
   MX_TIM1_Init();
   MX_ADC1_Init();
+//  HAL_Delay(200); //上电后延时2s，等待电平稳定后再初始化单片机
   MX_CAN1_Init();
+//  HAL_Delay(200); //上电后延时2s，等待电平稳定后再初始化单片机
   MX_CAN2_Init();
+//  HAL_Delay(200); //上电后延时2s，等待电平稳定后再初始化单片机
   MX_I2C1_Init();
   MX_I2C2_Init();
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
   MX_TIM2_Init();
- // MX_TIM3_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+    USER_LED_BLINK(USER_LED1_GPIO_Port,USER_LED1_Pin,200);    
+   // Init_DATA_CAN();
+//    HAL_Delay(500); //上电后延时2s，等待电平稳定后再初始化单片机
     Motor_Init();
-    key_init(5);
+    key_init(50);
     HAL_TIM_Base_Start_IT(&htim2);//定时器2 50ms中断开启
-    //HAL_TIM_Base_Start_IT(&htim3);//定时器3 5ms中断开启
+    HAL_TIM_Base_Start_IT(&htim3);//定时器3 50ms中断开启
     HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);  //主循环工作指示灯
-
+    USER_LED_BLINK(USER_LED2_GPIO_Port,USER_LED2_Pin,200);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,0);//电台发送数据            
+      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,2);//电台发送数据            
 //      CANtest(&Clutch_Cyber,&Shift_Cyber);//基础串口调试代码
       Set_Cyber_Pos(&Clutch_Cyber,0) ;  //设置电机归0
       Set_Cyber_Pos(&Shift_Cyber,0) ; //设置电机默认位置 （根据档位传感器的值决定默认位置 单位度数）
@@ -129,13 +137,15 @@ int main(void)
     if (key_get_state(UPSHIFTSIG)==KEY_PRESSED)
         {
             HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_RESET);  
-            EShift_move(1,&ECUDATA);  //升档操作
+//            EShift_move(1,&ECUDATA);  //升档操作
+            HAL_Delay(500);
             HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_SET);  
         }
     else if (key_get_state(DOWNSHIFTSIG)==KEY_PRESSED)
         {
             HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_RESET);  
-            EShift_move(0,&ECUDATA);  //降档操作
+//            EShift_move(0,&ECUDATA);  //降档操作
+            HAL_Delay(500);
             HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_SET);  
         }
     else if (key_get_state(SET_N)==KEY_PRESSED)
@@ -246,7 +256,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
        key_scanner();
    }
 }
-                        
+            
+
+void USER_LED_BLINK(GPIO_TypeDef *Port,uint16_t Pin,uint16_t time){
+    HAL_GPIO_WritePin(Port,Pin,GPIO_PIN_RESET);  
+    HAL_Delay(time);
+    HAL_GPIO_WritePin(Port,Pin,GPIO_PIN_SET); 
+    HAL_Delay(time);
+    HAL_GPIO_WritePin(Port,Pin,GPIO_PIN_RESET);  
+    HAL_Delay(time);
+    HAL_GPIO_WritePin(Port,Pin,GPIO_PIN_SET);  
+}
 
 //单片机测试代码
 //    HAL_GPIO_WritePin((GPIO_TypeDef *)LED1_GPIO_Port, (uint16_t)LED1_Pin, (GPIO_PinState)0); 
