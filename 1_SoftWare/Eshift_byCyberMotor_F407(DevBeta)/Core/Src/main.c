@@ -111,10 +111,10 @@ int main(void)
   /* USER CODE BEGIN 2 */
       Init_DATA_CAN();
 
-//    Motor_Init();
-    key_init(2);
+   // Motor_Init();
+    //key_init(2);
     HAL_TIM_Base_Start_IT(&htim2);//定时器2 50ms中断开启
-    HAL_TIM_Base_Start_IT(&htim3);//定时器3 20ms中断开启
+    //HAL_TIM_Base_Start_IT(&htim3);//定时器3 20ms中断开启
 
   /* USER CODE END 2 */
 
@@ -124,8 +124,8 @@ int main(void)
   {
       Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,2);//电台发送数据            
 //      CANtest(&Clutch_Cyber,&Shift_Cyber);//基础串口调试代码
-//      Set_Cyber_Pos(&Clutch_Cyber,0) ;  //设置电机归0
-//      Set_Cyber_Pos(&Shift_Cyber,0) ; //设置电机默认位置 （根据档位传感器的值决定默认位置 单位度数）
+      Set_Cyber_Pos(&Clutch_Cyber,0) ;  //设置电机归0
+      Set_Cyber_Pos(&Shift_Cyber,0) ; //设置电机默认位置 （根据档位传感器的值决定默认位置 单位度数）
 //      
 //    if (key_get_state(UPSHIFTSIG)==KEY_JUST_PRESSED)
 //        {
