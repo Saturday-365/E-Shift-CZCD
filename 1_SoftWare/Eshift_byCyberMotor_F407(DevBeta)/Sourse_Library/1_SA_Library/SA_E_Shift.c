@@ -67,7 +67,9 @@ void Motor_Init()
 {
     Init_Cyber(&Clutch_Cyber, 0x02);   //初始化电机参数
     Init_Cyber(&Shift_Cyber, 0x01);
+    HAL_Delay(200);
     Init_MOTO_CAN();    //初始化can滤波器
+    HAL_Delay(200);
     Init_DATA_CAN();
     HAL_Delay(20);
     Stop_Cyber(&Clutch_Cyber, 1);
@@ -330,8 +332,11 @@ void Radio_Data_Send(Cyber_Motor *Motor1,Cyber_Motor *Motor2,Data_Radio *DATA,ui
             JustFloat_5(DATA->APPS,DATA->TPS,DATA->CLT,DATA->ECUvlot,DATA->GEAR);
                        //DATA->IgnitionTiming,DATA->LAMDA1,DATA->MAP,DATA->TPS,DATA->RPM);
     
-    else    JustFloat_10(Motor1->pre_pos,Motor1->pre_temperature,Motor2->pre_pos,Motor2->pre_temperature,
+    else if (mode==3)   JustFloat_10(Motor1->pre_pos,Motor1->pre_temperature,Motor2->pre_pos,Motor2->pre_temperature,
                        DATA->GEAR,DATA->RealGEAR,Gear,DATA->RPM,DATA->APPS,overtime_tick);
+    else    JustFloat_10(Motor1->pre_temperature,
+                       Motor2->pre_pos,Motor2->pre_tor,Motor2->pre_temperature,
+                       DATA->GEAR,DATA->RealGEAR,DATA->ECUvlot,DATA->RPM,DATA->APPS,DATA->CLT);
     //    if(mode==1)           //发送16个数据vofa出现卡顿故先使用10个数据进行调试电机
 //            JustFloat_16_rs232(Motor1->pre_pos,Motor1->pre_vel,Motor1->pre_tor,Motor1->pre_temperature,Motor1->error_code,
 //                       Motor2->pre_pos,Motor2->pre_vel,Motor2->pre_tor,Motor2->pre_temperature,Motor2->error_code, 

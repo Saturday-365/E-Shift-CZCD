@@ -91,7 +91,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-    HAL_Delay(2000); //上电后延时2s，等待电平稳定后再初始化单片机
+    HAL_Delay(4000); //上电后延时2s，等待电平稳定后再初始化单片机
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -107,13 +107,13 @@ int main(void)
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
   MX_TIM2_Init();
-  MX_TIM3_Init();
+ // MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
     Motor_Init();
     key_init(5);
     HAL_TIM_Base_Start_IT(&htim2);//定时器2 50ms中断开启
-    HAL_TIM_Base_Start_IT(&htim3);//定时器3 5ms中断开启
-        HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);  //主循环工作指示灯
+    //HAL_TIM_Base_Start_IT(&htim3);//定时器3 5ms中断开启
+    HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);  //主循环工作指示灯
 
   /* USER CODE END 2 */
 
@@ -121,7 +121,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,1);//电台发送数据            
+      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,0);//电台发送数据            
 //      CANtest(&Clutch_Cyber,&Shift_Cyber);//基础串口调试代码
       Set_Cyber_Pos(&Clutch_Cyber,0) ;  //设置电机归0
       Set_Cyber_Pos(&Shift_Cyber,0) ; //设置电机默认位置 （根据档位传感器的值决定默认位置 单位度数）
@@ -146,7 +146,7 @@ int main(void)
             HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_SET);  
             HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_SET);  
         }
-        HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)0);  //主循环工作指示灯
+        HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);  //主循环工作指示灯
 
 
 
