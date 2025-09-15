@@ -256,12 +256,12 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
         aim_gear=Real_Gear+1;//设置目标档位
         Shift_pos_UP=GET_Shift_pos(1,Real_Gear); // 根据档位得到特定角度回传给电机              
         wati_flage=0;
-        while(!wati_flage){
-            if(judge_ottick(Shift_wait)){ 
+//        while(!wati_flage){
+//            if(judge_ottick(Shift_wait)){ 
                 wati_flage=1;
                 Eshift_flag_UP=1;
-            }
-        }      
+//            }
+//        }      
         Set_Start_ottick();
         ///开始升档流程
         while(Eshift_flag_UP){
@@ -310,12 +310,12 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
         if (Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber))
         {   
             wati_flage=0;
-            while(!wati_flage){
-                if(judge_ottick(Down_wait)){ 
+//            while(!wati_flage){
+//                if(judge_ottick(Down_wait)){ 
                     wati_flage=1;
                     DOWNSHIFT_flag(0);
-                }
-            }      
+//                }
+//            }      
         }
     }//升档动作if结束
 
