@@ -135,7 +135,7 @@ USER_LED_BLINK(LED_GPIO_Port,LED_Pin,200);
   {
       HAL_GPIO_WritePin((GPIO_TypeDef *)LED_GPIO_Port, (uint16_t)LED_Pin, (GPIO_PinState)1);  //主循环工作指示灯
 
-      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,0);//电台发送数据            
+      Radio_Data_Send(&Clutch_Cyber,&Shift_Cyber,&ECUDATA,Real_Gear,1);//电台发送数据            
 //      CANtest(&Clutch_Cyber,&Shift_Cyber);//基础串口调试代码
 //      Set_Cyber_Pos(&Clutch_Cyber,0) ;  //设置电机归0
       Set_Cyber_Pos(&Shift_Cyber,0) ; //设置电机默认位置 （根据档位传感器的值决定默认位置 单位度数）
@@ -158,7 +158,6 @@ USER_LED_BLINK(LED_GPIO_Port,LED_Pin,200);
             set_gear_N();  //重置空档            
             USER_LED_BLINK(USER_LED1_GPIO_Port,USER_LED1_Pin,200);
         }
-
 
 
 //    if (key_get_state(UPSHIFTSIG)==KEY_PRESSED)

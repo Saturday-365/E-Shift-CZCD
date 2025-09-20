@@ -11,12 +11,12 @@
 #define Clutch_pos_up  0    //升档离合角度
 #define Clutch_pos_down 0 //-75 //降档离合角度
 #define errtime 20     //换挡超时判断时间 单位 /50ms
-#define radio_mode 0  //定义数据传输模式 0为无线串口传输  1为数传电台传输
+#define radio_mode 1  //定义数据传输模式 0为无线串口传输  1为数传电台传输
 
 #define Clutch_speed 100    //离合电机最大速度
-#define Clutch_tor 4     //离合电机最大扭矩
+#define Clutch_tor 10     //离合电机最大扭矩
 #define Shift_speed 100     //换挡电机最大速度   
-#define Shift_tor 4      //换挡电机最大扭矩
+#define Shift_tor 10      //换挡电机最大扭矩
 #define Shift_wait 2      //升档等待断火时间 /50ms
 #define Down_wait 1        //升档等待断火时间 /50ms
 //**********************定义可调参数***************************//
@@ -256,12 +256,13 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
         aim_gear=Real_Gear+1;//设置目标档位
         Shift_pos_UP=GET_Shift_pos(1,Real_Gear); // 根据档位得到特定角度回传给电机              
         wati_flage=0;
-//        while(!wati_flage){
-//            if(judge_ottick(Shift_wait)){ 
+        Set_Start_ottick();
+        while(!wati_flage){
+            if(judge_ottick(Shift_wait)){ 
                 wati_flage=1;
                 Eshift_flag_UP=1;
-//            }
-//        }      
+            }
+        }      
         Set_Start_ottick();
         ///开始升档流程
         while(Eshift_flag_UP){
@@ -310,12 +311,13 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
         if (Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber))
         {   
             wati_flage=0;
-//            while(!wati_flage){
-//                if(judge_ottick(Down_wait)){ 
+            Set_Start_ottick();
+            while(!wati_flage){
+                if(judge_ottick(Down_wait)){ 
                     wati_flage=1;
                     DOWNSHIFT_flag(0);
-//                }
-//            }      
+                }
+            }      
         }
     }//升档动作if结束
 
