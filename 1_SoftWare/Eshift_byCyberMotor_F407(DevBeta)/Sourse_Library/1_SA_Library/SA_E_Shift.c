@@ -308,17 +308,15 @@ void EShift_move(uint8_t upordown,Data_Radio *DATA)
                 }
 //            }
         }
-        if (Gear_ready(aim_gear,&ECUDATA,&Shift_Cyber))
-        {   
-            wati_flage=0;
-            Set_Start_ottick();
-            while(!wati_flage){
-                if(judge_ottick(Down_wait)){ 
-                    wati_flage=1;
-                    DOWNSHIFT_flag(0);
-                }
-            }      
-        }
+        wati_flage=0;
+        Set_Start_ottick();
+        while(!wati_flage){
+            if(judge_ottick(Down_wait)){ 
+                wati_flage=1;
+                DOWNSHIFT_flag(0);
+            }
+        }      
+    DOWNSHIFT_flag(0);
     }//升档动作if结束
 
 }
