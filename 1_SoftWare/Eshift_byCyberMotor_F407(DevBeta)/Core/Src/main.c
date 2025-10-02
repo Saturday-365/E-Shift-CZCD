@@ -144,13 +144,15 @@ USER_LED_BLINK(LED_GPIO_Port,LED_Pin,200);
         {
             HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_RESET);  
             EShift_move(1,&ECUDATA);  //升档操作
-            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_SET);  
+            HAL_GPIO_WritePin(USER_LED1_GPIO_Port,USER_LED1_Pin,GPIO_PIN_SET);
+            UPSHIFT_flag(0);            
         }
     else if (key_get_state(DOWNSHIFTSIG)==KEY_PRESSED)
         {
             HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_RESET);  
             EShift_move(0,&ECUDATA);  //降档操作
-            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_SET);  
+            HAL_GPIO_WritePin(USER_LED2_GPIO_Port,USER_LED2_Pin,GPIO_PIN_SET);
+            DOWNSHIFT_flag(0);            
         }
     else if (key_get_state(SET_N)==KEY_PRESSED)
         {
