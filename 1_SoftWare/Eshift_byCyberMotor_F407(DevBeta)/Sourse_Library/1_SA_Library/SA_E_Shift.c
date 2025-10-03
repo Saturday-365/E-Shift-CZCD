@@ -17,8 +17,9 @@
 #define Clutch_tor 10     //离合电机最大扭矩
 #define Shift_speed 100     //换挡电机最大速度   
 #define Shift_tor 10      //换挡电机最大扭矩
-#define Shift_wait 4      //升档等待断火时间 /50ms
-#define Down_wait 2        //升档等待断火时间 /50ms
+#define Shift_wait 0      //升档等待断火时间 /50ms
+#define Down_wait 0
+//升档等待断火时间 /50ms
 //**********************定义可调参数***************************//
 
 //*********************升降档规则表定义*********************//
