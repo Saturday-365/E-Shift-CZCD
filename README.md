@@ -15,25 +15,55 @@ F103代码 主要为测试CAN通信，发现一路CAN没法满足，既要完成
 故转用F407系列完成后续系统的任务，目前任务下暂未发现F407瓶颈
 
 ### F407代码含有两个文件夹
-分别是
-* 基础版-20250330-目前测试版解决了档传数据跳动的问题，但是新增加了一个bug就是降到空档后，再次升档是升2档，其他都是正常的，再次降档可以回到1档，再次升档也可以升三档。今天测试断火程序也有正常触发
 
+分别是
+
+* 基础版-20250330-目前测试版解决了档传数据跳动的问题，但是新增加了一个bug就是降到空档后，再次升档是升2档，其他都是正常的，再次降档可以回到1档，再次升档也可以升三档。今天测试断火程序也有正常触发
 * 测试版-此版本用于出车时对代码进行调试，在其中添加新的代码用于完善系统，但是由于完善更新过程不稳定，故重新创建一个版本用于测试，当测试版出现问题是仍能下载基础版，保证出车顺利进行
 
-截止目前为止 测试版代码使用的逻辑为 按下开关 先发出断火信号 持续一段时间后再向电机发出换挡指令 以追求恰到好处的断火时间 降档为 先向电机发出指令 当挡传信号识别到降档完毕后再向ECU发出补油信号  
+截止目前为止 测试版代码使用的逻辑为 按下开关 先发出断火信号 持续一段时间后再向电机发出换挡指令 以追求恰到好处的断火时间 降档为 先向电机发出指令 当挡传信号识别到降档完毕后再向ECU发出补油信号
 
 * 最终使用过程中 未使用升档断火和降档补油 也未使用到离合舵机 具体原因如下
 
-        最新版本的LINK固件 无带档滑行电子节气门控制 也就是说无法向之前老固件（4月份文件）中那样降档时通过控制节气门达到补油目的。另外 由于不同档位切换需要的断火时间不同，即使ECU提供了表格让用户对断火时间及百分比进行控制，但是由于春风CLX700的挡传信号在每次的切换中都会跳一次空档，导致此表失效 无法正常自定义每次的断火时间及百分比。加上本赛季练车时间过短，没有多余时间进行ECU及集成板之间的调试，因此关闭了断火及补油功能，将整车全全交由车手控制。
-    关于车手对于换挡的教学 我们的教程为“在需要换挡时，拨片和脚同时操作，即按下拨片的同时抬一脚油门，在感受到车辆换入档后（拽背感）立刻踩下油门，而降档时，注意转速匹配即可，如追求车辆换挡平顺，则需要车手把控补油时机，如过早补油，则有可能存在换不下去的情况”目前这几句换挡教程经过3位不同实力车手检验，是可行易上手（脚）的  
+  最新版本的LINK固件 无带档滑行电子节气门控制 也就是说无法向之前老固件（4月份文件）中那样降档时通过控制节气门达到补油目的。另外 由于不同档位切换需要的断火时间不同，即使ECU提供了表格让用户对断火时间及百分比进行控制，但是由于春风CLX700的挡传信号在每次的切换中都会跳一次空档，导致此表失效 无法正常自定义每次的断火时间及百分比。加上本赛季练车时间过短，没有多余时间进行ECU及集成板之间的调试，因此关闭了断火及补油功能，将整车全全交由车手控制。
+
+  关于车手对于换挡的教学 我们的教程为 ***“在需要换挡时，拨片和脚同时操作，即按下拨片的同时抬一脚油门，在感受到车辆换入档后（拽背感）立刻踩下油门，而降档时，注意转速匹配即可，如追求车辆换挡平顺，则需要车手把控补油时机，如过早补油，则有可能存在换不下去的情况”*** 目前这几句换挡教程经过3位不同实力车手检验，是可行易上手（脚）的
+
 ### 2、[硬件设计(2_HardWare)](https://github.com/Saturday-365/E-Shift-CZCD/tree/master/2_HardWare)
 
 硬件设计使用嘉立创EDA进行，包含有F407核心版工程文件，集成板V1.0、V2.0  V3.0  V3.1
 硬件特色 按键硬件消抖 集成RS232转ttl，can收发模块板载接口，采用直接购买的模块，一是减少焊接的不确定性，确保硬件设计无问题，二是减少工作量，便于板子迭代升级
-图片为V2.0 
-![集成板正面](/4_Document/photo/img1.jpg)
-![集成板背面](/4_Document/photo/img2.jpg)
-![核心版](/4_Document/photo/img3.jpg)
+
+<style>
+  .image-caption {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+    font-style: italic;
+  }
+</style>
+
+<div style="display: flex; gap: 20px; justify-content: center;">
+
+<figure>
+    <img src="images/README/1760610114101.png" alt="集成板正面" width="450">
+    <figcaption class="image-caption">V2.0 集成板正面</figcaption>
+  </figure>
+  <figure>
+    <img src="images/README/1760610131903.png" alt="集成板正面" width="450">
+    <figcaption class="image-caption">V2.0 集成板正面</figcaption>
+  </figure>
+</div>
+<div style="text-align: center;">
+  <img src="images/README/1760611899696.png" alt="集成板" width="400">
+  <p style="color: #666; font-size: 0.9em; margin-top: 5px;">V3.1 集成板</p>
+</div>
+
+
+<div style="text-align: center;">
+  <img src="images/README/1760610145923.png" alt="核心版" width="400">
+  <p style="color: #666; font-size: 0.9em; margin-top: 5px;">核心版</p>
+</div>
 
 ### 3、[机械设计(3_3DProject)](https://github.com/Saturday-365/E-Shift-CZCD/tree/master/3_3DProject)
 
@@ -41,13 +71,42 @@ F103代码 主要为测试CAN通信，发现一路CAN没法满足，既要完成
 电机安装支架采用线切割工艺，平均造价为40/个(最新安装的加急220一个 做了两个还有一个备用)
 电机输出轴为金属3D打印技术，造价为150左右
 换挡电机输出轴冗余过大，下一次更换可以删除几个安装孔增加几个加强筋，同时减少管子壁厚
-![离合电机支架](/4_Document/photo/img4.png)
-![换挡电机支架](/4_Document/photo/img5.png)
-![换挡电机输出轴](/4_Document/photo/img6.png)
-![离合电机输出轴](/4_Document/photo/img7.png)
-本队还设计了一个模块安装盒用于存放升压模块及数传电台，不过最终并未直接使用此打印的电池盒，还是使用了现成的防水盒加3D打印件进行改装，最终效果与下图类似
-![1760525655132](images/README/1760525655132.png)
 
+<div style="display: flex; gap: 20px; justify-content: center;">
+  <figure>
+    <img src="images/README/1760610180186.png" alt="离合电机支撑板" width="450">
+    <figcaption class="image-caption">离合电机支撑板</figcaption>
+  </figure>
+  <figure>
+    <img src="images/README/1760610187072.png" alt="换挡电机支撑板" width="450">
+    <figcaption class="image-caption">换挡电机支撑板</figcaption>
+  </figure>
+</div>
+<div style="display: flex; gap: 20px; justify-content: center;">
+  <figure>
+    <img src="images/README/1760610193787.png" alt="换挡电机输出轴" width="450">
+    <figcaption class="image-caption">换挡电机输出轴</figcaption>
+  </figure>
+  <figure>
+    <img src="images/README/1760610199821.png" alt="离合电机输出轴" width="450">
+    <figcaption class="image-caption">离合电机输出轴</figcaption>
+  </figure>
+</div>
+
+本队还设计了一个模块安装盒用于存放升压模块及数传电台，不过最终并未直接使用此打印的电池盒，还是使用了现成的防水盒加3D打印件进行改装，最终效果与下图类似
+
+<div style="display: flex; gap: 20px; justify-content: center;">
+  <figure>
+    <img src="images/README/1760525655132.png" alt="电控总成示意图" width="450">
+    <figcaption class="image-caption">电控总成示意图</figcaption>
+  </figure>
+</div>
+<div style="display: flex; gap: 20px; justify-content: center;">
+  <figure>
+    <img src="images/README/1760611762846.png" alt="电控总成示意图" width="450">
+    <figcaption class="image-caption">电控总成示意图</figcaption>
+  </figure>
+</div>
 
 ### 4、[相关资料(4_Document)](https://github.com/Saturday-365/E-Shift-CZCD/tree/master/4_Document)
 
@@ -74,7 +133,7 @@ F103代码 主要为测试CAN通信，发现一路CAN没法满足，既要完成
 | <i><b>2025.9.28 | 1、查看log修改降档逻辑<br>2、本次11分钟出车电机过温保护了（目前的猜测）未测出有效数据                                                                                                                                                                                                                                   |
 | <i><b>2025.10.03 | 1、设置所有等待时间为0<br> 2、一切正常很不错明天测试，换小链轮明天到 测试直线                                                                                                                                                                                                                                           |
 | <i><b>2025.10.04 | 1、测试直线,仅仅测试了一次1档弹射电机支架就弯了，加急制作全新10mm厚度电机支架                                                                                                                                                                                                                                           |
-| <i><b>2025比赛日 | 1、安装全新10mm厚支架，湿地直线加速4.73、4.75 全国第八 可以认为我们的系统 动力十分强劲 换挡较为迅速                                                                                                                                                                                                                                                                  |
+| <i><b>2025比赛日 | 1、安装全新10mm厚支架，湿地直线加速4.73、4.75 全国第八 可以认为我们的系统 动力十分强劲 换挡较为迅速                                                                                                                                                                                                                     |
 
 <!-- 
 #### 四级标题  
@@ -128,4 +187,10 @@ protected void onDestroy() {
 8、引用
 > 第一行引用文字  
 > 第二行引用文字  
+
+<div style="text-align: center;">
+  <img src="images/README/1760610114101.png" alt="描述" width="300">
+  <p style="color: #666; font-size: 0.9em; margin-top: 5px;">这是图片底部的文字</p>
+</div>
+
 ———————————————— -->
