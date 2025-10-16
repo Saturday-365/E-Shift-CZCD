@@ -46,11 +46,11 @@ F103代码 主要为测试CAN通信，发现一路CAN没法满足，既要完成
 <div style="display: flex; gap: 20px; justify-content: center;">
 
 <figure>
-    <img src="images/README/1760610114101.png" alt="集成板正面" width="450">
+    <img src="images/README/1760610114101.png" alt="集成板正面" width="300">
     <figcaption class="image-caption">V2.0 集成板正面</figcaption>
   </figure>
   <figure>
-    <img src="images/README/1760610131903.png" alt="集成板正面" width="450">
+    <img src="images/README/1760610131903.png" alt="集成板正面" width="300">
     <figcaption class="image-caption">V2.0 集成板正面</figcaption>
   </figure>
 </div>
@@ -74,21 +74,21 @@ F103代码 主要为测试CAN通信，发现一路CAN没法满足，既要完成
 
 <div style="display: flex; gap: 20px; justify-content: center;">
   <figure>
-    <img src="images/README/1760610180186.png" alt="离合电机支撑板" width="450">
+    <img src="images/README/1760610180186.png" alt="离合电机支撑板" width="300">
     <figcaption class="image-caption">离合电机支撑板</figcaption>
   </figure>
   <figure>
-    <img src="images/README/1760610187072.png" alt="换挡电机支撑板" width="450">
+    <img src="images/README/1760610187072.png" alt="换挡电机支撑板" width="300">
     <figcaption class="image-caption">换挡电机支撑板</figcaption>
   </figure>
 </div>
 <div style="display: flex; gap: 20px; justify-content: center;">
   <figure>
-    <img src="images/README/1760610193787.png" alt="换挡电机输出轴" width="450">
+    <img src="images/README/1760610193787.png" alt="换挡电机输出轴" width="300">
     <figcaption class="image-caption">换挡电机输出轴</figcaption>
   </figure>
   <figure>
-    <img src="images/README/1760610199821.png" alt="离合电机输出轴" width="450">
+    <img src="images/README/1760610199821.png" alt="离合电机输出轴" width="300">
     <figcaption class="image-caption">离合电机输出轴</figcaption>
   </figure>
 </div>
