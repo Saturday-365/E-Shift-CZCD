@@ -1,16 +1,29 @@
 # 华侨大学承志车队2025赛季电控换挡系统
 
 ## 换挡机构示意
-
-<figure>
-    <img src="images/README/1762259163454.png" alt="换挡机构" width="300">
-    <figcaption class="image-caption">换挡机构</figcaption>
-  </figure>
-  <figure>
-    <img src="images/README/1762259221609.png" alt="电控离合" width="300">
-    <figcaption class="image-caption">电控离合</figcaption>
-  </figure>
+<div style="display: flex; gap: 1px; justify-content: center;">
+  <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="images/README/1762259163454.png">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">换挡机构</div>
+</center>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="images/README/1762259221609.png">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">电控离合</div>
+</center>
 </div>
+
 
 ## 注意事项
 临时更新，想到哪里说哪里了
