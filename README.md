@@ -1,11 +1,11 @@
 # 华侨大学承志车队2025赛季电控换挡系统
 
 ## 换挡机构示意
-<div style="display: flex; gap: 1px; justify-content: center;">
+<div style="display: flex; gap: 20px; justify-content: center;">
   <figure>
     <img style="border-radius: 0.3125em;
     box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src="images/README/1762259163454.png"alt="换挡机构" width="300">
+    src="images/README/1762259163454.png"alt="换挡机构" width="500">
     <br>
     <div style="color:orange;
     display: inline-block;
@@ -15,7 +15,7 @@
 <figure>
     <img style="border-radius: 0.3125em;
     box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src="images/README/1762259221609.png" alt="电控离合" width="300">
+    src="images/README/1762259221609.png" alt="电控离合" width="600">
     <br>
     <div style="color:orange;
     display: inline-block;
