@@ -1,5 +1,5 @@
 # 华侨大学承志车队2025赛季电控换挡系统
-
+还没研究透github markdown语法，图片显示有点奇怪，见谅
 ## 换挡机构示意
 <div style="display: flex; gap: 20px; justify-content: center;">
   <figure>
@@ -23,7 +23,6 @@
     padding: 2px;">电控离合</div>
 </figure>
 </div>
-
 
 ## 注意事项
 临时更新，想到哪里说哪里了
