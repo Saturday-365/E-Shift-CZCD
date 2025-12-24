@@ -1,0 +1,102 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0" version="29.2.9">
+  <diagram name="第 1 页" id="hgTuMr7UaWR_9aGwh3MC">
+    <mxGraphModel dx="980" dy="656" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1920" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-2" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="通信与执行端 (Comm &amp; Actuation)" vertex="1">
+          <mxGeometry height="401" width="806" x="456" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-3" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="执行单元" vertex="1">
+          <mxGeometry height="153" width="756" x="481" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-4" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="输入端 (Input Layer)" vertex="1">
+          <mxGeometry height="460" width="310" x="20" y="489" as="geometry" />
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-5" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="升挡拨片&#xa;(Upshift)" vertex="1">
+          <mxGeometry height="54" width="202" x="74" y="524" as="geometry" />
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-6" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="降挡拨片&#xa;(Downshift)" vertex="1">
+          <mxGeometry height="54" width="221" x="64" y="628" as="geometry" />
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-7" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="空挡重置按钮&#xa;(Neutral Reset)" vertex="1">
+          <mxGeometry height="78" width="260" x="45" y="732" as="geometry" />
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-8" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="挡位传感器&#xa;(Analog/CAN)" vertex="1">
+          <mxGeometry height="54" width="252" x="49" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-9" parent="1" style="rounded=1;arcSize=20;strokeWidth=2" value="STM32F407 核心板&#xa;(MCU)" vertex="1">
+          <mxGeometry height="54" width="219" x="506" y="686" as="geometry" />
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-10" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="Link ECU&#xa;(整车电脑)" vertex="1">
+          <mxGeometry height="54" width="213" x="978" y="338" as="geometry" />
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-11" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="无线数传电台&#xa;(Telemetry)" vertex="1">
+          <mxGeometry height="54" width="254" x="958" y="442" as="geometry" />
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-12" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="24V 升压模块" vertex="1">
+          <mxGeometry height="54" width="155" x="538" y="185" as="geometry" />
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-13" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="小米 CyberGear&#xa;关节电机" vertex="1">
+          <mxGeometry height="54" width="251" x="959" y="207" as="geometry" />
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-14" edge="1" parent="1" source="yYK5lmslY7vgcuDnJ-WE-5" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.4;entryY=0;rounded=0;" target="yYK5lmslY7vgcuDnJ-WE-9" value="GPIO">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="481" y="551" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-15" edge="1" parent="1" source="yYK5lmslY7vgcuDnJ-WE-6" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.21;entryY=0;rounded=0;" target="yYK5lmslY7vgcuDnJ-WE-9" value="GPIO">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="481" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-16" edge="1" parent="1" source="yYK5lmslY7vgcuDnJ-WE-7" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.21;entryY=1;rounded=0;" target="yYK5lmslY7vgcuDnJ-WE-9" value="GPIO">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="481" y="771" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-17" edge="1" parent="1" source="yYK5lmslY7vgcuDnJ-WE-8" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.4;entryY=1;rounded=0;" target="yYK5lmslY7vgcuDnJ-WE-9" value="ADC / CAN">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="481" y="887" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-18" edge="1" parent="1" source="yYK5lmslY7vgcuDnJ-WE-9" style="curved=1;startArrow=block;endArrow=block;strokeWidth=3;exitX=0.58;exitY=0;entryX=0;entryY=0.5;rounded=0;" target="yYK5lmslY7vgcuDnJ-WE-10" value="CAN 1&#xa;(RPM, TPS, Gear)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="841" y="365" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-19" edge="1" parent="1" source="yYK5lmslY7vgcuDnJ-WE-9" style="curved=1;startArrow=none;endArrow=block;strokeWidth=3;exitX=0.61;exitY=0;entryX=0;entryY=0.5;rounded=0;" target="yYK5lmslY7vgcuDnJ-WE-11" value="UART&#xa;(遥测数据)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="841" y="469" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-20" edge="1" parent="1" source="yYK5lmslY7vgcuDnJ-WE-9" style="curved=1;startArrow=block;endArrow=block;strokeWidth=3;exitX=0.56;exitY=0;entryX=0;entryY=0.71;rounded=0;" target="yYK5lmslY7vgcuDnJ-WE-13" value="CAN 2&#xa;(位置指令 / 反馈)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="841" y="256" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yYK5lmslY7vgcuDnJ-WE-21" edge="1" parent="1" source="yYK5lmslY7vgcuDnJ-WE-12" style="curved=1;startArrow=none;endArrow=block;strokeWidth=3;exitX=1;exitY=0.5;entryX=0;entryY=0.29;rounded=0;" target="yYK5lmslY7vgcuDnJ-WE-13" value="24V Power">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="841" y="212" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

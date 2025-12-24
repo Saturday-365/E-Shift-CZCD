@@ -1,0 +1,141 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0" version="29.2.9">
+  <diagram name="第 1 页" id="VPDFF1gOvFtkvJZCPNGK">
+    <mxGraphModel dx="1396" dy="1627" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1920" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-90" parent="1" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;" value="前台中断 (Foreground)" vertex="1">
+          <mxGeometry height="252" width="563" x="391" y="1430" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-91" parent="VQBlL8TIAX8c0AsULoYl-90" style="whiteSpace=wrap;strokeWidth=2;" value="CAN接收中断" vertex="1">
+          <mxGeometry height="54" width="153" x="46" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-92" parent="VQBlL8TIAX8c0AsULoYl-90" style="whiteSpace=wrap;strokeWidth=2;" value="解析数据&#xa;更新 ECUDATA 结构体" vertex="1">
+          <mxGeometry height="78" width="260" x="274" y="43" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-93" parent="VQBlL8TIAX8c0AsULoYl-90" style="whiteSpace=wrap;strokeWidth=2;" value="定时器中断" vertex="1">
+          <mxGeometry height="54" width="140" x="52" y="171" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-94" parent="VQBlL8TIAX8c0AsULoYl-90" style="whiteSpace=wrap;strokeWidth=2;" value="超时计数&#xa;overtime_tick++" vertex="1">
+          <mxGeometry height="54" width="255" x="276" y="171" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-95" edge="1" parent="VQBlL8TIAX8c0AsULoYl-90" source="VQBlL8TIAX8c0AsULoYl-91" style="curved=1;dashed=1;dashPattern=2 3;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;rounded=0;" target="VQBlL8TIAX8c0AsULoYl-92" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-96" edge="1" parent="VQBlL8TIAX8c0AsULoYl-90" source="VQBlL8TIAX8c0AsULoYl-93" style="curved=1;dashed=1;dashPattern=2 3;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;rounded=0;" target="VQBlL8TIAX8c0AsULoYl-94" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-97" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="后台任务 (Background)" vertex="1">
+          <mxGeometry height="535" width="785" x="264" y="834" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-98" parent="1" style="ellipse;aspect=fixed;strokeWidth=2;whiteSpace=wrap;" value="上电复位" vertex="1">
+          <mxGeometry height="79" width="79" x="430" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-99" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="HAL库初始化&#xa;(GPIO/DMA/TIM)" vertex="1">
+          <mxGeometry height="78" width="260" x="340" y="562" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-100" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="延时2000ms&#xa;(等待ECU与电机稳定)" vertex="1">
+          <mxGeometry height="78" width="260" x="340" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-101" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="配置CAN滤波器&#xa;(开启CAN1 &amp; CAN2)" vertex="1">
+          <mxGeometry height="78" width="260" x="740" y="562" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-102" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="电机归零校准&#xa;(Set_Cyber_ZeroPos)" vertex="1">
+          <mxGeometry height="78" width="260" x="740" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-103" parent="1" style="rounded=1;whiteSpace=wrap;arcSize=50;strokeWidth=2;" value="进入主循环 While(1)" vertex="1">
+          <mxGeometry height="39" width="170" x="588" y="859" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-104" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="按键扫描&#xa;(Key_Scanner)" vertex="1">
+          <mxGeometry height="54" width="240" x="304" y="948" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-105" parent="1" style="rhombus;strokeWidth=2;whiteSpace=wrap;" value="有换挡请求?" vertex="1">
+          <mxGeometry height="140" width="140" x="355" y="1052" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-106" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="执行换挡状态机&#xa;(EShift_move)" vertex="1">
+          <mxGeometry height="78" width="260" x="445" y="1266" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-107" parent="1" style="whiteSpace=wrap;strokeWidth=2;" value="发送遥测数据&#xa;(Radio_Data_Send)" vertex="1">
+          <mxGeometry height="78" width="260" x="755" y="1266" as="geometry" />
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-108" edge="1" parent="1" source="VQBlL8TIAX8c0AsULoYl-98" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=0.99;entryX=0.5;entryY=0;rounded=0;" target="VQBlL8TIAX8c0AsULoYl-99" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-109" edge="1" parent="1" source="VQBlL8TIAX8c0AsULoYl-99" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" target="VQBlL8TIAX8c0AsULoYl-100" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-110" edge="1" parent="1" source="VQBlL8TIAX8c0AsULoYl-100" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" target="VQBlL8TIAX8c0AsULoYl-101" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="870" />
+              <mxPoint x="680" y="680" />
+              <mxPoint x="750" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-111" edge="1" parent="1" source="VQBlL8TIAX8c0AsULoYl-101" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" target="VQBlL8TIAX8c0AsULoYl-102" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-112" edge="1" parent="1" source="VQBlL8TIAX8c0AsULoYl-102" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" target="VQBlL8TIAX8c0AsULoYl-103" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="850" y="820" />
+              <mxPoint x="680" y="790" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-113" edge="1" parent="1" source="VQBlL8TIAX8c0AsULoYl-103" style="curved=1;startArrow=none;endArrow=block;exitX=0;exitY=0.89;entryX=0.5;entryY=0;rounded=0;" target="VQBlL8TIAX8c0AsULoYl-104" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="424" y="923" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-114" edge="1" parent="1" source="VQBlL8TIAX8c0AsULoYl-104" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" target="VQBlL8TIAX8c0AsULoYl-105" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-115" edge="1" parent="1" source="VQBlL8TIAX8c0AsULoYl-105" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.2;entryY=0;rounded=0;" target="VQBlL8TIAX8c0AsULoYl-106" value="Yes">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="424" y="1229" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-116" edge="1" parent="1" source="VQBlL8TIAX8c0AsULoYl-105" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.72;entryX=0.08;entryY=0;rounded=0;" target="VQBlL8TIAX8c0AsULoYl-107" value="No">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="672" y="1229" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-117" edge="1" parent="1" source="VQBlL8TIAX8c0AsULoYl-107" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=0;entryX=1;entryY=0.96;rounded=0;" target="VQBlL8TIAX8c0AsULoYl-103" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="885" y="923" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VQBlL8TIAX8c0AsULoYl-118" edge="1" parent="1" source="VQBlL8TIAX8c0AsULoYl-106" style="curved=1;startArrow=none;endArrow=block;exitX=0.63;exitY=0;entryX=0.42;entryY=1;rounded=0;" target="VQBlL8TIAX8c0AsULoYl-103" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="642" y="1229" />
+              <mxPoint x="642" y="923" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
