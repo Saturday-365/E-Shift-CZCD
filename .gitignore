@@ -1,0 +1,41 @@
+# 操作系统与编辑器
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.tmp
+
+# 下载残留与本地备份
+*.crdownload
+*.bak
+*~
+
+# STM32CubeMX 本地状态（保留 .ioc 工程配置）
+**/.mxproject
+
+# Keil MDK 用户配置与编译产物
+*.uvguix.*
+*.uvoptx
+*.scvd
+*.crf
+*.d
+*.o
+*.axf
+*.elf
+*.hex
+*.bin
+*.map
+*.lnp
+*.dep
+*.lst
+*.sct
+*.build_log.htm
+**/MDK-ARM/SA_Project/
+**/MDK-ARM/STM32F407VET6_CUBMX/
+
+# 通用构建目录
+build/
+cmake-build-*/
+Debug/
+Release/
