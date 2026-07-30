@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 私密安全问题
+    url: https://github.com/Saturday-365/E-Shift-CZCD/security
+    about: 涉及车辆危险动作或可利用漏洞时，请先查看安全报告入口

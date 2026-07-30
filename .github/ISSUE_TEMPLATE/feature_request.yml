@@ -1,0 +1,38 @@
+name: 功能或设计提案
+description: 提议新功能、状态机、保护逻辑或硬件改进
+title: "[RFC] "
+labels: []
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 要解决的问题
+      description: 描述当前场景、限制和实际影响
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 建议方案
+      description: 说明数据流、状态、接口或硬件变化
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 备选方案
+      description: 说明考虑过但未选择的方案
+  - type: textarea
+    id: validation
+    attributes:
+      label: 验证计划
+      description: 台架条件、输入样本、成功标准和失效测试
+    validations:
+      required: true
+  - type: textarea
+    id: safety
+    attributes:
+      label: 安全影响
+      description: 对急停、超时、CAN 异常、机械限位和车辆动作的影响
+    validations:
+      required: true

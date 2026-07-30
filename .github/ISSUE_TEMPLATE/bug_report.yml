@@ -1,0 +1,82 @@
+name: 故障报告
+description: 报告可复现的固件、硬件、机械或数据问题
+title: "[Bug] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。车辆安全问题请先阅读 SECURITY.md；不要公开能够直接触发危险动作的完整利用细节。
+  - type: dropdown
+    id: area
+    attributes:
+      label: 问题范围
+      options:
+        - F407 主固件
+        - PCB 与线束
+        - 换挡机械结构
+        - CyberGear 通信
+        - ECU/CAN 数据
+        - 测试数据或文档
+        - Legacy 工程
+    validations:
+      required: true
+  - type: input
+    id: commit
+    attributes:
+      label: 固件提交
+      description: 请填写完整或短提交哈希
+      placeholder: 例如 a1b2c3d
+    validations:
+      required: true
+  - type: textarea
+    id: configuration
+    attributes:
+      label: 硬件与软件配置
+      description: PCB、机械、电机、ECU、CubeMX、Keil、CAN 波特率等
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+      description: 从上电前状态开始，按顺序写出操作和输入
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期行为
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 日志与数据
+      description: 可附裁剪后的串口日志、CAN 记录、CSV 或图片，并说明字段含义
+  - type: dropdown
+    id: safety
+    attributes:
+      label: 是否涉及安全风险
+      options:
+        - 否
+        - 是，可能造成机构损坏
+        - 是，可能造成车辆非预期动作
+        - 不确定
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 我已搜索现有 Issue，未发现相同问题
+          required: true
+        - label: 我没有上传个人信息、密钥或无授权厂商软件
+          required: true

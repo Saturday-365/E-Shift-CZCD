@@ -94,7 +94,7 @@ flowchart LR
 └─ legacy/                     # F103 与早期基础测试工程
 2_HardWare/                    # 嘉立创 EDA PCB 工程
 3_3DProject/                   # Fusion 360 机械模型
-4_Document/                    # 项目报告与待整理的第三方资料
+4_Document/                    # 第三方设备资料索引，不内置厂商软件
 5_TestData/                    # VOFA+ 实车和台架数据
 docs/                          # 构建、架构、日志与协作文档
 images/README/                 # README 图片
