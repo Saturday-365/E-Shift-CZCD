@@ -1,6 +1,6 @@
 # 测试记录规范
 
-历史台架与出车 CSV 已从主分支移除。需要追溯原始记录时，请查看开源化整理前的 [GitHub 提交 `0a7fb9e`](https://github.com/Saturday-365/E-Shift-CZCD/commit/0a7fb9e37e109e1c96eb0db8fb1200f69377ce26)；本地仓库也保留备份分支 `codex/backup-before-opensource-20260730`。
+历史台架与出车 CSV 已从主分支移除。需要追溯原始记录时，请查看开源化整理前的 [GitHub 提交 `0a7fb9e`](https://github.com/Saturday-365/E-Shift-CZCD/commit/0a7fb9e37e109e1c96eb0db8fb1200f69377ce26)。
 
 移除原因是这些记录缺少统一的固件版本、采样率、车辆状态和结果标注，不适合直接作为可复现数据集。下列规范用于后续测试，不代表旧数据已经按此补全。
 
