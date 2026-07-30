@@ -33,6 +33,6 @@
 - [构建与台架验证](../docs/getting-started.md)
 - [硬件与机械说明](../docs/hardware.md)
 - [开发记录](../docs/development-log.md)
-- [测试数据说明](../docs/test-data.md)
+- [测试记录规范](../docs/testing.md)
 
 这些文档便于持续维护，也避免公开与项目无关的课程材料和个人信息。

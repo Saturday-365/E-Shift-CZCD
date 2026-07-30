@@ -4,7 +4,12 @@
 [![MCU: STM32F407](https://img.shields.io/badge/MCU-STM32F407-03234B.svg)](1_SoftWare/Eshift_byCyberMotor_F407)
 [![Status: Vehicle Tested](https://img.shields.io/badge/Status-Vehicle%20Tested-success.svg)](#项目状态)
 
-华侨大学承志车队面向学生方程式赛车开发的电控换挡系统。项目以 STM32F407 为控制核心，通过双 CAN 总线连接 ECU 与 CyberGear 关节电机，并包含配套 PCB、机械结构和实车测试数据。
+华侨大学承志车队面向学生方程式赛车开发的电控换挡系统。项目以 STM32F407 为控制核心，通过双 CAN 总线连接 ECU 与 CyberGear 关节电机，并包含配套 PCB、机械结构和实车验证记录。
+
+> [!IMPORTANT]
+> 当前主分支的仓库结构、README 与 `docs` 文档由 OpenAI Codex 基于原始工程、开发记录和已有 README 协助修改、整理。核心固件控制逻辑、PCB、机械设计及原始工程成果来自项目作者和车队成员。AI 整理未替代编译、台架与实车验证，相关说明可能存在理解或表述错误；使用固件、硬件或安全相关内容前，请结合源码和实物重新核对。
+>
+> 开源化整理前的完整版本可查看 [GitHub 提交 `0a7fb9e`](https://github.com/Saturday-365/E-Shift-CZCD/commit/0a7fb9e37e109e1c96eb0db8fb1200f69377ce26)。本地同时保留备份分支 `codex/backup-before-opensource-20260730`。
 
 > [!WARNING]
 > 本项目涉及车辆动力系统与执行机构控制。首次使用必须在断开发动机动力的台架环境中完成方向、限位、急停和失效保护验证。未经验证，请勿直接用于行驶车辆。
@@ -23,7 +28,7 @@
 - CAN2 以 500 kbit/s 接收 ECU 数据。
 - 支持拨片输入、升降档输出、档位稳定处理和换挡超时退出。
 - 支持通过 RS232/数传电台向 VOFA+ 回传调试数据。
-- 同时公开固件、嘉立创 EDA 工程、Fusion 360 模型和实车测试记录。
+- 同时公开固件、嘉立创 EDA 工程、Fusion 360 模型和实车验证记录。
 - README 与开发日志保留故障原因和迭代过程，而不只展示最终结果。
 
 ## 项目状态
@@ -95,7 +100,6 @@ flowchart LR
 2_HardWare/                    # 嘉立创 EDA PCB 工程
 3_3DProject/                   # Fusion 360 机械模型
 4_Document/                    # 第三方设备资料索引，不内置厂商软件
-5_TestData/                    # VOFA+ 实车和台架数据
 docs/                          # 构建、架构、日志与协作文档
 images/README/                 # README 图片
 ```
@@ -125,11 +129,11 @@ images/README/                 # README 图片
 
 ## 测试与验证
 
-`5_TestData` 保存了台架及出车时通过 VOFA+ 记录的数据。数据包含电机位置、力矩、温度、档位、目标档位、ECU 电压、转速、油门开度和水温等字段。
+历史台架与出车 CSV 已从主分支移除，以控制仓库体积并避免发布缺少完整元数据的数据。需要追溯时，可从开源化整理前的 [GitHub 提交 `0a7fb9e`](https://github.com/Saturday-365/E-Shift-CZCD/commit/0a7fb9e37e109e1c96eb0db8fb1200f69377ce26) 或本地备份分支 `codex/backup-before-opensource-20260730` 查看。
 
 比赛日记录显示，车辆在湿地直线加速项目中完成 4.73 s 和 4.75 s 成绩。该成绩是整车表现记录，不应单独视为换挡系统性能指标。
 
-数据字段、采样条件与可复现要求见 [测试数据说明](docs/test-data.md)。
+后续测试的记录字段、命名方式与公开要求见 [测试记录规范](docs/testing.md)。
 
 ## 已知问题
 
@@ -147,7 +151,7 @@ images/README/                 # README 图片
 - 非阻塞换挡状态机。
 - 档位识别与力矩突变检测。
 - CAN 丢帧、过温和传感器异常保护。
-- 测试数据解析与可视化。
+- 测试记录工具、数据解析与可视化。
 - GCC/CMake 构建与持续集成。
 - PCB、机械结构和线束的可制造性改进。
 
